@@ -3,6 +3,8 @@
 
 #include <QStackedWidget>
 
+#include "gameview.h"
+
 class GameWindow : public QStackedWidget
 {
     Q_OBJECT

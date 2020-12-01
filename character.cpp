@@ -31,11 +31,6 @@ void Character::regenerate()
         life = MAXHEALTH;
 }
 
-void Character::setJump(bool state)
-{
-    hasJumped = state;
-}
-
 void Character::increaseFever()
 {
     fever++;
@@ -48,18 +43,10 @@ void Character::increaseFever()
 void Character::feverModeDecrease()
 {
     fever -= FEVERDECREASE;
-    if(fever <= 0)
+    if(fever <= 0){
         fever = 0;
-}
-
-void Character::increaseCombo()
-{
-    combo++;
-}
-
-void Character::comboBreak()
-{
-    combo = 1;
+        isFevered = false;
+    }
 }
 
 void Character::increaseScorePerfect()
@@ -74,32 +61,21 @@ void Character::increaseScoreGreat()
     nbGreat++;
 }
 
-int Character::getCombo()
-{
-    return combo;
-}
+void Character::increaseScore() {score += 50 * combo;}
+void Character::increaseCombo() {combo++;}
+void Character::comboBreak() {combo = 1;}
+void Character::setJump(bool state) {hasJumped = state;}
+void Character::increaseMiss() {nbMiss++;}
+void Character::increasePass() {nbPass++;}
 
-int Character::getFever()
-{
-    return fever;
-}
-
-int Character::getLife()
-{
-    return life;
-}
-
-int Character::getScore()
-{
-    return score;
-}
-
-bool Character::getJump()
-{
-    return hasJumped;
-}
-
-bool Character::getAlive()
-{
-    return alive;
-}
+int Character::getCombo() {return combo;}
+int Character::getFever() {return fever;}
+int Character::getLife() {return life;}
+int Character::getScore() {return score;}
+int Character::getPerfect() {return nbPerfect;}
+int Character::getGreat() {return nbGreat;}
+int Character::getMiss() {return nbMiss;}
+int Character::getPass() {return nbPass;}
+bool Character::getJump() {return hasJumped;}
+bool Character::getAlive() {return alive;}
+bool Character::getFevered() {return isFevered;}
