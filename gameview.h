@@ -15,7 +15,7 @@ class GameView : public QGraphicsView
 {
 public:
     GameView(Game *game, QWidget *parent = nullptr);
-    void _update();
+    void update();
     void playerHit(QList<Note *>);
     void checkPass(QList<Note *>);
 protected:

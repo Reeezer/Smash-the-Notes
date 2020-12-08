@@ -31,7 +31,7 @@ GameView::GameView(Game *game, QWidget *parent)
     //Start
     player = new Character();
     music->play();
-    startTimer(25);
+    startTimer(0);
 }
 
 //Actualisation of the display
