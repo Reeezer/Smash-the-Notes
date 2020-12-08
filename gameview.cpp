@@ -41,16 +41,16 @@ GameView::GameView(Game *game, QWidget *parent)
 void GameView::timerEvent(QTimerEvent *)
 {
     //When the note has not been hitten and it arrives on the player
-    checkPass(upNotes, true);
-    checkPass(downNotes, false);
+    checkPass(&upNotes, true);
+    checkPass(&downNotes, false);
     update();
 }
 
-void GameView::checkPass(QList<Note *> Notes, bool high)
+void GameView::checkPass(QList<Note *> *Notes, bool high)
 {
-    if (!Notes.isEmpty() && Notes.first()->timeStamp() < music->position())
+    if (!Notes->isEmpty() && Notes->first()->timestamp() < music->position())
     {
-        if(player->getJump() == high && (Notes.first()->type() == NoteType::NORMAL || Notes.first()->type() == NoteType::TRAP))
+        if(player->getJump() == high && (Notes->first()->type() == NoteType::NORMAL || Notes->first()->type() == NoteType::TRAP))
         {
             player->damage();
             player->increaseMiss();
@@ -70,7 +70,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
         else
         {
             player->setJump(true);
-            playerHit(upNotes);
+            playerHit(&upNotes);
         }
     }
     if (event->key() == Qt::Key_J)
@@ -80,22 +80,22 @@ void GameView::keyPressEvent(QKeyEvent *event)
         else
         {
             player->setJump(false);
-            playerHit(downNotes);
+            playerHit(&downNotes);
         }
     }
     update();
 }
 
 //Check for the different notes what to do with the character
-void GameView::playerHit(QList<Note *> Notes)
+void GameView::playerHit(QList<Note *> *Notes)
 {
-    if(!Notes.isEmpty())
+    if(!Notes->isEmpty())
     {
-        if(Notes.first()->type() == NoteType::NORMAL)
+        if(Notes->first()->type() == NoteType::NORMAL)
         {
-            if (music->position() <= Notes.first()->timeStamp() + PERFECT && music->position() >= Notes.first()->timeStamp() - PERFECT)
+            if (music->position() <= Notes->first()->timestamp() + PERFECT && music->position() >= Notes->first()->timestamp() - PERFECT)
                 player->increaseScorePerfect();
-            else if (music->position() <= Notes.first()->timeStamp() + GREAT && music->position() >= Notes.first()->timeStamp() - GREAT)
+            else if (music->position() <= Notes->first()->timestamp() + GREAT && music->position() >= Notes->first()->timestamp() - GREAT)
                 player->increaseScoreGreat();
             else
                 return;
@@ -103,14 +103,14 @@ void GameView::playerHit(QList<Note *> Notes)
             player->increaseCombo();
             player->increaseFever();
         }
-        else if(Notes.first()->type() == NoteType::BONUS)
+        else if(Notes->first()->type() == NoteType::BONUS)
         {
-            if(music->position() <= Notes.first()->timeStamp() + NOTPASSED && music->position() >= Notes.first()->timeStamp() - NOTPASSED)
+            if(music->position() <= Notes->first()->timestamp() + NOTPASSED && music->position() >= Notes->first()->timestamp() - NOTPASSED)
                 player->regenerate();
         }
-        else if(Notes.first()->type() == NoteType::TRAP)
+        else if(Notes->first()->type() == NoteType::TRAP)
         {
-            if(music->position() <= Notes.first()->timeStamp() + NOTPASSED && music->position() >= Notes.first()->timeStamp() - NOTPASSED)
+            if(music->position() <= Notes->first()->timestamp() + NOTPASSED && music->position() >= Notes->first()->timestamp() - NOTPASSED)
             {
                 player->damage();
                 player->comboBreak();
@@ -141,9 +141,7 @@ void GameView::changeNotePosition(QList<Note *> *list)
     {
         list->at(i)->setX(100 + ((list->at(i)->timestamp()-music->position()) * ((double)(this->width()-100)/(double)3000)));
         if(list->at(i)->x() <= 0)
-        {
             removeNote(list);
-        }
     }
 }
 
@@ -152,6 +150,7 @@ void GameView::update()
 {
     changeNotePosition(&upNotes);
     changeNotePosition(&downNotes);
+
     timeLabel->setText("Time : " + QString::asprintf("%lld", music->position()));
     lifeLabel->setText("Life : " + QString::asprintf("%d", player->getLife()));
     feverLabel->setText("Fever : " + QString::asprintf("%d", player->getFever()));

@@ -26,8 +26,8 @@ class GameView : public QGraphicsView
 public:
     GameView(Game *game, QWidget *parent = nullptr);
     void update();
-    void playerHit(QList<Note *>);
-    void checkPass(QList<Note *>, bool);
+    void playerHit(QList<Note *> *);
+    void checkPass(QList<Note *> *, bool);
     void hitSmash();
     void removeNote(QList<Note *> *);
     void changeNotePosition(QList<Note *> *);
