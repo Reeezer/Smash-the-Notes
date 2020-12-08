@@ -6,8 +6,11 @@
 #include <QMediaPlayer>
 #include <QList>
 #include <QGraphicsItem>
+#include <QTimerEvent>
 
 #include "game.h"
+#include "GameItems/note.h"
+//class Song; //TODO : change to include when Song is implemented
 
 class GameView : public QGraphicsView
 {
@@ -16,10 +19,18 @@ public:
 
 private:
     Game *game;
+    //Song *song;
 
     QGraphicsScene *scene;
     QMediaPlayer *music;
-    QList<QGraphicsItem *> notes;
+    //QSoundEffect *sounds;
+    QList<Note *> upNotes;
+    QList<Note *> downNotes;
+
+    void loadSong(QString filename);
+    void removeNote(QList<Note *> *);
+    void update();
+    void changeNotePosition(QList<Note *> *);
 };
 
 #endif // GAMEVIEW_H
