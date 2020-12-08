@@ -1,11 +1,10 @@
 #include "gameview.h"
 
-#include <QtWidgets>
+#include <QTime>
 #include <QMediaPlayer>
-
-#define PERFECT 20
-#define GREAT 80
-#define NOTPASSED 300
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QKeyEvent>
 
 GameView::GameView(Game *game, QWidget *parent)
     : QGraphicsView(parent), game(game)
@@ -40,16 +39,16 @@ void GameView::timerEvent(QTimerEvent *)
     musicPosition = music->position();
 
     //When the note has not been hitten and it arrives on the player
-    checkPass(upNotes);
-    checkPass(downNotes);
-    _update();
+    checkPass(upNotes, true);
+    checkPass(downNotes, false);
+    update();
 }
 
-void GameView::checkPass(QList<Note *> Notes)
+void GameView::checkPass(QList<Note *> Notes, bool high)
 {
     if (!Notes.isEmpty() && Notes.first()->timeStamp() < musicPosition)
     {
-        if(player->getJump() && (Notes.first()->_type() == NORMAL || Notes.first()->_type() == TRAP))
+        if(player->getJump() == high && (Notes.first()->type() == NoteType::NORMAL || Notes.first()->type() == NoteType::TRAP))
         {
             player->damage();
             player->increaseMiss();
@@ -66,15 +65,25 @@ void GameView::keyPressEvent(QKeyEvent *event)
 
     if (event->key() == Qt::Key_F)
     {
-        player->setJump(true);
-        playerHit(upNotes);
+        if (upNotes.first()->type() == NoteType::SMASH || downNotes.first()->type() == NoteType::SMASH)
+            hitSmash();
+        else
+        {
+            player->setJump(true);
+            playerHit(upNotes);
+        }
     }
     if (event->key() == Qt::Key_J)
     {
-        player->setJump(false);
-        playerHit(downNotes);
+        if (upNotes.first()->type() == NoteType::SMASH || downNotes.first()->type() == NoteType::SMASH)
+            hitSmash();
+        else
+        {
+            player->setJump(false);
+            playerHit(downNotes);
+        }
     }
-    _update();
+    update();
 }
 
 //Check for the different notes what to do with the character
@@ -82,7 +91,7 @@ void GameView::playerHit(QList<Note *> Notes)
 {
     if(!Notes.isEmpty())
     {
-        if(Notes.first()->_type() == NORMAL)
+        if(Notes.first()->type() == NoteType::NORMAL)
         {
             if (musicPosition <= Notes.first()->timeStamp() + PERFECT && musicPosition >= Notes.first()->timeStamp() - PERFECT)
                 player->increaseScorePerfect();
@@ -90,16 +99,16 @@ void GameView::playerHit(QList<Note *> Notes)
                 player->increaseScoreGreat();
             else
                 return;
-            Notes.removeFirst();
+            removeNote(Notes);
             player->increaseCombo();
             player->increaseFever();
         }
-        else if(Notes.first()->_type() == BONUS)
+        else if(Notes.first()->type() == NoteType::BONUS)
         {
             if(musicPosition <= Notes.first()->timeStamp() + NOTPASSED && musicPosition >= Notes.first()->timeStamp() - NOTPASSED)
                 player->regenerate();
         }
-        else if(Notes.first()->_type() == TRAP)
+        else if(Notes.first()->type() == NoteType::TRAP)
         {
             if(musicPosition <= Notes.first()->timeStamp() + NOTPASSED && musicPosition >= Notes.first()->timeStamp() - NOTPASSED)
             {
@@ -109,17 +118,18 @@ void GameView::playerHit(QList<Note *> Notes)
             else
                 player->increasePass();
         }
-        else if(Notes.first()->_type() == SMASH)
-        {
-            player->increaseCombo();
-            player->increaseFever();
-            player->increaseScore();
-        }
     }
 }
 
+void GameView::hitSmash()
+{
+    player->increaseCombo();
+    player->increaseFever();
+    player->increaseScore();
+}
+
 //Update the diplay
-void GameView::_update()
+void GameView::update()
 {
     timeLabel->setText("Time : " + QString::asprintf("%lld", musicPosition));
     lifeLabel->setText("Life : " + QString::asprintf("%d", player->getLife()));

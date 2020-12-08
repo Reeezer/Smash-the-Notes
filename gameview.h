@@ -2,11 +2,17 @@
 #define GAMEVIEW_H
 
 #include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QMediaPlayer>
 #include <QList>
-#include <QGraphicsItem>
-#include <QLabel>
+
+const int PERFECT = 20;
+const int GREAT = 20;
+const int NOTPASSED = 300;
+
+class QGraphicsScene;
+class QMediaPlayer;
+class QGraphicsItem;
+class QLabel;
+class QTime;
 
 #include "character.h"
 #include "game.h"
@@ -17,11 +23,12 @@ public:
     GameView(Game *game, QWidget *parent = nullptr);
     void update();
     void playerHit(QList<Note *>);
-    void checkPass(QList<Note *>);
-protected:
+    void checkPass(QList<Note *>, bool);
+    void hitSmash();
+
+private:
     void keyPressEvent(QKeyEvent *);
     void timerEvent(QTimerEvent *);
-private:
     Game *game;
 
     QGraphicsScene *scene;

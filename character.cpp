@@ -1,11 +1,5 @@
 #include "character.h"
 
-#define MAXHEALTH 300
-#define MAXFEVER 100
-#define DAMAGE 30
-#define REGENERATION 80
-#define FEVERDECREASE 10
-
 Character::Character()
 {
     life = MAXHEALTH;

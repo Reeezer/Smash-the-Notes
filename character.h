@@ -1,6 +1,11 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+const int MAXHEALTH = 300;
+const int MAXFEVER = 100;
+const int DAMAGE = 30;
+const int REGENERATION = 80;
+const int FEVERDECREASE = 10;
 
 class Character
 {
