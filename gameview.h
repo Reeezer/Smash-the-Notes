@@ -35,7 +35,6 @@ private:
     QMediaPlayer *music;
     Character *player;
     QTime *timer;
-    qint64 musicPosition;
 
     QLabel *timeLabel, *feverLabel, *scoreLabel, *comboLabel, *lifeLabel;
     QList<Note *> upNotes, downNotes;
