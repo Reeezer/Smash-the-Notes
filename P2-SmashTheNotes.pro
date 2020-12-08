@@ -9,6 +9,8 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+P2-SmashTheNotes.pro
+    GameItems/note.cpp \
     character.cpp\
     game.cpp \
     gameview.cpp \
@@ -20,6 +22,8 @@ SOURCES += \
     splashscreen.cpp
 
 HEADERS += \
+P2-SmashTheNotes.pro
+    GameItems/note.h \
     character.h\
     game.h \
     gameview.h \

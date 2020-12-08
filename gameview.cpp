@@ -9,6 +9,10 @@
 GameView::GameView(Game *game, QWidget *parent)
     : QGraphicsView(parent), game(game)
 {
+    this->setScene(scene);
+    this->setVerticalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
+    this->setHorizontalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
+    
     //Appel la musique en fond pour récupérer le timing
     music = new QMediaPlayer(this);
     music->setMedia(QUrl("qrc:/music/test.mp3"));
@@ -124,9 +128,30 @@ void GameView::hitSmash()
     player->increaseScore();
 }
 
+void GameView::removeNote(QList<Note *> *list)
+{
+    scene->removeItem(list->first());
+    Note *temp = list->takeFirst();
+    delete temp;
+}
+
+void GameView::changeNotePosition(QList<Note *> *list)
+{
+    for (int i = 0; i < list->count(); i++)
+    {
+        list->at(i)->setX(100 + ((list->at(i)->timestamp()-music->position()) * ((double)(this->width()-100)/(double)3000)));
+        if(list->at(i)->x() <= 0)
+        {
+            removeNote(list);
+        }
+    }
+}
+
 //Update the diplay
 void GameView::update()
 {
+    changeNotePosition(&upNotes);
+    changeNotePosition(&downNotes);
     timeLabel->setText("Time : " + QString::asprintf("%lld", music->position()));
     lifeLabel->setText("Life : " + QString::asprintf("%d", player->getLife()));
     feverLabel->setText("Fever : " + QString::asprintf("%d", player->getFever()));

@@ -3,6 +3,8 @@
 
 #include <QGraphicsView>
 #include <QList>
+#include <QGraphicsItem>
+#include <QTimerEvent>
 
 const int PERFECT = 20;
 const int GREAT = 20;
@@ -16,6 +18,8 @@ class QTime;
 
 #include "character.h"
 #include "game.h"
+#include "GameItems/note.h"
+//class Song; //TODO : change to include when Song is implemented
 
 class GameView : public QGraphicsView
 {
@@ -25,6 +29,8 @@ public:
     void playerHit(QList<Note *>);
     void checkPass(QList<Note *>, bool);
     void hitSmash();
+    void removeNote(QList<Note *> *);
+    void changeNotePosition(QList<Note *> *);
 
 private:
     void keyPressEvent(QKeyEvent *);
