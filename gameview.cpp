@@ -36,8 +36,6 @@ GameView::GameView(Game *game, QWidget *parent)
 //Actualisation of the display
 void GameView::timerEvent(QTimerEvent *)
 {
-    musicPosition = music->position();
-
     //When the note has not been hitten and it arrives on the player
     checkPass(upNotes, true);
     checkPass(downNotes, false);
@@ -46,7 +44,7 @@ void GameView::timerEvent(QTimerEvent *)
 
 void GameView::checkPass(QList<Note *> Notes, bool high)
 {
-    if (!Notes.isEmpty() && Notes.first()->timeStamp() < musicPosition)
+    if (!Notes.isEmpty() && Notes.first()->timeStamp() < music->position())
     {
         if(player->getJump() == high && (Notes.first()->type() == NoteType::NORMAL || Notes.first()->type() == NoteType::TRAP))
         {
@@ -61,8 +59,6 @@ void GameView::checkPass(QList<Note *> Notes, bool high)
 void GameView::keyPressEvent(QKeyEvent *event)
 {
     //Use the time of the music to know when to hit
-    musicPosition = music->position();
-
     if (event->key() == Qt::Key_F)
     {
         if (upNotes.first()->type() == NoteType::SMASH || downNotes.first()->type() == NoteType::SMASH)
@@ -93,9 +89,9 @@ void GameView::playerHit(QList<Note *> Notes)
     {
         if(Notes.first()->type() == NoteType::NORMAL)
         {
-            if (musicPosition <= Notes.first()->timeStamp() + PERFECT && musicPosition >= Notes.first()->timeStamp() - PERFECT)
+            if (music->position() <= Notes.first()->timeStamp() + PERFECT && music->position() >= Notes.first()->timeStamp() - PERFECT)
                 player->increaseScorePerfect();
-            else if (musicPosition <= Notes.first()->timeStamp() + GREAT && musicPosition >= Notes.first()->timeStamp() - GREAT)
+            else if (music->position() <= Notes.first()->timeStamp() + GREAT && music->position() >= Notes.first()->timeStamp() - GREAT)
                 player->increaseScoreGreat();
             else
                 return;
@@ -105,12 +101,12 @@ void GameView::playerHit(QList<Note *> Notes)
         }
         else if(Notes.first()->type() == NoteType::BONUS)
         {
-            if(musicPosition <= Notes.first()->timeStamp() + NOTPASSED && musicPosition >= Notes.first()->timeStamp() - NOTPASSED)
+            if(music->position() <= Notes.first()->timeStamp() + NOTPASSED && music->position() >= Notes.first()->timeStamp() - NOTPASSED)
                 player->regenerate();
         }
         else if(Notes.first()->type() == NoteType::TRAP)
         {
-            if(musicPosition <= Notes.first()->timeStamp() + NOTPASSED && musicPosition >= Notes.first()->timeStamp() - NOTPASSED)
+            if(music->position() <= Notes.first()->timeStamp() + NOTPASSED && music->position() >= Notes.first()->timeStamp() - NOTPASSED)
             {
                 player->damage();
                 player->comboBreak();
@@ -131,7 +127,7 @@ void GameView::hitSmash()
 //Update the diplay
 void GameView::update()
 {
-    timeLabel->setText("Time : " + QString::asprintf("%lld", musicPosition));
+    timeLabel->setText("Time : " + QString::asprintf("%lld", music->position()));
     lifeLabel->setText("Life : " + QString::asprintf("%d", player->getLife()));
     feverLabel->setText("Fever : " + QString::asprintf("%d", player->getFever()));
     comboLabel->setText("Combo : " + QString::asprintf("%d", player->getCombo()));
