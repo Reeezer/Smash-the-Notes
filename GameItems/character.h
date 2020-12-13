@@ -7,10 +7,17 @@ const int DAMAGE = 30;
 const int REGENERATION = 80;
 const int FEVERDECREASE = 10;
 
-class Character
+#include <QGraphicsPixmapItem>
+
+class QPixmap;
+class QPainter;
+class QStyleOptionGraphicsItem;
+class QWidget;
+
+class Character : public QGraphicsPixmapItem
 {
 public:
-    Character();
+    Character(QGraphicsPixmapItem *parent = nullptr);
     void damage();
     void regenerate();
     void increaseFever();
@@ -23,6 +30,7 @@ public:
     void increaseScorePerfect();
     void increaseMiss();
     void increasePass();
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     int getFever();
     int getLife();
@@ -35,9 +43,10 @@ public:
     bool getJump();
     bool getAlive();
     bool getFevered();
+
 private:
-    int life, fever, combo, score, nbPerfect, nbGreat, nbMiss, nbPass;
-    bool hasJumped, isFevered, alive;
+    int _life, _fever, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass;
+    bool _hasJumped, _isFevered, _alive;
 };
 
 #endif // CHARACTER_H

@@ -2,7 +2,9 @@
 #define NOTE_H
 
 #include <QGraphicsPixmapItem>
-#include <QWidget>
+class QPixmap;
+class QPainter;
+class QWidget;
 
 enum NoteType
 {
@@ -15,23 +17,25 @@ enum NoteType
 class Note : public QGraphicsPixmapItem
 {
 public:
-    Note(QWidget *parent = nullptr);
+    Note(QGraphicsPixmapItem *parent = nullptr);
 
-    int timestamp();
-    NoteType noteType(); //TODO : add to uml
-    int maxHits();
-    int points();
-    int timeout();
+    int getTimestamp();
+    NoteType getNoteType();
+    int getMaxHits();
+    int getPoints();
+    int getTimeout();
+    int getX();
     void hit();
-    void paint(QPainter *,const QStyleOptionGraphicsItem *,QWidget *) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+    int _timestamp;
+    NoteType _noteType;
 
 private:
-    int _timestamp;
-    NoteType _noteType; //TODO : add to uml
     int _maxHits;
     int _points;
     int _timeout;
-    QPixmap** _frames;
+    QPixmap _frames;//At this time we work with a frame, note a table of frames
     int _hits;
 };
 

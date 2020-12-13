@@ -9,6 +9,7 @@
 const int PERFECT = 20;
 const int GREAT = 20;
 const int NOTPASSED = 300;
+const int XLINE = 100;
 
 class QGraphicsScene;
 class QMediaPlayer;
@@ -16,9 +17,9 @@ class QGraphicsItem;
 class QLabel;
 class QTime;
 
-#include "character.h"
+#include "GameItems\character.h"
 #include "game.h"
-#include "GameItems/note.h"
+#include "GameItems\note.h"
 //class Song; //TODO : change to include when Song is implemented
 
 class GameView : public QGraphicsView
@@ -42,8 +43,8 @@ private:
     Character *player;
     QTime *timer;
 
-    QLabel *timeLabel, *feverLabel, *scoreLabel, *comboLabel, *lifeLabel;
-    QList<Note *> upNotes, downNotes;
+    QGraphicsSimpleTextItem *timeLabel, *feverLabel, *scoreLabel, *comboLabel, *lifeLabel;
+    QList<Note *> *upNotes, *downNotes;
 };
 
 #endif // GAMEVIEW_H

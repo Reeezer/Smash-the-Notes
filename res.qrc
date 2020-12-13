@@ -1,5 +1,15 @@
 <RCC>
     <qresource prefix="/">
         <file>music/test.mp3</file>
+        <file>img/Character.png</file>
+        <file>img/Enemie1.png</file>
+        <file>img/Enemie2.png</file>
+        <file>img/Enemie3.png</file>
+        <file>img/Enemie4.png</file>
+        <file>img/Enemie5.png</file>
+        <file>img/Notes.png</file>
+        <file>img/Trap1.png</file>
+        <file>img/Trap2.png</file>
+        <file>img/Smash.png</file>
     </qresource>
 </RCC>
