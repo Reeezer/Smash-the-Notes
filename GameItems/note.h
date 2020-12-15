@@ -24,10 +24,11 @@ public:
     int getMaxHits();
     int getPoints();
     int getTimeout();
-    int getX();
+    int getHit();
     void hit();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    //Pour les tests manuels
     int _timestamp;
     NoteType _noteType;
 

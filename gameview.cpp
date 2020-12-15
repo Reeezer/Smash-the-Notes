@@ -26,11 +26,11 @@ GameView::GameView(Game *game, QWidget *parent)
     timer = new QTime();
 
     //Display
-    lifeLabel = new QGraphicsSimpleTextItem("lifeLabel");
-    feverLabel = new QGraphicsSimpleTextItem("feverLabel");
-    comboLabel = new QGraphicsSimpleTextItem("comboLabel");
-    scoreLabel = new QGraphicsSimpleTextItem("scoreLabel");
-    timeLabel = new QGraphicsSimpleTextItem("timeLabel");
+    lifeLabel = new QGraphicsSimpleTextItem();
+    feverLabel = new QGraphicsSimpleTextItem();
+    comboLabel = new QGraphicsSimpleTextItem();
+    scoreLabel = new QGraphicsSimpleTextItem();
+    timeLabel = new QGraphicsSimpleTextItem();
 
     scene->addItem(timeLabel);
     scene->addItem(feverLabel);
@@ -44,7 +44,7 @@ GameView::GameView(Game *game, QWidget *parent)
     scoreLabel->setPos(150,30);
     timeLabel->setPos(650,10);
 
-    scene->addLine(XLINE, 0, XLINE, this->height());
+    scene->addLine(XLINE + PIXMAPHALF, 0, XLINE + PIXMAPHALF, this->height()); //XLINE + half of pixmap width
 
     //Set up
     upNotes = new QList<Note *>();
@@ -54,27 +54,27 @@ GameView::GameView(Game *game, QWidget *parent)
     note1->_noteType = NoteType::NORMAL;
     note1->setY(100);
     Note *note2 = new Note();
-    note2->_timestamp = 3000;
-    note2->_noteType = NoteType::BONUS;
+    note2->_timestamp = 5000;
+    note2->_noteType = NoteType::NORMAL;
     note2->setY(100);
     Note *note3 = new Note();
-    note3->_timestamp = 5000;
+    note3->_timestamp = 8000;
     note3->_noteType = NoteType::NORMAL;
     note3->setY(100);
     Note *note4 = new Note();
-    note4->_timestamp = 8000;
+    note4->_timestamp = 12000;
     note4->_noteType = NoteType::TRAP;
     note4->setY(100);
     Note *note5 = new Note();
-    note5->_timestamp = 12000;
+    note5->_timestamp = 16000;
     note5->_noteType = NoteType::NORMAL;
     note5->setY(100);
     Note *note6 = new Note();
-    note6->_timestamp = 15000;
-    note6->_noteType = NoteType::TRAP;
+    note6->_timestamp = 20000;
+    note6->_noteType = NoteType::NORMAL;
     note6->setY(100);
     Note *note7 = new Note();
-    note7->_timestamp = 20000;
+    note7->_timestamp = 30000;
     note7->_noteType = NoteType::BONUS;
     note7->setY(100);
     upNotes->append(note1);
@@ -91,32 +91,32 @@ GameView::GameView(Game *game, QWidget *parent)
     downNotes = new QList<Note *>();
 
     Note *note12 = new Note();
-    note12->_timestamp = 1800;
+    note12->_timestamp = 8100;
     note12->_noteType = NoteType::NORMAL;
     note12->setY(300);
     Note *note22 = new Note();
-    note22->_timestamp = 2000;
+    note22->_timestamp = 15000;
     note22->_noteType = NoteType::BONUS;
     note22->setY(300);
     Note *note32 = new Note();
-    note32->_timestamp = 3600;
+    note32->_timestamp = 20000;
     note32->_noteType = NoteType::NORMAL;
     note32->setY(300);
     Note *note42 = new Note();
-    note42->_timestamp = 7000;
-    note42->_noteType = NoteType::TRAP;
+    note42->_timestamp = 25000;
+    note42->_noteType = NoteType::NORMAL;
     note42->setY(300);
     Note *note52 = new Note();
-    note52->_timestamp = 10000;
+    note52->_timestamp = 35000;
     note52->_noteType = NoteType::NORMAL;
     note52->setY(300);
     Note *note62 = new Note();
-    note62->_timestamp = 11000;
-    note62->_noteType = NoteType::TRAP;
+    note62->_timestamp = 42000;
+    note62->_noteType = NoteType::NORMAL;
     note62->setY(300);
     Note *note72 = new Note();
-    note72->_timestamp = 16000;
-    note72->_noteType = NoteType::BONUS;
+    note72->_timestamp = 60000;
+    note72->_noteType = NoteType::TRAP;
     note72->setY(300);
     downNotes->append(note12);
     downNotes->append(note22);
@@ -148,26 +148,34 @@ void GameView::timerEvent(QTimerEvent *)
     update();
 }
 
+//Check if the player has missed the but it was close
 void GameView::checkPass(QList<Note *> *Notes, bool high)
 {
-    if (!Notes->isEmpty() && Notes->first()->getTimestamp() < music->position())
+    if (!Notes->isEmpty() && XLINE - NOTPASSED <= Notes->first()->x() && XLINE - PIXMAPHALF >= Notes->first()->x())
     {
         if(player->getJump() == high)
         {
-            if(Notes->first()->getNoteType() == NoteType::NORMAL || Notes->first()->getNoteType() == NoteType::TRAP)
+            Notes->first()->hit();
+            if(Notes->first()->getNoteType() == NoteType::NORMAL)
+            {
+                removeNote(Notes);
+                player->damage();
+                player->comboBreak();
+            }
+            if(Notes->first()->getNoteType() == NoteType::TRAP && Notes->first()->getHit() == 0) //We don't remove it, then it must not hit us more than one time
             {
                 player->damage();
                 player->comboBreak();
             }
-            else if(Notes->first()->getNoteType() == NoteType::BONUS)
+            if(Notes->first()->getNoteType() == NoteType::BONUS)
             {
+                removeNote(Notes);
                 player->regenerate();
                 player->increaseScore();
             }
         }
         if(player->getJump() != high && Notes->first()->getNoteType() != NoteType::TRAP)
             player->increaseMiss();
-        removeNote(Notes);
     }
 }
 
@@ -178,7 +186,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
     if(event->key() == Qt::Key_F || event->key() == Qt::Key_J)
     {
         if(!upNotes->isEmpty() && upNotes->first()->getNoteType() == NoteType::SMASH)
-        {
+        { //rajouter les hits max
             hitSmash();
             upNotes->first()->hit();
         }
@@ -191,38 +199,37 @@ void GameView::keyPressEvent(QKeyEvent *event)
     //If it's not, we have to check what it is and to do something in consequence
     if(event->key() == Qt::Key_F)
     {
-        if(player->getJump() == false)
+        if(!player->getJump())
         {
             player->setY(100);
             player->setJump(true);
         }
         if (!upNotes->isEmpty() && upNotes->first()->getNoteType() != NoteType::SMASH)
-            playerHit(upNotes);
+            hitNormal(upNotes);
     }
     if(event->key() == Qt::Key_J)
     {
-        if(player->getJump() == true)
+        if(player->getJump())
         {
             player->setY(300);
             player->setJump(false);
         }
         if (!downNotes->isEmpty() && downNotes->first()->getNoteType() != NoteType::SMASH)
-            playerHit(downNotes);
+            hitNormal(downNotes);
     }
     update();
-    scene->update();
 }
 
 //Check for the different notes what to do with the character
-void GameView::playerHit(QList<Note *> *Notes)
+void GameView::hitNormal(QList<Note *> *Notes)
 {
     if(!Notes->isEmpty())
     {
         if(Notes->first()->getNoteType() == NoteType::NORMAL)
         {
-            if (music->position() <= Notes->first()->getTimestamp() + PERFECT && music->position() >= Notes->first()->getTimestamp() - PERFECT)
+            if (XLINE - PERFECT <= Notes->first()->x() && XLINE + PERFECT >= Notes->first()->x())
                 player->increaseScorePerfect();
-            else if (music->position() <= Notes->first()->getTimestamp() + GREAT && music->position() >= Notes->first()->getTimestamp() - GREAT)
+            else if (XLINE - GREAT <= Notes->first()->x() && XLINE + GREAT >= Notes->first()->x())
                 player->increaseScoreGreat();
             else
                 return;
@@ -233,12 +240,16 @@ void GameView::playerHit(QList<Note *> *Notes)
         }
         else if(Notes->first()->getNoteType() == NoteType::BONUS)
         {
-            if(music->position() <= Notes->first()->getTimestamp() + NOTPASSED && music->position() >= Notes->first()->getTimestamp() - NOTPASSED)
+            if(XLINE - NOTPASSED <= Notes->first()->x() && XLINE - PIXMAPHALF >= Notes->first()->x())
+            {
+                removeNote(Notes);
                 player->regenerate();
+                player->increaseScore();
+            }
         }
         else if(Notes->first()->getNoteType() == NoteType::TRAP)
         {
-            if(music->position() <= Notes->first()->getTimestamp() + NOTPASSED && music->position() >= Notes->first()->getTimestamp() - NOTPASSED)
+            if(XLINE - NOTPASSED <= Notes->first()->x() && XLINE - PIXMAPHALF >= Notes->first()->x())
             {
                 player->damage();
                 player->comboBreak();
@@ -269,9 +280,9 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
     {
         for(int i = 0; i < Notes->count(); i++)
         {
-            int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)6000));
+            int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)3000));
             Notes->at(i)->setX(x);
-            if(x <= -XLINE)
+            if(x <= 0)
                 removeNote(Notes);
         }
     }

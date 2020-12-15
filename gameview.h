@@ -6,10 +6,11 @@
 #include <QGraphicsItem>
 #include <QTimerEvent>
 
-const int PERFECT = 20;
+const int PERFECT = 10;
 const int GREAT = 20;
-const int NOTPASSED = 300;
+const int NOTPASSED = 80;
 const int XLINE = 100;
+const int PIXMAPHALF = 25;
 
 class QGraphicsScene;
 class QMediaPlayer;
@@ -17,9 +18,9 @@ class QGraphicsItem;
 class QLabel;
 class QTime;
 
-#include "GameItems\character.h"
+#include "GameItems/character.h"
 #include "game.h"
-#include "GameItems\note.h"
+#include "GameItems/note.h"
 //class Song; //TODO : change to include when Song is implemented
 
 class GameView : public QGraphicsView
@@ -27,11 +28,12 @@ class GameView : public QGraphicsView
 public:
     GameView(Game *game, QWidget *parent = nullptr);
     void update();
-    void playerHit(QList<Note *> *);
+    void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);
     void hitSmash();
     void removeNote(QList<Note *> *);
     void changeNotePosition(QList<Note *> *);
+    Note* getNextNote(QList<Note *> *, bool);
 
 private:
     void keyPressEvent(QKeyEvent *);
@@ -43,7 +45,7 @@ private:
     Character *player;
     QTime *timer;
 
-    QGraphicsSimpleTextItem *timeLabel, *feverLabel, *scoreLabel, *comboLabel, *lifeLabel;
+    QGraphicsSimpleTextItem *timeLabel, *feverLabel, *scoreLabel, *comboLabel, *lifeLabel, *upHit, *downHit;
     QList<Note *> *upNotes, *downNotes;
 };
 
