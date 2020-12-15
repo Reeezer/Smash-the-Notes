@@ -31,9 +31,10 @@ public:
     void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);
     void hitSmash();
-    void removeNote(QList<Note *> *);
+    void removeNotePassed(QList<Note *> *);
+    void removeNoteHitten(QList<Note *> *);
     void changeNotePosition(QList<Note *> *);
-    Note* getNextNote(QList<Note *> *, bool);
+    Note* getNextNote(QList<Note *> *);
 
 private:
     void keyPressEvent(QKeyEvent *);

@@ -17,7 +17,7 @@ class QWidget;
 class Character : public QGraphicsPixmapItem
 {
 public:
-    Character(QGraphicsPixmapItem *parent = nullptr);
+    Character(QGraphicsItem *parent = nullptr);
     void damage();
     void regenerate();
     void increaseFever();

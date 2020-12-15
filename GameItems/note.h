@@ -17,7 +17,7 @@ enum NoteType
 class Note : public QGraphicsPixmapItem
 {
 public:
-    Note(QGraphicsPixmapItem *parent = nullptr);
+    Note(QGraphicsItem *parent = nullptr);
 
     int getTimestamp();
     NoteType getNoteType();

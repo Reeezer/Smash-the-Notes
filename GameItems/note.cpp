@@ -5,8 +5,8 @@
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
 
-Note::Note(QGraphicsPixmapItem *parent)
-//    : QGraphicsPixmapItem(parent)
+Note::Note(QGraphicsItem *parent)
+    : QGraphicsPixmapItem(parent)
 {
     _hits = 0;
 }
@@ -20,7 +20,7 @@ int Note::getHit() {return _hits;}
 
 void Note::hit() {_hits++;}
 
-void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->drawText(10, 0, QString::asprintf("%d", _hits));
     painter->drawText(10, 10, QString::asprintf("%lf", x()));

@@ -4,8 +4,8 @@
 #include <QPainter>
 #include <QDebug>
 
-Character::Character(QGraphicsPixmapItem *parent)
-//    : QGraphicsPixmapItem(parent)
+Character::Character(QGraphicsItem *parent)
+    : QGraphicsPixmapItem(parent)
 {
     _life = MAXHEALTH;
     _fever = _score = _nbPerfect = _nbGreat = 0;
@@ -14,7 +14,7 @@ Character::Character(QGraphicsPixmapItem *parent)
     _alive = true;
 }
 
-void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->drawPixmap(30,0,70,80,QPixmap(":/img/Character.png"));
 }
