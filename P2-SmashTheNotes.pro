@@ -16,7 +16,9 @@ SOURCES += \
     mainmenu.cpp \
     mainsettings.cpp \
     songdetails.cpp \
-    splashscreen.cpp
+    songfile.cpp \
+    splashscreen.cpp \
+    GameItems/note.cpp
 
 HEADERS += \
     game.h \
@@ -25,7 +27,9 @@ HEADERS += \
     mainmenu.h \
     mainsettings.h \
     songdetails.h \
-    splashscreen.h
+    songfile.h \
+    splashscreen.h \
+    GameItems/note.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
