@@ -6,7 +6,7 @@
 #include <QDebug>
 
 Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
-    : QGraphicsPixmapItem(parent), _noteType(type), _timestamp(timestamp)
+    : QGraphicsPixmapItem(parent), _timestamp(timestamp), _noteType(type)
 {
 
 }
@@ -20,9 +20,8 @@ int Note::getHit() {return _hits;}
 
 void Note::hit() {_hits++;}
 
-void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawText(10, 10, QString::asprintf("%lf", x()));
     switch (_noteType)
     {
     case NoteType::BONUS:

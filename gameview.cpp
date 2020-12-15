@@ -48,14 +48,22 @@ GameView::GameView(Game *game, QWidget *parent)
 
     //Set up
     upNotes = new QList<Note *>();
-
-    for(Note* note:*upNotes)
-        scene->addItem(note);
-
     downNotes = new QList<Note *>();
 
-    for(Note* note:*downNotes)
+    QString path = "C:\\Users\\leon.muller\\Desktop\\.Projet\\jeu-de-rythme\\LFZ_-_Popsicle_Easy.osu";
+    loadFromFile(path, upNotes, downNotes);
+
+    for(Note* note:*upNotes)
+    {
         scene->addItem(note);
+        note->setY(100);
+    }
+
+    for(Note* note:*downNotes)
+    {
+        scene->addItem(note);
+        note->setY(300);
+    }
 
     //Start
     player = new Character();
@@ -82,10 +90,8 @@ Note* GameView::getNextNote(QList<Note *> *Notes)
     int i = 0;
     while(Notes->at(i)->x() < XLINE - PIXMAPHALF - 10)
     {
-        qDebug() << i;
         i++;
     }
-    qDebug() << Notes->at(i);
     return Notes->at(i);
 }
 
@@ -215,7 +221,7 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
     {
         for(int i = 0; i < Notes->count(); i++)
         {
-            int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)20000));
+            int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)3000));
             Notes->at(i)->setX(x);
             if(x <= 0)
                 removeNotePassed(Notes);
