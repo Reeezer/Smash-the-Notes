@@ -7,5 +7,5 @@ Game::Game()
 
 bool Game::loadRessources(void)
 {
-
+    return true;
 }

@@ -1,9 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <QString>
-#include <QPixmap>
-#include <QSoundEffect>
+class QPixmap;
+class QString;
+class QSoundEffect;
 
 enum SoundEffectIndex {
 
