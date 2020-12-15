@@ -5,10 +5,10 @@
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
 
-Note::Note(QGraphicsItem *parent)
-    : QGraphicsPixmapItem(parent)
+Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
+    : QGraphicsPixmapItem(parent), _noteType(type), _timestamp(timestamp)
 {
-    _hits = 0;
+
 }
 
 int Note::getTimestamp() {return _timestamp;}
@@ -20,9 +20,8 @@ int Note::getHit() {return _hits;}
 
 void Note::hit() {_hits++;}
 
-void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->drawText(10, 0, QString::asprintf("%d", _hits));
     painter->drawText(10, 10, QString::asprintf("%lf", x()));
     switch (_noteType)
     {
