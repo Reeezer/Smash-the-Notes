@@ -3,9 +3,9 @@
 
 #include <QDebug>
 
-#include <QTextStream>
 #include <QFile>
-#include <QRegExp>
+#include <QTextStream>
+#include <QRegularExpression>
 
 static NoteType columnToType[] = {
     NoteType::NORMAL,
@@ -22,29 +22,38 @@ static void tokenize(QTextStream&, QMap<QString,QString>&, QList<QString>&);
 void tokenize(QTextStream& instream, QMap<QString,QString>& info_tokens, QList<QString>& notes_tokens)
 {
     /* Regexes for the different contents */
-    QRegExp sectionrx("\\[([^]]+)\\]");
-    QRegExp propertyrx("([^:\\d]+):[\\s]?(.+)");
-    QRegExp hitobjectrx("(\\d+,\\d+,\\d+),.+");
+    QRegularExpression sectionrx("\\[([^]]+)\\]");
+    QRegularExpression propertyrx("([^:\\d]+):\\s*(.+)");
+    QRegularExpression hitobjectrx("(\\d+,\\d+,\\d+),.+");
 
     QString section = "Invalid";
     QString line;
 
     while(instream.readLineInto(&line)) {
-        if (sectionrx.indexIn(line) > -1)
-            section = sectionrx.capturedTexts()[1];
-        if (propertyrx.indexIn(line) > -1)
-            info_tokens.insert(section + "/" + propertyrx.capturedTexts()[1], propertyrx.capturedTexts()[2]);
-        if (hitobjectrx.indexIn(line) > -1)
-            notes_tokens.append(hitobjectrx.capturedTexts()[1]);
+        QRegularExpressionMatch sectionmatch = sectionrx.match(line);
+        QRegularExpressionMatch propertymatch = propertyrx.match(line);
+        QRegularExpressionMatch hitobjectmatch = hitobjectrx.match(line);
+
+        if (sectionmatch.hasMatch())
+            section = sectionmatch.capturedTexts()[1];
+        if (propertymatch.hasMatch())
+            info_tokens.insert(section + "/" + propertymatch.capturedTexts()[1], propertymatch.capturedTexts()[2]);
+        if (hitobjectmatch.hasMatch())
+            notes_tokens.append(hitobjectmatch.capturedTexts()[1]);
     }
 }
 
 bool loadFromFile(QString& path, QList<Note *> *upNotes, QList<Note *> *downNotes)
 {
+    qDebug() << "loading file: '" + path + "'";
+
     /* Open the file */
     QFile infile(path);
-    if (!infile.open(QFile::ReadOnly | QFile::Text))
+    if (!infile.open(QFile::ReadOnly | QFile::Text)) {
+        qDebug() << "error opening file: " + infile.errorString();
         return false;
+    }
+
     QTextStream in(&infile);
 
     QMap<QString,QString> info_tokens;
@@ -55,8 +64,10 @@ bool loadFromFile(QString& path, QList<Note *> *upNotes, QList<Note *> *downNote
 
     QString title = info_tokens["Metadata/Title"];
     QString artist = info_tokens["Metadata/Artist"];
+    QString relative_music_path = info_tokens["General/AudioFilename"];
 
-    qDebug() << title << artist;
+    qDebug() << QString::asprintf("artist: '%s', title: '%s'", title.toStdString().c_str(), artist.toStdString().c_str());
+    qDebug() << QString::asprintf("relative audio file path: '%s'", relative_music_path.toStdString().c_str());
 
     /* lire les notes dans les listes */
 
@@ -77,6 +88,8 @@ bool loadFromFile(QString& path, QList<Note *> *upNotes, QList<Note *> *downNote
         else
             downNotes->append(new_note);
     }
+
+    qDebug() << QString::asprintf("read %d notes (%d up, %d down)", notes_tokens.size(), upNotes->size(), downNotes->size());
 
     infile.close();
     return true;
