@@ -88,7 +88,7 @@ void GameView::timerEvent(QTimerEvent *)
 Note* GameView::getNextNote(QList<Note *> *Notes)
 {
     int i = 0;
-    while(Notes->at(i)->x() < XLINE - PIXMAPHALF - 10)
+    while(Notes->at(i)->x() < XLINE - PIXMAPHALF - 10 && Notes->last() != Notes->at(i))
     {
         i++;
     }
