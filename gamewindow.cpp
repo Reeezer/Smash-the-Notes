@@ -9,7 +9,7 @@ GameWindow::GameWindow(QWidget *parent)
     GameView *gameView = new GameView(game, this);
 
     addWidget(gameView);
-    resize(800,400);
+    resize(1200,800);
 }
 
 GameWindow::~GameWindow()

@@ -9,42 +9,71 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QSoundEffect>
+#include <QFontDatabase>
 
 GameView::GameView(Game *game, QWidget *parent)
     : QGraphicsView(parent), game(game)
 {
-    resize(800,400);
+    QFontDatabase::addApplicationFont("qrc:/music/foo.ttf");
+    QFont Foo("Foo", 18, QFont::Normal);
+    QFont FooTiny("Foo", 18, QFont::Normal);
+    resize(1200, 800);
+    XLINE = this->width() / 5;
+    UPLINE = this->height() / 3;
+    DOWNLINE = this->height() * 2 / 3;
+    this->setBackgroundBrush(Qt::black);
     scene = new QGraphicsScene();
     setScene(scene);
 
-    this->setVerticalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
-    this->setHorizontalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
+    this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     //Appel la musique en fond pour récupérer le timing
     music = new QMediaPlayer(this);
     music->setMedia(QUrl("qrc:/music/test.mp3"));
     timer = new QTime();
 
+    hitEffect = new QSoundEffect(this);
+    hitEffect->setSource(QUrl("qrc:/music/hit-normal.wav"));
+
     //Display
-    lifeLabel = new QGraphicsSimpleTextItem();
-    feverLabel = new QGraphicsSimpleTextItem();
-    comboLabel = new QGraphicsSimpleTextItem();
-    scoreLabel = new QGraphicsSimpleTextItem();
-    timeLabel = new QGraphicsSimpleTextItem();
+    scene->addRect(0, 0, this->width(), this->height(), QPen(Qt::black), QBrush(Qt::white));
+    QGraphicsSimpleTextItem *comboLabel = new QGraphicsSimpleTextItem("Combo");
+    combo = new QGraphicsSimpleTextItem();
+    QGraphicsSimpleTextItem *scoreLabel = new QGraphicsSimpleTextItem("Score");
+    score = new QGraphicsSimpleTextItem();
+    QGraphicsSimpleTextItem *highScoreLabel = new QGraphicsSimpleTextItem("HighScore");
+    highScore = new QGraphicsSimpleTextItem();
 
-    scene->addItem(timeLabel);
-    scene->addItem(feverLabel);
-    scene->addItem(lifeLabel);
+    combo->setFont(Foo);
+    comboLabel->setFont(Foo);
+    score->setFont(Foo);
+    scoreLabel->setFont(Foo);
+    highScore->setFont(Foo);
+    highScoreLabel->setFont(Foo);
+
     scene->addItem(comboLabel);
+    scene->addItem(combo);
     scene->addItem(scoreLabel);
+    scene->addItem(score);
+    scene->addItem(highScore);
+    scene->addItem(highScoreLabel);
 
-    feverLabel->setPos(10,10);
-    lifeLabel->setPos(10,30);
-    comboLabel->setPos(150,10);
-    scoreLabel->setPos(150,30);
-    timeLabel->setPos(650,10);
+    comboLabel->setPos(this->width() / 2 - 40, this->height() * 2 / 60);
+    combo->setPos(this->width() / 2 - 40, this->height() * 5 / 60);
+    scoreLabel->setPos(this->width() / 5 - 40, this->height() / 60);
+    score->setPos(this->width() / 5 - 40, this->height() * 3 / 60);
+    highScoreLabel->setPos(this->width() * 4 / 5 - 40, this->height() / 60);
+    highScore->setPos(this->width() * 4 / 5 - 40, this->height() * 3 / 60);
 
     scene->addLine(XLINE + PIXMAPHALF, 0, XLINE + PIXMAPHALF, this->height()); //XLINE + half of pixmap width
+    scene->addRect(0, this->height() * 55 / 60, this->width() / 2, this->height() * 3 / 60, QPen(Qt::black), QBrush(Qt::lightGray));
+    scene->addRect(this->width() / 2, this->height() * 55 / 60, this->width() / 2, this->height() * 3 / 60, QPen(Qt::black), QBrush(Qt::lightGray));
+    scene->addRect(0, this->height() * 58 / 60, this->width(), this->height() * 2 / 60, QPen(Qt::black), QBrush(Qt::lightGray));
+    lifeRect = scene->addRect(0, this->height() * 55 / 60, this->width() / 2, this->height() * 3 / 60, QPen(Qt::black), QBrush(QColor(204,0,0)));
+    feverRect = scene->addRect(this->width() / 2, this->height() * 55 / 60, this->width() / 2, this->height() * 3 / 60, QPen(Qt::black), QBrush(QColor(68,201,228)));
+    durationRect = scene->addRect(0, this->height() * 58 / 60, this->width(), this->height() * 2 / 60, QPen(Qt::black), QBrush(QColor(64,64,64)));
 
     //Set up
     upNotes = new QList<Note *>();
@@ -53,26 +82,26 @@ GameView::GameView(Game *game, QWidget *parent)
     QString path = "C:\\Users\\leon.muller\\Desktop\\.Projet\\jeu-de-rythme\\LFZ_-_Popsicle_Easy.osu";
     loadFromFile(path, upNotes, downNotes);
 
-    for(Note* note:*upNotes)
+    for (Note *note : *upNotes)
     {
         scene->addItem(note);
-        note->setY(100);
+        note->setY(UPLINE);
     }
 
-    for(Note* note:*downNotes)
+    for (Note *note : *downNotes)
     {
         scene->addItem(note);
-        note->setY(300);
+        note->setY(DOWNLINE);
     }
 
     //Start
     player = new Character();
     scene->addItem(player);
-    player->setY(300);
+    player->setPos(XLINE - 110, DOWNLINE);
 
     music->play();
     update();
-    this->startTimer(0);
+    this->startTimer(25);
 }
 
 //update of the display
@@ -85,13 +114,11 @@ void GameView::timerEvent(QTimerEvent *)
 }
 
 //If we miss a note but we don't hit it with the body of the character, we want to be able to hit the next note while the note we have missed is still on the screen but gone after the player
-Note* GameView::getNextNote(QList<Note *> *Notes)
+Note *GameView::getNextNote(QList<Note *> *Notes)
 {
     int i = 0;
-    while(Notes->at(i)->x() < XLINE - PIXMAPHALF - 10)
-    {
+    while (Notes->at(i)->x() < XLINE - PIXMAPHALF && Notes->last() != Notes->at(i))
         i++;
-    }
     return Notes->at(i);
 }
 
@@ -100,22 +127,28 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
 {
     if (!Notes->isEmpty() && XLINE - NOTPASSED <= getNextNote(Notes)->x() && XLINE - PIXMAPHALF >= getNextNote(Notes)->x())
     {
-        if(player->getJump() == high)
+        if (player->getJump() == high)
         {
             getNextNote(Notes)->hit();
-            if(getNextNote(Notes)->getNoteType() == NoteType::NORMAL)
+            if (getNextNote(Notes)->getNoteType() == NoteType::NORMAL)
             {
                 removeNotePassed(Notes);
                 player->damage();
                 player->comboBreak();
             }
-            else if(getNextNote(Notes)->getNoteType() == NoteType::BONUS)
+            else if (getNextNote(Notes)->getNoteType() == NoteType::BONUS)
             {
+                //                //TEST
+                //                if(player->getJump())
+                //                    upHit->setText("MIAM");
+                //                else
+                //                    downHit->setText("MIAM");
+                //                //FIN TEST
                 removeNotePassed(Notes);
                 player->regenerate();
                 player->increaseScore();
             }
-            else if(getNextNote(Notes)->getNoteType() == NoteType::TRAP && getNextNote(Notes)->getHit() == 0)//We don't remove it, then it must not hit us more than one time
+            else if (getNextNote(Notes)->getNoteType() == NoteType::TRAP && getNextNote(Notes)->getHit() == 0) //We don't remove it, then it must not hit us more than one time
             {
                 player->damage();
                 player->comboBreak();
@@ -124,9 +157,25 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
         else
         {
             if (getNextNote(Notes)->getNoteType() == NoteType::TRAP)
+            {
+                //                //TEST
+                //                if(!player->getJump())
+                //                    upHit->setText("PASS");
+                //                else
+                //                    downHit->setText("PASS");
+                //                //FIN TEST
                 player->increasePass();
+            }
             else
+            {
+                //                //TEST
+                //                if(!player->getJump())
+                //                    upHit->setText("MISS");
+                //                else
+                //                    downHit->setText("MISS");
+                //                //FIN TEST
                 player->increaseMiss();
+            }
         }
     }
 }
@@ -135,35 +184,37 @@ void GameView::keyPressEvent(QKeyEvent *event)
 {
     //Use the time of the music to know when to hit
     //If it's a SMASH note we can destroy our keyboard
-    if(event->key() == Qt::Key_F || event->key() == Qt::Key_J)
+    if (event->key() == Qt::Key_F || event->key() == Qt::Key_J)
     {
-        if(!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH)
+        hitEffect->play();
+        player->setState(1);
+        if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH)
         { //rajouter les hits max
             hitSmash();
             getNextNote(upNotes)->hit();
         }
-        else if(!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH)
+        else if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH)
         {
             hitSmash();
             getNextNote(downNotes)->hit();
         }
     }
     //If it's not, we have to check what it is and to do something in consequence
-    if(event->key() == Qt::Key_F)
+    if (event->key() == Qt::Key_F)
     {
-        if(!player->getJump())
+        if (!player->getJump())
         {
-            player->setY(100);
+            player->setY(UPLINE);
             player->setJump(true);
         }
         if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() != NoteType::SMASH)
             hitNormal(upNotes);
     }
-    if(event->key() == Qt::Key_J)
+    if (event->key() == Qt::Key_J)
     {
-        if(player->getJump())
+        if (player->getJump())
         {
-            player->setY(300);
+            player->setY(DOWNLINE);
             player->setJump(false);
         }
         if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() != NoteType::SMASH)
@@ -175,14 +226,30 @@ void GameView::keyPressEvent(QKeyEvent *event)
 //Check for the different notes what to do with the character
 void GameView::hitNormal(QList<Note *> *Notes)
 {
-    if(!Notes->isEmpty())
+    if (!Notes->isEmpty())
     {
-        if(getNextNote(Notes)->getNoteType() == NoteType::NORMAL)
+        if (getNextNote(Notes)->getNoteType() == NoteType::NORMAL)
         {
             if (XLINE - PERFECT <= getNextNote(Notes)->x() && XLINE + PERFECT >= getNextNote(Notes)->x())
+            {
+                //                //TEST
+                //                if(player->getJump())
+                //                    upHit->setText("PERFECT");
+                //                else
+                //                    downHit->setText("PERFECT");
+                //                //FIN TEST
                 player->increaseScorePerfect();
+            }
             else if (XLINE - GREAT <= getNextNote(Notes)->x() && XLINE + GREAT >= getNextNote(Notes)->x())
+            {
+                //                //TEST
+                //                if(player->getJump())
+                //                    upHit->setText("GREAT");
+                //                else
+                //                    downHit->setText("GREAT");
+                //                //FIN TEST
                 player->increaseScoreGreat();
+            }
             else
                 return;
             //If the player didn't hit a note, we don't want to errase the first one of the list
@@ -217,13 +284,13 @@ void GameView::removeNoteHitten(QList<Note *> *Notes)
 
 void GameView::changeNotePosition(QList<Note *> *Notes)
 {
-    if(!Notes->isEmpty())
+    if (!Notes->isEmpty())
     {
-        for(int i = 0; i < Notes->count(); i++)
+        for (int i = 0; i < Notes->count(); i++)
         {
             int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)3000));
             Notes->at(i)->setX(x);
-            if(x <= 0)
+            if (x <= 0)
                 removeNotePassed(Notes);
         }
     }
@@ -236,10 +303,13 @@ void GameView::update()
     changeNotePosition(downNotes);
     //afficher le joueur et les différentes notes
 
-    timeLabel->setText("Time : " + QString::asprintf("%lld", music->position()));
-    lifeLabel->setText("Life : " + QString::asprintf("%d", player->getLife()));
-    feverLabel->setText("Fever : " + QString::asprintf("%d", player->getFever()));
-    comboLabel->setText("Combo : " + QString::asprintf("%d", player->getCombo()));
-    scoreLabel->setText("Score : " + QString::asprintf("%d", player->getScore()));
+    combo->setText(QString::asprintf("%d", player->getCombo()));
+    score->setText(QString::asprintf("%d", player->getScore()));
+    highScore->setText(QString::asprintf("%d", this->_highScore));
+    lifeRect->setRect(0, this->height() * 55 / 60, (this->width() / 2) * player->getLife() / player->getMaxLife(), this->height() * 3 / 60);
+    feverRect->setRect(this->width() - ((this->width() / 2) * player->getFever() / player->getMaxFever()), this->height() * 55 / 60, (this->width() / 2) * player->getFever() / player->getMaxFever(), this->height() * 3 / 60);
+    if(music->duration() > 0)
+        durationRect->setRect(0, this->height() * 58 / 60, this->width() * (float)music->position() / (float)music->duration(), this->height() * 2 / 60);
+
     scene->update();
 }

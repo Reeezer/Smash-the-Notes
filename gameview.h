@@ -9,7 +9,6 @@
 const int PERFECT = 10;
 const int GREAT = 20;
 const int NOTPASSED = 80;
-const int XLINE = 100;
 const int PIXMAPHALF = 25;
 
 class QGraphicsScene;
@@ -44,11 +43,15 @@ private:
 
     QGraphicsScene *scene;
     QMediaPlayer *music;
+    QSoundEffect *hitEffect;
     Character *player;
     QTime *timer;
 
-    QGraphicsSimpleTextItem *timeLabel, *feverLabel, *scoreLabel, *comboLabel, *lifeLabel, *upHit, *downHit;
+    QGraphicsSimpleTextItem *score, *combo, *highScore;
+    QGraphicsRectItem *lifeRect, *feverRect, *durationRect;
+
     QList<Note *> *upNotes, *downNotes;
+    int XLINE, UPLINE, DOWNLINE, _highScore;
 };
 
 #endif // GAMEVIEW_H
