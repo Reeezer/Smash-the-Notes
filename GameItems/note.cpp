@@ -25,16 +25,16 @@ void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
     switch (_noteType)
     {
     case NoteType::BONUS:
-        painter->drawPixmap(10,10,50,50,QPixmap(":/img/Notes.png"));
+        painter->drawPixmap(10,10,80,80,QPixmap(":/img/Notes.png"));
         break;
     case NoteType::TRAP:
-        painter->drawPixmap(10,10,50,50,QPixmap(":/img/Trap2.png"));
+        painter->drawPixmap(10,10,80,80,QPixmap(":/img/Trap2.png"));
         break;
     case NoteType::SMASH:
-        painter->drawPixmap(10,10,50,50,QPixmap(":/img/Smash.png"));
+        painter->drawPixmap(10,10,80,80,QPixmap(":/img/Smash.png"));
         break;
     case NoteType::NORMAL:
-        painter->drawPixmap(10,10,50,50,QPixmap(":/img/Enemie1.png"));
+        painter->drawPixmap(10,10,80,80,QPixmap(":/img/Enemie1.png"));
         break;
     default:
         qDebug() << "Wrong type of note";

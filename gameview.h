@@ -8,8 +8,8 @@
 
 const int PERFECT = 10;
 const int GREAT = 20;
-const int NOTPASSED = 80;
-const int PIXMAPHALF = 25;
+const int NOTPASSED = 180;
+const int PIXMAPHALF = 40;
 
 class QGraphicsScene;
 class QMediaPlayer;
