@@ -17,7 +17,7 @@ enum NoteType
 class Note : public QGraphicsPixmapItem
 {
 public:
-    Note(NoteType , int, QGraphicsItem *parent = nullptr);
+    Note(NoteType , int, bool,QGraphicsItem *parent = nullptr);
 
     int getTimestamp();
     NoteType getNoteType();
@@ -28,16 +28,11 @@ public:
     void hit();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
-    //Pour les tests manuels
-    int _timestamp;
-    NoteType _noteType;
-
 private:
-    int _maxHits;
-    int _points;
-    int _timeout;
-    QPixmap _frames;//At this time we work with a frame, note a table of frames
-    int _hits;
+    NoteType _noteType;
+    int _timestamp, _maxHits, _points, _timeout, _hits, _countPaint, _frameHeight, _maxFrame, _framesNb, _frameWidth;
+    bool _high;
+    QPixmap *sprite;
 };
 
 #endif // NOTE_H

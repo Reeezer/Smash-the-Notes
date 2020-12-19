@@ -58,7 +58,7 @@ public:
     bool getFevered();
 
 private:
-    int _life, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass, _framesNb, countPaint, countFever;
+    int _life, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass, _framesNb, _countPaint, _countFever;
     float _fever;
     bool _hasJumped, _isFevered, _alive;
     CharacterAction _state;

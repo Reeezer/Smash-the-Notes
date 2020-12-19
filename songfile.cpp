@@ -70,12 +70,16 @@ bool loadFromFile(QString& path, QList<Note *> *upNotes, QList<Note *> *downNote
         int column = (x * 7) / 512;
         NoteType type = columnToType[column];
 
-        Note *new_note = new Note(type, timestamp);
-
         if (column > 2)
+        {
+            Note *new_note = new Note(type, timestamp, true);
             upNotes->append(new_note);
+        }
         else
+        {
+            Note *new_note = new Note(type, timestamp, false);
             downNotes->append(new_note);
+        }
     }
 
     infile.close();

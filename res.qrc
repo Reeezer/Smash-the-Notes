@@ -1,15 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>music/test.mp3</file>
-        <file>img/Enemie1.png</file>
-        <file>img/Enemie2.png</file>
-        <file>img/Enemie3.png</file>
-        <file>img/Enemie4.png</file>
-        <file>img/Enemie5.png</file>
-        <file>img/Notes.png</file>
-        <file>img/Trap1.png</file>
-        <file>img/Trap2.png</file>
-        <file>img/Smash.png</file>
         <file>music/hit-normal.wav</file>
         <file>font/foo.ttf</file>
         <file>img/Character/Run/run0.png</file>
@@ -113,5 +104,15 @@
         <file>img/Character/Hit/hit13.png</file>
         <file>img/Character/Hit/hit14.png</file>
         <file>img/Character/Hit/hit15.png</file>
+        <file>img/Enemie/Down/AngryPig(36x30).png</file>
+        <file>img/Enemie/Down/Slime(44x30).png</file>
+        <file>img/Enemie/Down/Turtle(44x26).png</file>
+        <file>img/Enemie/Smash/Rock(42x42).png</file>
+        <file>img/Enemie/Up/Bat(46x30).png</file>
+        <file>img/Enemie/Up/Bird(32x32).png</file>
+        <file>img/Enemie/Up/Ghost(44x30).png</file>
+        <file>img/Trap/Down/Fire(16x32).png</file>
+        <file>img/Trap/Up/Saw(38x38).png</file>
+        <file>img/Bonus(32x32).png</file>
     </qresource>
 </RCC>

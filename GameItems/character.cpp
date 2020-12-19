@@ -7,7 +7,7 @@
 Character::Character(QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent)
 {
-    _framesNb = 0, countPaint = 0, countFever = 0;
+    _framesNb = 0, _countPaint = 0, _countFever = 0;
     _state = CharacterAction::RUN;
     _life = MAXLIFE;
     _fever = _score = _nbPerfect = _nbGreat = 0;
@@ -19,7 +19,7 @@ Character::Character(QGraphicsItem *parent)
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     int maxFrame;
-    countPaint ++;
+    _countPaint ++;
     switch (_state)
     {
     case CharacterAction::RUN:
@@ -54,9 +54,9 @@ void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
         qDebug() << "Wrong action";
         break;
     }
-    if(countPaint >= 20)
+    if(_countPaint >= 15)
     {
-        countPaint = 0;
+        _countPaint = 0;
         _framesNb++;
     }
     if(_framesNb > maxFrame)
@@ -96,10 +96,10 @@ void Character::increaseFever()
 
 void Character::feverModeDecrease()
 {
-    countFever++;
-    if(countFever >= 200)
+    _countFever++;
+    if(_countFever >= 200)
     {
-        countFever = 0;
+        _countFever = 0;
         _fever -= 3;
     }
     if(_fever <= 0)

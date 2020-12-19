@@ -86,14 +86,14 @@ GameView::GameView(Game *game, QWidget *parent)
 
     for (Note *note : *upNotes)
     {
-        scene->addItem(note);
         note->setY(UPLINE);
+        scene->addItem(note);
     }
 
     for (Note *note : *downNotes)
     {
-        scene->addItem(note);
         note->setY(DOWNLINE);
+        scene->addItem(note);
     }
 
     //Start
