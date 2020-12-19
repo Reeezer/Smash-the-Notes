@@ -111,8 +111,7 @@
         <file>img/Enemie/Up/Bat(46x30).png</file>
         <file>img/Enemie/Up/Bird(32x32).png</file>
         <file>img/Enemie/Up/Ghost(44x30).png</file>
-        <file>img/Trap/Down/Fire(16x32).png</file>
-        <file>img/Trap/Up/Saw(38x38).png</file>
         <file>img/Bonus(32x32).png</file>
+        <file>img/Trap(38x38).png</file>
     </qresource>
 </RCC>

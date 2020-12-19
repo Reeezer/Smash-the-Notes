@@ -65,9 +65,9 @@ GameView::GameView(Game *game, QWidget *parent)
     comboLabel->setPos(this->width() / 2 - 40, this->height() * 2 / 60);
     combo->setPos(this->width() / 2 - 40, this->height() * 5 / 60);
     scoreLabel->setPos(this->width() / 5 - 40, this->height() / 60);
-    score->setPos(this->width() / 5 - 40, this->height() * 3 / 60);
+    score->setPos(this->width() / 5 - 40, this->height() * 4 / 60);
     highScoreLabel->setPos(this->width() * 4 / 5 - 40, this->height() / 60);
-    highScore->setPos(this->width() * 4 / 5 - 40, this->height() * 3 / 60);
+    highScore->setPos(this->width() * 4 / 5 - 40, this->height() * 4 / 60);
 
     scene->addLine(XLINE + PIXMAPHALF, 0, XLINE + PIXMAPHALF, this->height()); //XLINE + half of pixmap width
     scene->addRect(0, this->height() * 57 / 60, this->width() / 2, this->height() * 2 / 60, QPen(Qt::black), QBrush(Qt::lightGray));
@@ -127,12 +127,12 @@ Note *GameView::getNextNote(QList<Note *> *Notes)
 //Check if the player has missed the note but it was close
 void GameView::checkPass(QList<Note *> *Notes, bool high)
 {
-    if (!Notes->isEmpty() && (XLINE - NOTPASSED) <= getNextNote(Notes)->x() && (XLINE - PIXMAPHALF) >= getNextNote(Notes)->x())
+    if (!Notes->isEmpty() && XLINE - NOTPASSED <= getNextNote(Notes)->x() && XLINE - PIXMAPHALF >= getNextNote(Notes)->x())
     {
         if (player->getJump() == high)
         {
             getNextNote(Notes)->hit();
-            if (getNextNote(Notes)->getNoteType() == NoteType::NORMAL)
+            if (getNextNote(Notes)->getNoteType() == NoteType::NORMALUP || getNextNote(Notes)->getNoteType() == NoteType::NORMALDOWN)
             {
                 player->setState(CharacterAction::DAMAGED);
                 removeNotePassed(Notes);
@@ -241,7 +241,7 @@ void GameView::hitNormal(QList<Note *> *Notes)
 {
     if (!Notes->isEmpty())
     {
-        if (getNextNote(Notes)->getNoteType() == NoteType::NORMAL)
+        if (getNextNote(Notes)->getNoteType() == NoteType::NORMALUP || getNextNote(Notes)->getNoteType() == NoteType::NORMALDOWN)
         {
             if (XLINE - PERFECT <= getNextNote(Notes)->x() && XLINE + PERFECT >= getNextNote(Notes)->x())
             {

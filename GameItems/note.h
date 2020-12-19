@@ -8,7 +8,8 @@ class QWidget;
 
 enum NoteType
 {
-    NORMAL,
+    NORMALUP,
+    NORMALDOWN,
     BONUS,
     TRAP,
     SMASH
@@ -17,7 +18,7 @@ enum NoteType
 class Note : public QGraphicsPixmapItem
 {
 public:
-    Note(NoteType , int, bool,QGraphicsItem *parent = nullptr);
+    Note(NoteType , int,QGraphicsItem *parent = nullptr);
 
     int getTimestamp();
     NoteType getNoteType();
@@ -31,7 +32,6 @@ public:
 private:
     NoteType _noteType;
     int _timestamp, _maxHits, _points, _timeout, _hits, _countPaint, _frameHeight, _maxFrame, _framesNb, _frameWidth;
-    bool _high;
     QPixmap *sprite;
 };
 
