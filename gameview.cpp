@@ -16,9 +16,11 @@ GameView::GameView(Game *game, QWidget *parent)
     : QGraphicsView(parent), game(game)
 {
     //Custom font
-    QFontDatabase::addApplicationFont("qrc:/music/foo.ttf");
+    QFontDatabase::addApplicationFont("qrc:/font/foo.ttf");
     QFont Foo("Foo", 18, QFont::Normal);
-    QFont FooTiny("Foo", 18, QFont::Normal);
+
+    QFontDatabase::addApplicationFont("qrc:/font/karen.otf");
+    QFont Karen("karen", 22, QFont::Normal);
 
     resize(1000, 600);
     XLINE = this->width() / 5;
@@ -47,6 +49,8 @@ GameView::GameView(Game *game, QWidget *parent)
     score = new QGraphicsSimpleTextItem();
     QGraphicsSimpleTextItem *highScoreLabel = new QGraphicsSimpleTextItem("HighScore");
     highScore = new QGraphicsSimpleTextItem();
+    upLabel = new QGraphicsSimpleTextItem("PERFECT");
+    downLabel = new QGraphicsSimpleTextItem("GREAT");
 
     combo->setFont(Foo);
     comboLabel->setFont(Foo);
@@ -54,6 +58,8 @@ GameView::GameView(Game *game, QWidget *parent)
     scoreLabel->setFont(Foo);
     highScore->setFont(Foo);
     highScoreLabel->setFont(Foo);
+    upLabel->setFont(Karen);
+    downLabel->setFont(Karen);
 
     scene->addItem(comboLabel);
     scene->addItem(combo);
@@ -61,6 +67,8 @@ GameView::GameView(Game *game, QWidget *parent)
     scene->addItem(score);
     scene->addItem(highScore);
     scene->addItem(highScoreLabel);
+    scene->addItem(upLabel);
+    scene->addItem(downLabel);
 
     comboLabel->setPos(this->width() / 2 - 40, this->height() * 2 / 60);
     combo->setPos(this->width() / 2 - 40, this->height() * 5 / 60);
@@ -68,14 +76,19 @@ GameView::GameView(Game *game, QWidget *parent)
     score->setPos(this->width() / 5 - 40, this->height() * 4 / 60);
     highScoreLabel->setPos(this->width() * 4 / 5 - 40, this->height() / 60);
     highScore->setPos(this->width() * 4 / 5 - 40, this->height() * 4 / 60);
+    upLabel->setPos(XLINE - 100, UPLINE - 60);
+    downLabel->setPos(XLINE - 100, DOWNLINE - 60);
+
+    upLabel->setOpacity(0);
+    downLabel->setOpacity(0);
 
     scene->addLine(XLINE + PIXMAPHALF, 0, XLINE + PIXMAPHALF, this->height()); //XLINE + half of pixmap width
-    scene->addRect(0, this->height() * 57 / 60, this->width() / 2, this->height() * 2 / 60, QPen(Qt::black), QBrush(Qt::lightGray));
-    scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2, this->height() * 2 / 60, QPen(Qt::black), QBrush(Qt::lightGray));
-    scene->addRect(0, this->height() * 59 / 60, this->width(), this->height() / 60, QPen(Qt::black), QBrush(Qt::lightGray));
-    lifeRect = scene->addRect(0, this->height() * 57 / 60, this->width() / 2, this->height() * 2 / 60, QPen(Qt::black), QBrush(QColor(204,0,0)));
-    feverRect = scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2, this->height() * 2 / 60, QPen(Qt::black), QBrush(QColor(68,201,228)));
-    durationRect = scene->addRect(0, this->height() * 59 / 60, this->width(), this->height() / 60, QPen(Qt::black), QBrush(QColor(64,64,64)));
+    scene->addRect(this->width()/10, this->height() * 57 / 60, this->width() / 2 - this->width()/10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46,64,83)));
+    scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2 - this->width()/10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46,64,83)));
+    scene->addRect(0, this->height() * 59 / 60, this->width(), this->height() / 60, QPen(Qt::white), QBrush(QColor(46,64,83)));
+    lifeRect = scene->addRect(this->width()/10, this->height() * 57 / 60, this->width() / 2, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(204,0,0)));
+    feverRect = scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2 - this->width()/10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(68,201,228)));
+    durationRect = scene->addRect(0, this->height() * 59 / 60, this->width(), this->height() / 60, QPen(Qt::white), QBrush(Qt::white));
 
     //Set up
     upNotes = new QList<Note *>();
@@ -103,7 +116,7 @@ GameView::GameView(Game *game, QWidget *parent)
 
     music->play();
     update();
-    this->startTimer(0);
+    this->startTimer(1);
 }
 
 //update of the display
@@ -113,6 +126,20 @@ void GameView::timerEvent(QTimerEvent *)
     checkPass(upNotes, true);
     checkPass(downNotes, false);
     update();
+}
+
+void GameView::changeLabel(QString string)
+{
+    if(player->getJump())
+    {
+        upLabel->setText(string);
+        upLabel->setOpacity(1);
+    }
+    else
+    {
+        downLabel->setText(string);
+        downLabel->setOpacity(1);
+    }
 }
 
 //If we miss a note but we don't hit it with the body of the character, we want to be able to hit the next note while the note we have missed is still on the screen but gone after the player
@@ -127,7 +154,7 @@ Note *GameView::getNextNote(QList<Note *> *Notes)
 //Check if the player has missed the note but it was close
 void GameView::checkPass(QList<Note *> *Notes, bool high)
 {
-    if (!Notes->isEmpty() && XLINE - NOTPASSED <= getNextNote(Notes)->x() && XLINE - PIXMAPHALF >= getNextNote(Notes)->x())
+    if (!Notes->isEmpty() && XLINE - NOTPASSED < getNextNote(Notes)->x() && XLINE - PIXMAPHALF > getNextNote(Notes)->x())
     {
         if (player->getJump() == high)
         {
@@ -151,9 +178,8 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
                 player->regenerate();
                 player->increaseScore();
             }
-            else if (getNextNote(Notes)->getNoteType() == NoteType::TRAP && getNextNote(Notes)->getHit() == 0) //We don't remove it, then it must not hit us more than one time
+            else if (getNextNote(Notes)->getNoteType() == NoteType::TRAP && getNextNote(Notes)->getHit() == 1) //We don't remove it, then it must not hit us more than one time
             {
-                qDebug() << "trap";
                 player->setState(CharacterAction::DAMAGED);
                 player->damage();
                 if(player->getLife() <= 0)
@@ -168,22 +194,12 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
         {
             if (getNextNote(Notes)->getNoteType() == NoteType::TRAP)
             {
-                //                //TEST
-                //                if(!player->getJump())
-                //                    upHit->setText("PASS");
-                //                else
-                //                    downHit->setText("PASS");
-                //                //FIN TEST
+                changeLabel("PASS");
                 player->increasePass();
             }
             else
             {
-                //                //TEST
-                //                if(!player->getJump())
-                //                    upHit->setText("MISS");
-                //                else
-                //                    downHit->setText("MISS");
-                //                //FIN TEST
+                changeLabel("MISS");
                 player->increaseMiss();
             }
         }
@@ -197,13 +213,13 @@ void GameView::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_F || event->key() == Qt::Key_J)
     {
         hitEffect->play();
-        if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH)
-        { //rajouter les hits max
+        if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH && getNextNote(upNotes)->getHit() < getNextNote(upNotes)->getMaxHits())
+        {
             player->setState(CharacterAction::HIT);
             hitSmash();
             getNextNote(upNotes)->hit();
         }
-        else if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH)
+        else if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH && getNextNote(downNotes)->getHit() < getNextNote(downNotes)->getMaxHits())
         {
             player->setState(CharacterAction::HIT);
             hitSmash();
@@ -245,22 +261,12 @@ void GameView::hitNormal(QList<Note *> *Notes)
         {
             if (XLINE - PERFECT <= getNextNote(Notes)->x() && XLINE + PERFECT >= getNextNote(Notes)->x())
             {
-                //                //TEST
-                //                if(player->getJump())
-                //                    upHit->setText("PERFECT");
-                //                else
-                //                    downHit->setText("PERFECT");
-                //                //FIN TEST
+                changeLabel("PERFECT");
                 player->increaseScorePerfect();
             }
             else if (XLINE - GREAT <= getNextNote(Notes)->x() && XLINE + GREAT >= getNextNote(Notes)->x())
             {
-                //                //TEST
-                //                if(player->getJump())
-                //                    upHit->setText("GREAT");
-                //                else
-                //                    downHit->setText("GREAT");
-                //                //FIN TEST
+                changeLabel("GREAT");
                 player->increaseScoreGreat();
             }
             else
@@ -308,7 +314,7 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
         {
             int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)3000));
             Notes->at(i)->setX(x);
-            if (x <= 0)
+            if (x <= - (2 * PIXMAPHALF))
                 removeNotePassed(Notes);
         }
     }
@@ -319,13 +325,16 @@ void GameView::update()
 {
     changeNotePosition(upNotes);
     changeNotePosition(downNotes);
-    //afficher le joueur et les différentes notes
 
     combo->setText(QString::asprintf("%d", player->getCombo()));
     score->setText(QString::asprintf("%d", player->getScore()));
     highScore->setText(QString::asprintf("%d", this->_highScore));
-    lifeRect->setRect(0, this->height() * 57 / 60, (this->width() / 2) * player->getLife() / player->getMaxLife(), this->height() * 2 / 60);
-    feverRect->setRect(this->width() - ((this->width() / 2) * player->getFever() / player->getMaxFever()), this->height() * 57 / 60, (this->width() / 2) * player->getFever() / player->getMaxFever(), this->height() * 2 / 60);
+
+    downLabel->setOpacity(downLabel->opacity() - 0.003);
+    upLabel->setOpacity(upLabel->opacity() - 0.003);
+
+    lifeRect->setRect(this->width()/10, this->height() * 57 / 60, (this->width() / 2 - this->width()/10) * player->getLife() / player->getMaxLife(), this->height() * 2 / 60);
+    feverRect->setRect((this->width() - this->width()/10) - ((this->width() / 2 - this->width()/10) * player->getFever() / player->getMaxFever()), this->height() * 57 / 60, (this->width() / 2 - this->width()/10) * player->getFever() / player->getMaxFever(), this->height() * 2 / 60);
     if(music->duration() > 0)
         durationRect->setRect(0, this->height() * 59 / 60, this->width() * (float)music->position() / (float)music->duration(), this->height() / 60);
 

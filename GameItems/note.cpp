@@ -9,7 +9,7 @@
 Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent), _noteType(type), _timestamp(timestamp)
 {
-    _countPaint = _framesNb = 0;
+    _hits = _countPaint = _framesNb = 0;
     quint32 rand = QRandomGenerator::global()->bounded(1, 4);;
 
     switch (_noteType)

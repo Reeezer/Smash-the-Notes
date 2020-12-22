@@ -8,7 +8,7 @@
 
 const int PERFECT = 10;
 const int GREAT = 20;
-const int NOTPASSED = 180;
+const int NOTPASSED = 140;
 const int PIXMAPHALF = 40;
 
 class QGraphicsScene;
@@ -34,6 +34,7 @@ public:
     void removeNotePassed(QList<Note *> *);
     void removeNoteHitten(QList<Note *> *);
     void changeNotePosition(QList<Note *> *);
+    void changeLabel(QString);
     Note* getNextNote(QList<Note *> *);
 
 private:
@@ -47,7 +48,7 @@ private:
     Character *player;
     QTime *timer;
 
-    QGraphicsSimpleTextItem *score, *combo, *highScore;
+    QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel;
     QGraphicsRectItem *lifeRect, *feverRect, *durationRect;
 
     QList<Note *> *upNotes, *downNotes;
