@@ -17,13 +17,19 @@
 GameView::GameView(Game *game, QWidget *parent)
     : QGraphicsView(parent), game(game)
 {
+    _pause = false;
+
     //Custom font
     QFontDatabase::addApplicationFont("qrc:/font/foo.ttf");
     QFont Foo("Foo", 18, QFont::Normal);
 
+    QFontDatabase::addApplicationFont("qrc:/font/foo.ttf");
+    QFont BigFoo("Foo", 70, QFont::Normal);
+
     QFontDatabase::addApplicationFont("qrc:/font/karen.otf");
     QFont Karen("karen", 22, QFont::Normal);
 
+    //QGraphicsView & QGraphicsScene
     resize(1000, 600);
     XLINE = this->width() / 5;
     UPLINE = this->height() / 3;
@@ -36,7 +42,7 @@ GameView::GameView(Game *game, QWidget *parent)
     setScene(scene);
     scene->setSceneRect(0, 0, this->width(), this->height());
 
-    //Appel la musique en fond pour récupérer le timing
+    //Set up the music & sound effect
     music = new QMediaPlayer(this);
     music->setMedia(QUrl("qrc:/music/test.mp3"));
 
@@ -51,6 +57,7 @@ GameView::GameView(Game *game, QWidget *parent)
     backgroundDisplay();
 
     //Display
+        //Texts
     QGraphicsSimpleTextItem *comboLabel = new QGraphicsSimpleTextItem("Combo");
     combo = new QGraphicsSimpleTextItem();
     QGraphicsSimpleTextItem *scoreLabel = new QGraphicsSimpleTextItem("Score");
@@ -87,6 +94,7 @@ GameView::GameView(Game *game, QWidget *parent)
     upLabel->setPos(XLINE - 100, UPLINE - 100);
     downLabel->setPos(XLINE - 100, DOWNLINE - 100);
 
+        //Crosshair
     _rotationCrossHair = 1;
     _countCross = 0;
     pixUpCross = scene->addPixmap(QPixmap(":/img/Crosshair/Crosshair1.png").scaled(50,50));
@@ -94,6 +102,7 @@ GameView::GameView(Game *game, QWidget *parent)
     pixDownCross = scene->addPixmap(QPixmap(":/img/Crosshair/Crosshair1.png").scaled(50,50));
     pixDownCross->setPos(XLINE + 16, DOWNLINE + 25);
 
+        //Rect : life, fever, progress
     scene->addRect(this->width() / 10, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
     scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
     scene->addRect(0, this->height() * 59 / 60, this->width(), this->height() / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
@@ -119,6 +128,19 @@ GameView::GameView(Game *game, QWidget *parent)
         note->setY(DOWNLINE);
         scene->addItem(note);
     }
+
+    //Game Over label & Pause label (at first invisible)
+    gameOverLabel = new QGraphicsSimpleTextItem("Game Over");
+    gameOverLabel->setFont(BigFoo);
+    scene->addItem(gameOverLabel);
+    gameOverLabel->setPos(this->width() / 4, this->height() / 3);
+    gameOverLabel->setVisible(false);
+
+    pauseLabel = new QGraphicsSimpleTextItem("Pause");
+    pauseLabel->setFont(BigFoo);
+    scene->addItem(pauseLabel);
+    pauseLabel->setPos(this->width() / 3, this->height() / 3);
+    pauseLabel->setVisible(false);
 
     //Start
     player = new Character();
@@ -151,6 +173,8 @@ void GameView::timerEvent(QTimerEvent *)
     //When the note has not been hitten and it arrives on the player
     checkPass(upNotes, true);
     checkPass(downNotes, false);
+
+    //Update the display
     update();
 }
 
@@ -162,15 +186,17 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
         if (player->getJump() == high)
         {
             getNextNote(Notes)->hit();
-            if (getNextNote(Notes)->getNoteType() == NoteType::NORMALUP || getNextNote(Notes)->getNoteType() == NoteType::NORMALDOWN)
+            if (getNextNote(Notes)->getNoteType() == NoteType::NORMALUP || getNextNote(Notes)->getNoteType() == NoteType::NORMALDOWN || (getNextNote(Notes)->getNoteType() == NoteType::TRAP && getNextNote(Notes)->getHit() == 1)) //We don't remove it, then it must not hit us more than one time)
             {
                 player->setState(CharacterAction::DAMAGED);
-                removeNotePassed(Notes);
+                if(getNextNote(Notes)->getNoteType() == NoteType::NORMALUP || getNextNote(Notes)->getNoteType() == NoteType::NORMALDOWN)
+                    removeNotePassed(Notes);
                 player->damage();
                 if (player->getLife() <= 0)
                 {
                     player->setState(CharacterAction::DOWN);
                     music->pause();
+                    gameOverLabel->setVisible(true);
                 }
                 player->comboBreak();
             }
@@ -180,17 +206,6 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
                 removeNotePassed(Notes);
                 player->regenerate();
                 player->increaseScore();
-            }
-            else if (getNextNote(Notes)->getNoteType() == NoteType::TRAP && getNextNote(Notes)->getHit() == 1) //We don't remove it, then it must not hit us more than one time
-            {
-                player->setState(CharacterAction::DAMAGED);
-                player->damage();
-                if (player->getLife() <= 0)
-                {
-                    player->setState(CharacterAction::DOWN);
-                    music->pause();
-                }
-                player->comboBreak();
             }
         }
         else
@@ -211,7 +226,22 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
-    if(player->getLife() > 0)
+    if(event->key() == Qt::Key_Escape)
+    {
+        _pause = !_pause;
+        if(!_pause)
+        {
+            music->play();
+            pauseLabel->setVisible(false);
+        }
+        else
+        {
+            music->pause();
+            pauseLabel->setVisible(true);
+        }
+    }
+
+    if(player->getLife() > 0 && !_pause)
     {
         //Use the time of the music to know when to hit
         //If it's a SMASH note we can destroy our keyboard
@@ -219,17 +249,9 @@ void GameView::keyPressEvent(QKeyEvent *event)
         {
             hitEffect->play();
             if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH && getNextNote(upNotes)->getHit() < getNextNote(upNotes)->getMaxHits())
-            {
-                player->setState(CharacterAction::HIT);
-                hitSmash();
-                getNextNote(upNotes)->hit();
-            }
+                hitSmash(upNotes);
             else if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH && getNextNote(downNotes)->getHit() < getNextNote(downNotes)->getMaxHits())
-            {
-                player->setState(CharacterAction::HIT);
-                hitSmash();
-                getNextNote(downNotes)->hit();
-            }
+                hitSmash(downNotes);
         }
         //If it's not, we have to check what it is and to do something in consequence
         if (event->key() == Qt::Key_F)
@@ -289,12 +311,16 @@ void GameView::hitNormal(QList<Note *> *Notes)
     }
 }
 
-void GameView::hitSmash()
+void GameView::hitSmash(QList<Note *> *Notes)
 {
+    player->setState(CharacterAction::HIT);
+
     player->increaseCombo();
     if (!player->getFevered())
         player->increaseFever();
     player->increaseScore();
+
+    getNextNote(Notes)->hit();
 }
 
 void GameView::removeNotePassed(QList<Note *> *Notes)
@@ -320,7 +346,7 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
         {
             int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)3000));
             Notes->at(i)->setX(x);
-            if (x <= -(2 * PIXMAPHALF))
+            if (x <= -2 * PIXMAPHALF)
                 removeNotePassed(Notes);
         }
     }
@@ -385,13 +411,12 @@ void GameView::backgroundDisplay()
         backgroundList->push_front(pix1);
         backgroundList->push_front(pix2);
     }
-
 }
 
 void GameView::rotateCrossHair()
 {
     _countCross++;
-    if(_countCross >= 15)
+    if(_countCross >= 15) //15 times 10ms (to be prettier)
     {
         pixUpCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d",_rotationCrossHair) + ".png").scaled(50,50));
         pixDownCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d",_rotationCrossHair) + ".png").scaled(50,50));
@@ -408,11 +433,12 @@ void GameView::update()
     changeNotePosition(upNotes);
     changeNotePosition(downNotes);
 
-    if(timer->elapsed() - _lastElapsed > 10 && timer->elapsed()  - _lastElapsed < 5000 && player->getAlive()) //The timer->elapsed() at the first call returns a very big number
+    if(timer->elapsed() - _lastElapsed > 10 && timer->elapsed()  - _lastElapsed < 5000 && player->getAlive() && !_pause) //The timer->elapsed() at the first call returns a very big number
     {
-        rotateCrossHair();
         _lastElapsed = timer->elapsed();
+
         applyParallax(_ratio, backgroundList);
+        rotateCrossHair();
     }
 
     combo->setText(QString::asprintf("%d", player->getCombo()));

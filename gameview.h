@@ -31,7 +31,7 @@ public:
     void update();
     void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);
-    void hitSmash();
+    void hitSmash(QList<Note *> *);
     void removeNotePassed(QList<Note *> *);
     void removeNoteHitten(QList<Note *> *);
     void changeNotePosition(QList<Note *> *);
@@ -54,13 +54,14 @@ private:
 
     QGraphicsPixmapItem *pixUpCross, *pixDownCross;
 
-    QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel;
+    QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel, *gameOverLabel, *pauseLabel;
     QGraphicsRectItem *lifeRect, *feverRect, *durationRect;
 
     QList<Note *> *upNotes, *downNotes;
     QList<QGraphicsPixmapItem *> *backgroundList;
     int XLINE, UPLINE, DOWNLINE, _highScore, _lastElapsed, _rotationCrossHair, _countCross;
     float _ratio;
+    bool _pause;
 };
 
 #endif // GAMEVIEW_H
