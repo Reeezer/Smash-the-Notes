@@ -37,7 +37,8 @@ public:
     void changeNotePosition(QList<Note *> *);
     void changeLabel(QString, bool);
     void applyParallax(float, QList<QGraphicsPixmapItem *> *);
-    void backgroundDetermine();
+    void backgroundDisplay();
+    void rotateCrossHair();
     Note* getNextNote(QList<Note *> *);
 
 private:
@@ -51,12 +52,14 @@ private:
     Character *player;
     QElapsedTimer *timer;
 
+    QGraphicsPixmapItem *pixUpCross, *pixDownCross;
+
     QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel;
     QGraphicsRectItem *lifeRect, *feverRect, *durationRect;
 
     QList<Note *> *upNotes, *downNotes;
     QList<QGraphicsPixmapItem *> *backgroundList;
-    int XLINE, UPLINE, DOWNLINE, _highScore, _lastElapsed;
+    int XLINE, UPLINE, DOWNLINE, _highScore, _lastElapsed, _rotationCrossHair, _countCross;
     float _ratio;
 };
 

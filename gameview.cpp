@@ -48,7 +48,7 @@ GameView::GameView(Game *game, QWidget *parent)
     //Background
     _lastElapsed = 0;
     _ratio = 0.0032;
-    backgroundDetermine();
+    backgroundDisplay();
 
     //Display
     QGraphicsSimpleTextItem *comboLabel = new QGraphicsSimpleTextItem("Combo");
@@ -87,7 +87,13 @@ GameView::GameView(Game *game, QWidget *parent)
     upLabel->setPos(XLINE - 100, UPLINE - 100);
     downLabel->setPos(XLINE - 100, DOWNLINE - 100);
 
-    scene->addLine(XLINE + PIXMAPHALF, 0, XLINE + PIXMAPHALF, this->height()); //XLINE + half of pixmap width
+    _rotationCrossHair = 1;
+    _countCross = 0;
+    pixUpCross = scene->addPixmap(QPixmap(":/img/Crosshair/Crosshair1.png").scaled(50,50));
+    pixUpCross->setPos(XLINE + 16, UPLINE + 25);
+    pixDownCross = scene->addPixmap(QPixmap(":/img/Crosshair/Crosshair1.png").scaled(50,50));
+    pixDownCross->setPos(XLINE + 16, DOWNLINE + 25);
+
     scene->addRect(this->width() / 10, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
     scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
     scene->addRect(0, this->height() * 59 / 60, this->width(), this->height() / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
@@ -343,7 +349,7 @@ Note *GameView::getNextNote(QList<Note *> *Notes)
     return Notes->at(i);
 }
 
-void GameView::backgroundDetermine()
+void GameView::backgroundDisplay()
 {
     QGraphicsPixmapItem *pix1 = new QGraphicsPixmapItem();
     QGraphicsPixmapItem *pix2 = new QGraphicsPixmapItem();
@@ -351,7 +357,6 @@ void GameView::backgroundDetermine()
     int max = 0;
 
     quint32 rand = QRandomGenerator::global()->bounded(1, 5);
-    qDebug() << rand;
     switch (rand)
     {
     case 1:
@@ -383,6 +388,20 @@ void GameView::backgroundDetermine()
 
 }
 
+void GameView::rotateCrossHair()
+{
+    _countCross++;
+    if(_countCross >= 15)
+    {
+        pixUpCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d",_rotationCrossHair) + ".png").scaled(50,50));
+        pixDownCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d",_rotationCrossHair) + ".png").scaled(50,50));
+        _rotationCrossHair++;
+        if(_rotationCrossHair > 3)
+            _rotationCrossHair = 1;
+        _countCross = 0;
+    }
+}
+
 //Update the diplay
 void GameView::update()
 {
@@ -391,6 +410,7 @@ void GameView::update()
 
     if(timer->elapsed() - _lastElapsed > 10 && timer->elapsed()  - _lastElapsed < 5000 && player->getAlive()) //The timer->elapsed() at the first call returns a very big number
     {
+        rotateCrossHair();
         _lastElapsed = timer->elapsed();
         applyParallax(_ratio, backgroundList);
     }

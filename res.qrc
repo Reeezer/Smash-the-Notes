@@ -139,5 +139,8 @@
         <file>img/Background/4/Layer5.png</file>
         <file>img/Background/4/Layer6.png</file>
         <file>img/Background/4/Layer7.png</file>
+        <file>img/Crosshair/Crosshair1.png</file>
+        <file>img/Crosshair/Crosshair2.png</file>
+        <file>img/Crosshair/Crosshair3.png</file>
     </qresource>
 </RCC>
