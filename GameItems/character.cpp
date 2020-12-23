@@ -8,20 +8,20 @@
 Character::Character(QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent)
 {
-    _framesNb = 0, _countPaint = 0, _countFever = _lastElapsed = 0;
     _state = CharacterAction::RUN;
     _life = MAXLIFE;
-    _fever = _score = _nbPerfect = _nbGreat = 0;
+    _fever = _score = _nbPerfect = _nbGreat = _framesNb = _countFever = _lastElapsed = 0;
     _combo = 1;
     _hasJumped = _isFevered = false;
     _alive = true;
+
+    timer = new QElapsedTimer();
+    timer->start();
 }
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     int maxFrame;
-    if(timer->elapsed() - _lastElapsed > 10 && timer->elapsed()  - _lastElapsed < 5000)
-        _countPaint ++;
     switch (_state)
     {
     case CharacterAction::RUN:
@@ -56,9 +56,9 @@ void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
         qDebug() << "Wrong action";
         break;
     }
-    if(_countPaint >= 15)
+    if(timer->elapsed() - _lastElapsed > 30)
     {
-        _countPaint = 0;
+        _lastElapsed = timer->elapsed();
         _framesNb++;
     }
     if(_framesNb > maxFrame)

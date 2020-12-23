@@ -5,11 +5,12 @@
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
 #include <QRandomGenerator>
+#include <QElapsedTimer>
 
 Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent), _noteType(type), _timestamp(timestamp)
 {
-    _hits = _countPaint = _framesNb = 0;
+    _hits = _lastElapsed = _framesNb = 0;
     quint32 rand = QRandomGenerator::global()->bounded(1, 4);
 
     switch (_noteType)
@@ -88,6 +89,9 @@ Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
         qDebug() << "Wrong type of note :" << _noteType;
         break;
     }
+
+    timer = new QElapsedTimer();
+    timer->start();
 }
 
 int Note::getTimestamp() {return _timestamp;}
@@ -102,11 +106,10 @@ void Note::hit() {_hits++;}
 void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->drawPixmap(10, 10, 80, 80, *sprite, _framesNb * _frameWidth, 0, _frameWidth, _frameHeight);
-    _countPaint++;
-    if(_countPaint >= 20)
+    if(timer->elapsed() - _lastElapsed > 50)
     {
+        _lastElapsed = timer->elapsed();
         _framesNb++;
-        _countPaint = 0;
     }
     if(_framesNb >= _maxFrame)
         _framesNb = 0;

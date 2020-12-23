@@ -389,7 +389,7 @@ void GameView::update()
     changeNotePosition(upNotes);
     changeNotePosition(downNotes);
 
-    if(timer->elapsed() - _lastElapsed > 10 && timer->elapsed()  - _lastElapsed < 5000) //The timer->elapsed() at the first call returns a very big number
+    if(timer->elapsed() - _lastElapsed > 10 && timer->elapsed()  - _lastElapsed < 5000 && player->getAlive()) //The timer->elapsed() at the first call returns a very big number
     {
         _lastElapsed = timer->elapsed();
         applyParallax(_ratio, backgroundList);

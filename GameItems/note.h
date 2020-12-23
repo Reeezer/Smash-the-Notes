@@ -5,6 +5,7 @@
 class QPixmap;
 class QPainter;
 class QWidget;
+class QElapsedTimer;
 
 enum NoteType
 {
@@ -30,8 +31,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
+    QElapsedTimer *timer;
     NoteType _noteType;
-    int _timestamp, _maxHits, _points, _timeout, _hits, _countPaint, _frameHeight, _maxFrame, _framesNb, _frameWidth;
+    int _timestamp, _maxHits, _points, _timeout, _hits, _frameHeight, _maxFrame, _framesNb, _frameWidth, _lastElapsed;
     QPixmap *sprite;
 };
 
