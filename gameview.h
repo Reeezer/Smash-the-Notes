@@ -16,6 +16,7 @@ class QMediaPlayer;
 class QGraphicsItem;
 class QLabel;
 class QTime;
+class QElapsedTimer;
 
 #include "GameItems/character.h"
 #include "game.h"
@@ -34,7 +35,9 @@ public:
     void removeNotePassed(QList<Note *> *);
     void removeNoteHitten(QList<Note *> *);
     void changeNotePosition(QList<Note *> *);
-    void changeLabel(QString);
+    void changeLabel(QString, bool);
+    void applyParallax(float, QList<QGraphicsPixmapItem *> *);
+    void backgroundDetermine();
     Note* getNextNote(QList<Note *> *);
 
 private:
@@ -46,13 +49,15 @@ private:
     QMediaPlayer *music;
     QSoundEffect *hitEffect;
     Character *player;
-    QTime *timer;
+    QElapsedTimer *timer;
 
     QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel;
     QGraphicsRectItem *lifeRect, *feverRect, *durationRect;
 
     QList<Note *> *upNotes, *downNotes;
-    int XLINE, UPLINE, DOWNLINE, _highScore;
+    QList<QGraphicsPixmapItem *> *backgroundList;
+    int XLINE, UPLINE, DOWNLINE, _highScore, _lastElapsed;
+    float _ratio;
 };
 
 #endif // GAMEVIEW_H

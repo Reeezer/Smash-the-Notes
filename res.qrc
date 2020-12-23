@@ -113,5 +113,31 @@
         <file>img/Enemie/Up/Ghost(44x30).png</file>
         <file>img/Bonus(32x32).png</file>
         <file>img/Trap(38x38).png</file>
+        <file>font/karen.otf</file>
+        <file>img/Background/1/Layer1.png</file>
+        <file>img/Background/1/Layer2.png</file>
+        <file>img/Background/1/Layer3.png</file>
+        <file>img/Background/1/Layer4.png</file>
+        <file>img/Background/1/Layer5.png</file>
+        <file>img/Background/2/Layer1.png</file>
+        <file>img/Background/2/Layer2.png</file>
+        <file>img/Background/2/Layer3.png</file>
+        <file>img/Background/2/Layer4.png</file>
+        <file>img/Background/2/Layer5.png</file>
+        <file>img/Background/2/Layer6.png</file>
+        <file>img/Background/3/Layer1.png</file>
+        <file>img/Background/3/Layer2.png</file>
+        <file>img/Background/3/Layer3.png</file>
+        <file>img/Background/3/Layer4.png</file>
+        <file>img/Background/3/Layer5.png</file>
+        <file>img/Background/3/Layer6.png</file>
+        <file>img/Background/3/Layer7.png</file>
+        <file>img/Background/4/Layer1.png</file>
+        <file>img/Background/4/Layer2.png</file>
+        <file>img/Background/4/Layer3.png</file>
+        <file>img/Background/4/Layer4.png</file>
+        <file>img/Background/4/Layer5.png</file>
+        <file>img/Background/4/Layer6.png</file>
+        <file>img/Background/4/Layer7.png</file>
     </qresource>
 </RCC>

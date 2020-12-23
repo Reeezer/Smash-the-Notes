@@ -12,6 +12,7 @@ class QPixmap;
 class QPainter;
 class QStyleOptionGraphicsItem;
 class QWidget;
+class QElapsedTimer;
 
 enum CharacterAction
 {
@@ -58,7 +59,8 @@ public:
     bool getFevered();
 
 private:
-    int _life, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass, _framesNb, _countPaint, _countFever;
+    QElapsedTimer *timer;
+    int _life, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass, _framesNb, _countPaint, _countFever, _lastElapsed;
     float _fever;
     bool _hasJumped, _isFevered, _alive;
     CharacterAction _state;

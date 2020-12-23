@@ -3,11 +3,12 @@
 #include <QStyleOptionGraphicsItem>
 #include <QPainter>
 #include <QDebug>
+#include <QElapsedTimer>
 
 Character::Character(QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent)
 {
-    _framesNb = 0, _countPaint = 0, _countFever = 0;
+    _framesNb = 0, _countPaint = 0, _countFever = _lastElapsed = 0;
     _state = CharacterAction::RUN;
     _life = MAXLIFE;
     _fever = _score = _nbPerfect = _nbGreat = 0;
@@ -19,35 +20,36 @@ Character::Character(QGraphicsItem *parent)
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     int maxFrame;
-    _countPaint ++;
+    if(timer->elapsed() - _lastElapsed > 10 && timer->elapsed()  - _lastElapsed < 5000)
+        _countPaint ++;
     switch (_state)
     {
     case CharacterAction::RUN:
-        painter->drawPixmap(-125, -100, 300, 300, QPixmap(":/img/Character/Run/run" + QString::asprintf("%d", _framesNb) + ".png"));
+        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Run/run" + QString::asprintf("%d", _framesNb) + ".png"));
         maxFrame = 15;
         break;
     case CharacterAction::DAMAGED:
-        painter->drawPixmap(-125, -100, 300, 300, QPixmap(":/img/Character/Damage/damage" + QString::asprintf("%d", _framesNb) + ".png"));
+        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Damage/damage" + QString::asprintf("%d", _framesNb) + ".png"));
         maxFrame = 11;
         break;
     case CharacterAction::JUMP:
-        painter->drawPixmap(-125, -100, 300, 300, QPixmap(":/img/Character/Jump/jump" + QString::asprintf("%d", _framesNb) + ".png"));
+        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Jump/jump" + QString::asprintf("%d", _framesNb) + ".png"));
         maxFrame = 24;
         break;
     case CharacterAction::DOWN:
-        painter->drawPixmap(-125, -100, 300, 300, QPixmap(":/img/Character/Down/down.png"));
+        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Down/down.png"));
         maxFrame = 0;
         break;
     case CharacterAction::REGENERATE:
-        painter->drawPixmap(-125, -100, 300, 300, QPixmap(":/img/Character/Regenerate/regenerate" + QString::asprintf("%d", _framesNb) + ".png"));
+        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Regenerate/regenerate" + QString::asprintf("%d", _framesNb) + ".png"));
         maxFrame = 16;
         break;
     case CharacterAction::FEVER:
-        painter->drawPixmap(-125, -100, 300, 300, QPixmap(":/img/Character/Fever/fever" + QString::asprintf("%d", _framesNb) + ".png"));
+        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Fever/fever" + QString::asprintf("%d", _framesNb) + ".png"));
         maxFrame = 13;
         break;
     case CharacterAction::HIT:
-        painter->drawPixmap(-125, -100, 300, 300, QPixmap(":/img/Character/Hit/hit" + QString::asprintf("%d", _framesNb) + ".png"));
+        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Hit/hit" + QString::asprintf("%d", _framesNb) + ".png"));
         maxFrame = 15;
         break;
     default:
