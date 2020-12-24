@@ -51,7 +51,7 @@ private:
     Character *player;
     QElapsedTimer *timer;
 
-    QGraphicsPixmapItem *pixUpCross, *pixDownCross;
+    QGraphicsPixmapItem *pixUpCross, *pixDownCross, *backgroundFever;
 
     QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel, *gameOverLabel, *pauseLabel;
     QGraphicsRectItem *lifeRect, *feverRect, *durationRect;

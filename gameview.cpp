@@ -55,6 +55,8 @@ GameView::GameView(Game *game, QWidget *parent)
     _lastElapsed = 0;
     _ratio = 0.0032;
     backgroundDisplay();
+    backgroundFever = scene->addPixmap(QPixmap(":/img/Background/Fever.png").scaled(QSize(this->width(), this->height())));
+    backgroundFever->setVisible(false);
 
     //Display
         //Texts
@@ -215,7 +217,7 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
 void GameView::keyPressEvent(QKeyEvent *event)
 {
     //The pause mode
-    if(event->key() == Qt::Key_Escape && player->getLife() > 0)
+    if(event->key() == Qt::Key_Escape && player->getAlive())
     {
         _pause = !_pause;
         if(!_pause)
@@ -230,7 +232,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
         }
     }
 
-    if(player->getLife() > 0 && !_pause)
+    if(player->getAlive() && !_pause)
     {
         //Use the time of the music to know when to hit
         //If it's a SMASH note we can smash our keyboard to hit more & quicker
@@ -294,8 +296,11 @@ void GameView::hitNormal(QList<Note *> *Notes)
             player->increaseCombo();
             if (!player->getFevered())
                 player->increaseFever();
-            if (player->getFever() >= player->getMaxFever() && !player->getFevered())
+            if (player->getFever() == player->getMaxFever())
+            {
+                backgroundFever->setVisible(true);
                 player->setState(CharacterAction::FEVER);
+            }
         }
     }
 }
@@ -463,6 +468,8 @@ void GameView::update()
 
         if (player->getFevered())
             player->feverModeDecrease();
+        if(!player->getFever() && backgroundFever->isVisible())
+            backgroundFever->setVisible(false);
 
         scene->update();
     }

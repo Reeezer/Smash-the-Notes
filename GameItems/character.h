@@ -60,7 +60,7 @@ public:
 
 private:
     QElapsedTimer *timer;
-    int _life, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass, _framesNb, _countFever, _lastElapsed;
+    int _life, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass, _framesNb, _lastElapsed;
     float _fever;
     bool _hasJumped, _isFevered, _alive;
     CharacterAction _state;

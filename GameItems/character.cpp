@@ -10,7 +10,7 @@ Character::Character(QGraphicsItem *parent)
 {
     _state = CharacterAction::RUN;
     _life = MAXLIFE;
-    _fever = _score = _nbPerfect = _nbGreat = _framesNb = _countFever = _lastElapsed = 0;
+    _fever = _score = _nbPerfect = _nbGreat = _framesNb = _lastElapsed = 0;
     _combo = 1;
     _hasJumped = _isFevered = false;
     _alive = true;
@@ -98,12 +98,7 @@ void Character::increaseFever()
 
 void Character::feverModeDecrease()
 {
-    _countFever++;
-    if(_countFever >= 200)
-    {
-        _countFever = 0;
-        _fever -= 3;
-    }
+    _fever -= 0.06;
     if(_fever <= 0)
     {
         _fever = 0;
