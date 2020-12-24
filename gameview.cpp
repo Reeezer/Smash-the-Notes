@@ -447,6 +447,8 @@ void GameView::update()
             rotateCrossHair();
         }
 
+        if(player->getScore() > _highScore)
+            _highScore = player->getScore();
         combo->setText(QString::asprintf("%d", player->getCombo()));
         score->setText(QString::asprintf("%d", player->getScore()));
         highScore->setText(QString::asprintf("%d", this->_highScore));
