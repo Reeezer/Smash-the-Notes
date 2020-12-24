@@ -3,8 +3,6 @@
 
 #include <QGraphicsView>
 #include <QList>
-#include <QGraphicsItem>
-#include <QTimerEvent>
 
 const int PERFECT = 10;
 const int GREAT = 20;
@@ -17,6 +15,7 @@ class QGraphicsItem;
 class QLabel;
 class QTime;
 class QElapsedTimer;
+class QGraphicsItem;
 
 #include "GameItems/character.h"
 #include "game.h"

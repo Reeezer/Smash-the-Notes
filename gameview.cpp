@@ -153,20 +153,6 @@ GameView::GameView(Game *game, QWidget *parent)
     this->startTimer(1);
 }
 
-void GameView::applyParallax(float ratio, QList<QGraphicsPixmapItem *> *background)
-{
-    int i = 0;
-    for(QGraphicsPixmapItem *layer : *background)
-    {
-        i++;
-        layer->setX(layer->x() - ratio * (layer->boundingRect().width()));
-        if(layer->x() <= - this->width() + 1)
-            layer->setX(this->width() - 4);
-        if(i % 2 == 0 && ratio > 0.0005)
-            ratio -= 0.0005;
-    }
-}
-
 //update of the display
 void GameView::timerEvent(QTimerEvent *)
 {
@@ -178,11 +164,12 @@ void GameView::timerEvent(QTimerEvent *)
     update();
 }
 
-//Check if the player has missed the note but it was close
+//Check if the player has missed the note but it was close the character hitbox meet the note hitbox
 void GameView::checkPass(QList<Note *> *Notes, bool high)
 {
     if (!Notes->isEmpty() && XLINE - NOTPASSED < getNextNote(Notes)->x() && XLINE - PIXMAPHALF > getNextNote(Notes)->x())
     {
+        //If the player is at the same line that the note
         if (player->getJump() == high)
         {
             getNextNote(Notes)->hit();
@@ -208,6 +195,7 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
                 player->increaseScore();
             }
         }
+        //If he is not
         else
         {
             if (getNextNote(Notes)->getNoteType() == NoteType::TRAP)
@@ -226,7 +214,8 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Escape)
+    //The pause mode
+    if(event->key() == Qt::Key_Escape && player->getLife() > 0)
     {
         _pause = !_pause;
         if(!_pause)
@@ -244,7 +233,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
     if(player->getLife() > 0 && !_pause)
     {
         //Use the time of the music to know when to hit
-        //If it's a SMASH note we can destroy our keyboard
+        //If it's a SMASH note we can smash our keyboard to hit more & quicker
         if (event->key() == Qt::Key_F || event->key() == Qt::Key_J)
         {
             hitEffect->play();
@@ -253,7 +242,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
             else if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH && getNextNote(downNotes)->getHit() < getNextNote(downNotes)->getMaxHits())
                 hitSmash(downNotes);
         }
-        //If it's not, we have to check what it is and to do something in consequence
+        //If it's not, we have to check which kind of note it is
         if (event->key() == Qt::Key_F)
         {
             if (!player->getJump())
@@ -280,7 +269,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
     }
 }
 
-//Check for the different notes what to do with the character
+//Check for every notes what to do with
 void GameView::hitNormal(QList<Note *> *Notes)
 {
     if (!Notes->isEmpty())
@@ -299,7 +288,7 @@ void GameView::hitNormal(QList<Note *> *Notes)
             }
             else
                 return;
-            //If the player didn't hit a note, we don't want to errase the first one of the list
+            //If the player missed a note, we don't want to errase the first one of the list but the one we can hit
             player->setState(CharacterAction::HIT);
             removeNoteHitten(Notes);
             player->increaseCombo();
@@ -402,8 +391,9 @@ void GameView::backgroundDisplay()
         break;
     }
 
+    //The last layer (the sky) does not move, then we don't add it in the List
     scene->addPixmap(QPixmap(":/img/Background/" + QString::asprintf("%d", rand) + "/Layer" + QString::asprintf("%d", max) + ".png").scaled(QSize(this->width(), this->height())));
-    for(int i = max; i > 0; i--)
+    for(int i = max - 1; i > 0; i--)
     {
         pix1 = scene->addPixmap(QPixmap(":/img/Background/" + QString::asprintf("%d", rand) + "/Layer" + QString::asprintf("%d", i) + ".png").scaled(QSize(this->width(), this->height())));
         pix2 = scene->addPixmap(QPixmap(":/img/Background/" + QString::asprintf("%d", rand) + "/Layer" + QString::asprintf("%d", i) + ".png").scaled(QSize(this->width(), this->height())));
@@ -416,7 +406,7 @@ void GameView::backgroundDisplay()
 void GameView::rotateCrossHair()
 {
     _countCross++;
-    if(_countCross >= 15) //15 times 10ms (to be prettier)
+    if(_countCross >= 15) //15 times 10ms (to be prettier & smoother)
     {
         pixUpCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d",_rotationCrossHair) + ".png").scaled(50,50));
         pixDownCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d",_rotationCrossHair) + ".png").scaled(50,50));
@@ -427,34 +417,51 @@ void GameView::rotateCrossHair()
     }
 }
 
+void GameView::applyParallax(float ratio, QList<QGraphicsPixmapItem *> *background)
+{
+    int i = 0;
+    for(QGraphicsPixmapItem *layer : *background)
+    {
+        i++;
+        layer->setX(layer->x() - ratio * (layer->boundingRect().width()));
+        if(layer->x() <= - this->width() + 1)
+            layer->setX(this->width() - 4);
+        if(i % 2 == 0 && ratio > 0.0005) //The same layer is twice in the list, then the ratio as to be decreased on every new layer
+            ratio -= 0.0005;
+    }
+}
+
 //Update the diplay
 void GameView::update()
 {
-    changeNotePosition(upNotes);
-    changeNotePosition(downNotes);
-
-    if(timer->elapsed() - _lastElapsed > 10 && timer->elapsed()  - _lastElapsed < 5000 && player->getAlive() && !_pause) //The timer->elapsed() at the first call returns a very big number
+    if(!_pause)
     {
-        _lastElapsed = timer->elapsed();
+        changeNotePosition(upNotes);
+        changeNotePosition(downNotes);
 
-        applyParallax(_ratio, backgroundList);
-        rotateCrossHair();
+        if(timer->elapsed() - _lastElapsed > 10 && timer->elapsed()  - _lastElapsed < 5000 && player->getAlive()) //The timer->elapsed() at the first call returns a very big number
+        {
+            _lastElapsed = timer->elapsed();
+
+            applyParallax(_ratio, backgroundList);
+            rotateCrossHair();
+        }
+
+        combo->setText(QString::asprintf("%d", player->getCombo()));
+        score->setText(QString::asprintf("%d", player->getScore()));
+        highScore->setText(QString::asprintf("%d", this->_highScore));
+
+        downLabel->setOpacity(downLabel->opacity() - 0.003);
+        upLabel->setOpacity(upLabel->opacity() - 0.003);
+
+        lifeRect->setRect(this->width() / 10, this->height() * 57 / 60, (this->width() / 2 - this->width() / 10) * player->getLife() / player->getMaxLife(), this->height() * 2 / 60);
+        feverRect->setRect((this->width() - this->width() / 10) - ((this->width() / 2 - this->width() / 10) * player->getFever() / player->getMaxFever()), this->height() * 57 / 60, (this->width() / 2 - this->width() / 10) * player->getFever() / player->getMaxFever(), this->height() * 2 / 60);
+        if (music->duration() > 0)
+            durationRect->setRect(0, this->height() * 59 / 60, this->width() * (float)music->position() / (float)music->duration(), this->height() / 60);
+
+        if (player->getFevered())
+            player->feverModeDecrease();
+
+        scene->update();
     }
-
-    combo->setText(QString::asprintf("%d", player->getCombo()));
-    score->setText(QString::asprintf("%d", player->getScore()));
-    highScore->setText(QString::asprintf("%d", this->_highScore));
-
-    downLabel->setOpacity(downLabel->opacity() - 0.003);
-    upLabel->setOpacity(upLabel->opacity() - 0.003);
-
-    lifeRect->setRect(this->width() / 10, this->height() * 57 / 60, (this->width() / 2 - this->width() / 10) * player->getLife() / player->getMaxLife(), this->height() * 2 / 60);
-    feverRect->setRect((this->width() - this->width() / 10) - ((this->width() / 2 - this->width() / 10) * player->getFever() / player->getMaxFever()), this->height() * 57 / 60, (this->width() / 2 - this->width() / 10) * player->getFever() / player->getMaxFever(), this->height() * 2 / 60);
-    if (music->duration() > 0)
-        durationRect->setRect(0, this->height() * 59 / 60, this->width() * (float)music->position() / (float)music->duration(), this->height() / 60);
-
-    if (player->getFevered())
-        player->feverModeDecrease();
-
-    scene->update();
 }
