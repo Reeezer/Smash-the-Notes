@@ -1,11 +1,10 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-const int MAXHEALTH = 300;
+const int MAXLIFE = 300;
 const int MAXFEVER = 100;
 const int DAMAGE = 30;
 const int REGENERATION = 80;
-const int FEVERDECREASE = 10;
 
 #include <QGraphicsPixmapItem>
 
@@ -13,6 +12,18 @@ class QPixmap;
 class QPainter;
 class QStyleOptionGraphicsItem;
 class QWidget;
+class QElapsedTimer;
+
+enum CharacterAction
+{
+    RUN,
+    DOWN,
+    REGENERATE,
+    FEVER,
+    DAMAGED,
+    HIT,
+    JUMP
+};
 
 class Character : public QGraphicsPixmapItem
 {
@@ -30,6 +41,7 @@ public:
     void increaseScorePerfect();
     void increaseMiss();
     void increasePass();
+    void setState(CharacterAction);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     int getFever();
@@ -40,13 +52,18 @@ public:
     int getGreat();
     int getMiss();
     int getPass();
+    int getMaxFever();
+    int getMaxLife();
     bool getJump();
     bool getAlive();
     bool getFevered();
 
 private:
-    int _life, _fever, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass;
+    QElapsedTimer *timer;
+    int _life, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass, _framesNb, _countFever, _lastElapsed;
+    float _fever;
     bool _hasJumped, _isFevered, _alive;
+    CharacterAction _state;
 };
 
 #endif // CHARACTER_H

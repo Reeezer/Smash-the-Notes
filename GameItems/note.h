@@ -5,10 +5,12 @@
 class QPixmap;
 class QPainter;
 class QWidget;
+class QElapsedTimer;
 
 enum NoteType
 {
-    NORMAL,
+    NORMALUP,
+    NORMALDOWN,
     BONUS,
     TRAP,
     SMASH
@@ -17,7 +19,7 @@ enum NoteType
 class Note : public QGraphicsPixmapItem
 {
 public:
-    Note(NoteType , int, QGraphicsItem *parent = nullptr);
+    Note(NoteType , int,QGraphicsItem *parent = nullptr);
 
     int getTimestamp();
     NoteType getNoteType();
@@ -28,16 +30,11 @@ public:
     void hit();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
-    //Pour les tests manuels
-    int _timestamp;
-    NoteType _noteType;
-
 private:
-    int _maxHits;
-    int _points;
-    int _timeout;
-    QPixmap _frames;//At this time we work with a frame, note a table of frames
-    int _hits;
+    QElapsedTimer *timer;
+    NoteType _noteType;
+    int _timestamp, _maxHits, _points, _timeout, _hits, _frameHeight, _maxFrame, _framesNb, _frameWidth, _lastElapsed;
+    QPixmap *sprite;
 };
 
 #endif // NOTE_H

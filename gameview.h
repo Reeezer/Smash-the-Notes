@@ -3,20 +3,19 @@
 
 #include <QGraphicsView>
 #include <QList>
-#include <QGraphicsItem>
-#include <QTimerEvent>
 
 const int PERFECT = 10;
 const int GREAT = 20;
-const int NOTPASSED = 80;
-const int XLINE = 100;
-const int PIXMAPHALF = 25;
+const int NOTPASSED = 140;
+const int PIXMAPHALF = 40;
 
 class QGraphicsScene;
 class QMediaPlayer;
 class QGraphicsItem;
 class QLabel;
 class QTime;
+class QElapsedTimer;
+class QGraphicsItem;
 
 #include "GameItems/character.h"
 #include "game.h"
@@ -31,10 +30,14 @@ public:
     void update();
     void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);
-    void hitSmash();
+    void hitSmash(QList<Note *> *);
     void removeNotePassed(QList<Note *> *);
     void removeNoteHitten(QList<Note *> *);
     void changeNotePosition(QList<Note *> *);
+    void changeLabel(QString, bool);
+    void applyParallax(float, QList<QGraphicsPixmapItem *> *);
+    void backgroundDisplay();
+    void rotateCrossHair();
     Note* getNextNote(QList<Note *> *);
 
 private:
@@ -44,11 +47,20 @@ private:
 
     QGraphicsScene *scene;
     QMediaPlayer *music;
+    QSoundEffect *hitEffect;
     Character *player;
-    QTime *timer;
+    QElapsedTimer *timer;
 
-    QGraphicsSimpleTextItem *timeLabel, *feverLabel, *scoreLabel, *comboLabel, *lifeLabel, *upHit, *downHit;
+    QGraphicsPixmapItem *pixUpCross, *pixDownCross;
+
+    QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel, *gameOverLabel, *pauseLabel;
+    QGraphicsRectItem *lifeRect, *feverRect, *durationRect;
+
     QList<Note *> *upNotes, *downNotes;
+    QList<QGraphicsPixmapItem *> *backgroundList;
+    int XLINE, UPLINE, DOWNLINE, _highScore, _lastElapsed, _rotationCrossHair, _countCross;
+    float _ratio;
+    bool _pause;
 };
 
 #endif // GAMEVIEW_H

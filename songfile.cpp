@@ -8,10 +8,10 @@
 #include <QRegularExpression>
 
 static NoteType columnToType[] = {
-    NoteType::NORMAL,
+    NoteType::NORMALDOWN,
     NoteType::BONUS,
     NoteType::TRAP,
-    NoteType::NORMAL,
+    NoteType::NORMALUP,
     NoteType::BONUS,
     NoteType::TRAP,
     NoteType::SMASH
@@ -81,12 +81,16 @@ bool loadFromFile(QString& path, QList<Note *> *upNotes, QList<Note *> *downNote
         int column = (x * 7) / 512;
         NoteType type = columnToType[column];
 
-        Note *new_note = new Note(type, timestamp);
-
         if (column > 2)
+        {
+            Note *new_note = new Note(type, timestamp);
             upNotes->append(new_note);
+        }
         else
+        {
+            Note *new_note = new Note(type, timestamp);
             downNotes->append(new_note);
+        }
     }
 
     qDebug() << QString::asprintf("read %d notes (%d up, %d down)", notes_tokens.size(), upNotes->size(), downNotes->size());
