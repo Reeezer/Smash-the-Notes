@@ -12,6 +12,7 @@ CONFIG += resources_big
 SOURCES += \
     GameItems/note.cpp \
     GameItems/character.cpp\
+    endscreen.cpp \
     game.cpp \
     gameview.cpp \
     gamewindow.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 HEADERS += \
     GameItems/note.h \
     GameItems/character.h\
+    endscreen.h \
     game.h \
     gameview.h \
     gamewindow.h \
