@@ -16,6 +16,7 @@ class QLabel;
 class QTime;
 class QElapsedTimer;
 class QGraphicsItem;
+class QPushButton;
 
 #include "GameItems/character.h"
 #include "game.h"
@@ -38,7 +39,11 @@ public:
     void applyParallax(float, QList<QGraphicsPixmapItem *> *);
     void backgroundDisplay();
     void rotateCrossHair();
+    void gamePause();
     Note* getNextNote(QList<Note *> *);
+
+public slots:
+    void initialize();
 
 private:
     void keyPressEvent(QKeyEvent *);
@@ -51,6 +56,8 @@ private:
     Character *player;
     QElapsedTimer *timer;
 
+    QPushButton *restartButton, *quitButton;
+
     QGraphicsPixmapItem *pixUpCross, *pixDownCross, *backgroundFever;
 
     QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel, *gameOverLabel, *pauseLabel;
@@ -58,7 +65,7 @@ private:
 
     QList<Note *> *upNotes, *downNotes;
     QList<QGraphicsPixmapItem *> *backgroundList;
-    int XLINE, UPLINE, DOWNLINE, _highScore, _lastElapsed, _rotationCrossHair, _countCross;
+    int XLINE, UPLINE, DOWNLINE, _highScore, _lastElapsed, _rotationCrossHair, _countCross, _lastJumpElapsed;
     float _ratio;
     bool _pause;
 };

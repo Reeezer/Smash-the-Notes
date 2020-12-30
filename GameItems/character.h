@@ -29,6 +29,7 @@ class Character : public QGraphicsPixmapItem
 {
 public:
     Character(QGraphicsItem *parent = nullptr);
+    void initialize();
     void damage();
     void regenerate();
     void increaseFever();

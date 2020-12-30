@@ -8,6 +8,13 @@
 Character::Character(QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent)
 {
+    timer = new QElapsedTimer();
+    timer->start();
+    initialize();
+}
+
+void Character::initialize()
+{
     _state = CharacterAction::RUN;
     _life = MAXLIFE;
     _fever = _score = _nbPerfect = _nbGreat = _framesNb = _lastElapsed = 0;
@@ -15,8 +22,7 @@ Character::Character(QGraphicsItem *parent)
     _hasJumped = _isFevered = false;
     _alive = true;
 
-    timer = new QElapsedTimer();
-    timer->start();
+    timer->restart();
 }
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
