@@ -51,7 +51,6 @@ GameView::GameView(Game *game, QWidget *parent)
     hitEffect->setSource(QUrl("qrc:/music/hit-normal.wav"));
 
     //Background
-    _lastElapsed = 0;
     _ratio = 0.0032;
     backgroundDisplay();
 
@@ -150,9 +149,7 @@ void GameView::initialize()
 {
     _pause = false;
     _rotationCrossHair = 1;
-    _countCross = 0;
-    _lastElapsed = 0;
-    _lastJumpElapsed = 0;
+    _countCross = _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
 
     for (Note *note : *upNotes)
         removeNotePassed(upNotes);
@@ -162,12 +159,18 @@ void GameView::initialize()
     loadFromFile(path, upNotes, downNotes);
     for (Note *note : *upNotes)
     {
-        note->setY(UPLINE);
+        if(note->getNoteType() == NoteType::SMASH)
+            note->setY((UPLINE + DOWNLINE) / 2);
+        else
+            note->setY(UPLINE);
         scene->addItem(note);
     }
     for (Note *note : *downNotes)
     {
-        note->setY(DOWNLINE);
+        if(note->getNoteType() == NoteType::SMASH)
+            note->setY((UPLINE + DOWNLINE) / 2);
+        else
+            note->setY(DOWNLINE);
         scene->addItem(note);
     }
 
@@ -272,37 +275,41 @@ void GameView::keyPressEvent(QKeyEvent *event)
     if(player->getAlive() && !_pause)
     {
         //Use the time of the music to know when to hit
-        //If it's a SMASH note we can smash our keyboard to hit more & quicker
         if (event->key() == Qt::Key_F || event->key() == Qt::Key_J)
+        {
             hitEffect->play();
-        //If it's not, we have to check which kind of note it is
-        if (event->key() == Qt::Key_F)
-        {
-            _lastJumpElapsed = timer->elapsed();
-            if (!player->getJump())
+
+            //If it's a SMASH note we can smash our keyboard to hit more & quicker
+            if ((!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH) || (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH))
             {
-                player->setState(CharacterAction::JUMP);
-                player->setY(UPLINE);
-                player->setJump(true);
+                if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH)
+                    hitSmash(downNotes);
+                if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH)
+                    hitSmash(upNotes);
             }
-            if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() != NoteType::SMASH)
-                hitNormal(upNotes);
-            if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH && getNextNote(upNotes)->getHit() < getNextNote(upNotes)->getMaxHits())
-                hitSmash(upNotes);
-        }
-        if (event->key() == Qt::Key_J)
-        {
-            if (player->getJump())
+            //If it's not, we have to check which kind of note it is
+            else if (event->key() == Qt::Key_F)
             {
-                // A RETIRER POUR LES JUMPS VERS LE BAS
-//                player->setState(CharacterAction::JUMP);
-                player->setY(DOWNLINE);
-                player->setJump(false);
+                _lastJumpElapsed = timer->elapsed();
+                if (!player->getJump())
+                {
+                    player->setState(CharacterAction::JUMP);
+                    player->setY(UPLINE);
+                    player->setJump(true);
+                }
+                if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() != NoteType::SMASH)
+                    hitNormal(upNotes);
             }
-            if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() != NoteType::SMASH)
-                hitNormal(downNotes);
-            if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH && getNextNote(downNotes)->getHit() < getNextNote(downNotes)->getMaxHits())
-                hitSmash(downNotes);
+            else if (event->key() == Qt::Key_J)
+            {
+                if (player->getJump())
+                {
+                    player->setY(DOWNLINE);
+                    player->setJump(false);
+                }
+                if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() != NoteType::SMASH)
+                    hitNormal(downNotes);
+            }
         }
         update();
     }
@@ -328,30 +335,37 @@ void GameView::hitNormal(QList<Note *> *Notes)
             else
                 return;
             //If the player missed a note, we don't want to errase the first one of the list but the one we can hit
-            player->setState(CharacterAction::HIT);
             removeNoteHitten(Notes);
-            player->increaseCombo();
-            if (!player->getFevered())
-                player->increaseFever();
-            if (player->getFever() == player->getMaxFever())
-            {
-                backgroundFever->setVisible(true);
-                player->setState(CharacterAction::FEVER);
-            }
+            hit();
         }
     }
 }
 
 void GameView::hitSmash(QList<Note *> *Notes)
 {
-    player->setState(CharacterAction::HIT);
+    player->setY((UPLINE + DOWNLINE) / 2);
+    player->setX(500);
+    _lastSmashElapsed = timer->elapsed();
 
+    hit();
+
+    player->increaseScore();
+    getNextNote(Notes)->hit();
+    if(getNextNote(Notes)->getHit() == NBSMASHHIT)
+        removeNotePassed(Notes);
+}
+
+void GameView::hit()
+{
+    player->setState(CharacterAction::HIT);
     player->increaseCombo();
     if (!player->getFevered())
         player->increaseFever();
-    player->increaseScore();
-
-    getNextNote(Notes)->hit();
+    if (player->getFever() == player->getMaxFever())
+    {
+        backgroundFever->setVisible(true);
+        player->setState(CharacterAction::FEVER);
+    }
 }
 
 void GameView::removeNotePassed(QList<Note *> *Notes)
@@ -378,7 +392,8 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
         for (int i = 0; i < Notes->count(); i++)
         {
             int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)3000));
-            Notes->at(i)->setX(x);
+            if((Notes->at(i)->getNoteType() != NoteType::SMASH) || (Notes->at(i)->getNoteType() == NoteType::SMASH && (Notes->at(i)->x() >= 600 || Notes->at(i)->x() <= 10)))
+                Notes->at(i)->setX(x);
             if (x <= -2 * PIXMAPHALF)
                 removeNotePassed(Notes);
         }
@@ -455,8 +470,8 @@ void GameView::rotateCrossHair()
     _countCross++;
     if(_countCross >= 15) //15 times 10ms (to be prettier & smoother)
     {
-        pixUpCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d",_rotationCrossHair) + ".png").scaled(50,50));
-        pixDownCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d",_rotationCrossHair) + ".png").scaled(50,50));
+        pixUpCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d", _rotationCrossHair) + ".png").scaled(50,50));
+        pixDownCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d", _rotationCrossHair) + ".png").scaled(50,50));
         _rotationCrossHair++;
         if(_rotationCrossHair > 3)
             _rotationCrossHair = 1;
@@ -479,7 +494,7 @@ void GameView::applyParallax(float ratio, QList<QGraphicsPixmapItem *> *backgrou
     }
 }
 
-//Update the diplay
+//Update the display
 void GameView::update()
 {
     if(!_pause)
@@ -488,10 +503,21 @@ void GameView::update()
         changeNotePosition(upNotes);
         changeNotePosition(downNotes);
 
-        //Background animation & Crosshair animation
-        if((timer->elapsed() - _lastElapsed > 10 || timer->elapsed()  - _lastElapsed < 0) && player->getAlive()) //The timer->elapsed() at the first call returns a very big number
+        if((timer->elapsed() - _lastSmashElapsed > 150 || timer->elapsed()  - _lastSmashElapsed < 0) && player->getAlive())
         {
-            _lastElapsed = timer->elapsed();
+            _lastSmashElapsed = timer->elapsed();
+
+            if(player->x() >= 500)
+            {
+                player->setX(100);
+                player->setY(DOWNLINE);
+            }
+        }
+
+        //Background animation & Crosshair animation
+        if((timer->elapsed() - _lastBackgroundElapsed > 10 || timer->elapsed()  - _lastBackgroundElapsed < 0) && player->getAlive()) //The timer->elapsed() at the first call returns a very big number
+        {
+            _lastBackgroundElapsed = timer->elapsed();
 
             applyParallax(_ratio, backgroundList);
             rotateCrossHair();
@@ -500,8 +526,13 @@ void GameView::update()
         //The character returns down after he jumped
         if((timer->elapsed() - _lastJumpElapsed > 700 || timer->elapsed()  - _lastJumpElapsed < 0) && player->getAlive())
         {
-            player->setJump(false);
-            player->setY(DOWNLINE);
+            _lastJumpElapsed = timer->elapsed();
+
+            if ((!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() != NoteType::SMASH) && (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() != NoteType::SMASH))
+            {
+                player->setJump(false);
+                player->setY(DOWNLINE);
+            }
         }
 
         //Labels actualisation

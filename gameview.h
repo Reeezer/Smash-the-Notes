@@ -8,6 +8,7 @@ const int PERFECT = 10;
 const int GREAT = 20;
 const int NOTPASSED = 140;
 const int PIXMAPHALF = 40;
+const int NBSMASHHIT = 20;
 
 class QGraphicsScene;
 class QMediaPlayer;
@@ -40,6 +41,7 @@ public:
     void backgroundDisplay();
     void rotateCrossHair();
     void gamePause();
+    void hit();
     Note* getNextNote(QList<Note *> *);
 
 public slots:
@@ -65,7 +67,7 @@ private:
 
     QList<Note *> *upNotes, *downNotes;
     QList<QGraphicsPixmapItem *> *backgroundList;
-    int XLINE, UPLINE, DOWNLINE, _highScore, _lastElapsed, _rotationCrossHair, _countCross, _lastJumpElapsed;
+    int XLINE, UPLINE, DOWNLINE, _highScore, _lastBackgroundElapsed, _rotationCrossHair, _countCross, _lastJumpElapsed, _lastSmashElapsed;
     float _ratio;
     bool _pause;
 };

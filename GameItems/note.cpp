@@ -105,7 +105,10 @@ void Note::hit() {_hits++;}
 
 void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(10, 10, 80, 80, *sprite, _framesNb * _frameWidth, 0, _frameWidth, _frameHeight);
+    if(_noteType == NoteType::SMASH)
+        painter->drawPixmap(10, -10, 150, 150, *sprite, _framesNb * _frameWidth, 0, _frameWidth, _frameHeight);
+    else
+        painter->drawPixmap(10, 10, 80, 80, *sprite, _framesNb * _frameWidth, 0, _frameWidth, _frameHeight);
     if(timer->elapsed() - _lastElapsed > 50)
     {
         _lastElapsed = timer->elapsed();
