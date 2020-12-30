@@ -328,30 +328,30 @@ void GameView::hitNormal(QList<Note *> *Notes)
             else
                 return;
             //If the player missed a note, we don't want to errase the first one of the list but the one we can hit
-            player->setState(CharacterAction::HIT);
             removeNoteHitten(Notes);
-            player->increaseCombo();
-            if (!player->getFevered())
-                player->increaseFever();
-            if (player->getFever() == player->getMaxFever())
-            {
-                backgroundFever->setVisible(true);
-                player->setState(CharacterAction::FEVER);
-            }
+            hit();
         }
     }
 }
 
 void GameView::hitSmash(QList<Note *> *Notes)
 {
-    player->setState(CharacterAction::HIT);
+    hit();
+    player->increaseScore();
+    getNextNote(Notes)->hit();
+}
 
+void GameView::hit()
+{
+    player->setState(CharacterAction::HIT);
     player->increaseCombo();
     if (!player->getFevered())
         player->increaseFever();
-    player->increaseScore();
-
-    getNextNote(Notes)->hit();
+    if (player->getFever() == player->getMaxFever())
+    {
+        backgroundFever->setVisible(true);
+        player->setState(CharacterAction::FEVER);
+    }
 }
 
 void GameView::removeNotePassed(QList<Note *> *Notes)

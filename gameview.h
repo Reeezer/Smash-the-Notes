@@ -40,6 +40,7 @@ public:
     void backgroundDisplay();
     void rotateCrossHair();
     void gamePause();
+    void hit();
     Note* getNextNote(QList<Note *> *);
 
 public slots:
