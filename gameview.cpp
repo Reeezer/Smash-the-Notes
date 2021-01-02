@@ -133,7 +133,6 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     scene->addWidget(quitButton);
 
     quitButton->setGeometry(this->width() / 4 + 280, this->height() / 2 + 30, 100, 50);
-    connect(restartButton, &QPushButton::clicked, this, &GameView::initialize);
 
     //Start
     scene->addItem(player);
@@ -142,6 +141,10 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     timer->start();
     this->startTimer(1);
     initialize();
+
+    //Connect
+    connect(restartButton, &QPushButton::clicked, this, &GameView::initialize);
+    connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicChangeState);
 }
 
 void GameView::initialize()
@@ -181,10 +184,10 @@ void GameView::initialize()
 
     player->initialize();
 
+    timer->restart();
     music->stop();
     music->play();
     update();
-    timer->restart();
 }
 
 //update of the display
@@ -490,6 +493,12 @@ void GameView::applyParallax(float ratio, QList<QGraphicsPixmapItem *> *backgrou
         if (i % 2 == 0 && ratio > 0.0005) //The same layer is twice in the list, then the ratio as to be decreased on every new layer
             ratio -= 0.0005;
     }
+}
+
+void GameView::musicChangeState()
+{
+    if(music->state() == QMediaPlayer::StoppedState && timer->elapsed() > 1000) //When we restart the game, we stop the music and we don't want to see the end screen
+        emit gameFinished();
 }
 
 //Update the display

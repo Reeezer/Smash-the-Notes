@@ -2,6 +2,7 @@
 
 #include <QGraphicsView>
 #include <QList>
+#include <QObject>
 
 const int PERFECT = 10;
 const int GREAT = 20;
@@ -27,6 +28,8 @@ class QSoundEffect;
 
 class GameView : public QGraphicsView
 {
+    Q_OBJECT
+
 public:
     GameView(Game *game, Character *player, QWidget *parent = nullptr);
     void update();
@@ -42,10 +45,14 @@ public:
     void rotateCrossHair();
     void gamePause();
     void hit();
+    void initialize();
     Note *getNextNote(QList<Note *> *);
 
 public slots:
-    void initialize();
+    void musicChangeState();
+
+signals:
+    void gameFinished();
 
 private:
     void keyPressEvent(QKeyEvent *);

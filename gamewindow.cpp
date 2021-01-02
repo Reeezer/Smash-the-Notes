@@ -10,15 +10,23 @@ GameWindow::GameWindow(QWidget *parent)
     Game *game = new Game();
     Character *player = new Character();
 
-    GameView *gameView = new GameView(game, player, this);
+    gameView = new GameView(game, player, this);
     addWidget(gameView);
 
-    EndScreen *endScreen = new EndScreen(game, player, this);
+    endScreen = new EndScreen(game, player, this);
     addWidget(endScreen);
 
-    setCurrentWidget(endScreen);
+    setCurrentWidget(gameView);
+
+    //Connect
+    connect(gameView, &GameView::gameFinished, this, &GameWindow::displayEndScreen);
 }
 
 GameWindow::~GameWindow()
 {
+}
+
+void GameWindow::displayEndScreen()
+{
+    setCurrentWidget(endScreen);
 }

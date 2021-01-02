@@ -13,5 +13,17 @@ class GameWindow : public QStackedWidget
 public:
     GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
+
+public slots:
+    void displayEndScreen();
+//    void displayGame();
+//    void displayMainMenu();
+//    void displaySongDetails();
+//    void displaySettings();
+//    void displaySplashScreen();
+
+private:
+    GameView *gameView;
+    EndScreen *endScreen;
 };
 
