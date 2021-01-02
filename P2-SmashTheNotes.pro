@@ -17,8 +17,10 @@ SOURCES += \
     main.cpp \
     mainmenu.cpp \
     mainsettings.cpp \
+    song.cpp \
     songdetails.cpp \
     songfile.cpp \
+    songitem.cpp \
     splashscreen.cpp \
 
 HEADERS += \
@@ -29,8 +31,10 @@ HEADERS += \
     gamewindow.h \
     mainmenu.h \
     mainsettings.h \
+    song.h \
     songdetails.h \
     songfile.h \
+    songitem.h \
     splashscreen.h \
 
 # Default rules for deployment.

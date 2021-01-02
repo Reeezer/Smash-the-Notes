@@ -50,7 +50,7 @@ GameView::GameView(Game *game, QWidget *parent)
     upNotes = new QList<Note *>();
     downNotes = new QList<Note *>();
 
-    QString path = "C:\\Users\\leon.muller\\Desktop\\.Projet\\jeu-de-rythme\\LFZ_-_Popsicle_Easy.osu";
+    QString path = "C:\\Users\\ethan.millet\\Desktop\\Niveau 2\\P2\\git\\LFZ_-_Popsicle_Easy.osu";
     loadFromFile(path, upNotes, downNotes);
 
     for(Note* note:*upNotes)
