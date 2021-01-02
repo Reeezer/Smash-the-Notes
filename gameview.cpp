@@ -19,13 +19,13 @@ GameView::GameView(Game *game, QWidget *parent)
     : QGraphicsView(parent), game(game)
 {
     //Custom font
-    QFontDatabase::addApplicationFont("qrc:/font/foo.ttf");
+    QFontDatabase::addApplicationFont(":/font/foo.ttf");
     QFont Foo("Foo", 18, QFont::Normal);
 
-    QFontDatabase::addApplicationFont("qrc:/font/foo.ttf");
+    QFontDatabase::addApplicationFont(":/font/foo.ttf");
     QFont BigFoo("Foo", 70, QFont::Normal);
 
-    QFontDatabase::addApplicationFont("qrc:/font/karen.otf");
+    QFontDatabase::addApplicationFont(":/font/karen.otf");
     QFont Karen("karen", 22, QFont::Normal);
 
     //QGraphicsView & QGraphicsScene

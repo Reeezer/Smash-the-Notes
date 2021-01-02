@@ -1,7 +1,8 @@
 #pragma once
 
 #include <QWidget>
-#include <QPushButton>
+
+class QPushButton;
 
 class SplashScreen : public QWidget
 {

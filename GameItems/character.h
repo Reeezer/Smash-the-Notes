@@ -1,5 +1,4 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#pragma once
 
 const int MAXLIFE = 300;
 const int MAXFEVER = 100;
@@ -67,4 +66,3 @@ private:
     CharacterAction _state;
 };
 
-#endif // CHARACTER_H

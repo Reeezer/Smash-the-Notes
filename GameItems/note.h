@@ -1,10 +1,12 @@
 #pragma once
 
 #include <QGraphicsPixmapItem>
+
 class QPixmap;
 class QPainter;
 class QWidget;
 class QElapsedTimer;
+class QStyleOptionGraphicsItem;
 
 enum NoteType
 {

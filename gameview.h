@@ -1,5 +1,4 @@
-#ifndef GAMEVIEW_H
-#define GAMEVIEW_H
+#pragma once
 
 #include <QGraphicsView>
 #include <QList>
@@ -18,6 +17,7 @@ class QTime;
 class QElapsedTimer;
 class QGraphicsItem;
 class QPushButton;
+class QSoundEffect;
 
 #include "GameItems/character.h"
 #include "game.h"
@@ -72,4 +72,3 @@ private:
     bool _pause;
 };
 
-#endif // GAMEVIEW_H

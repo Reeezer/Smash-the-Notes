@@ -12,8 +12,10 @@ GameWindow::GameWindow(QWidget *parent)
     GameView *gameView = new GameView(game, this);
     addWidget(gameView);
 
-    EndScreen *splashScreen = new EndScreen(game, this);
-    addWidget(splashScreen);
+    EndScreen *endScreen = new EndScreen(game, this);
+    addWidget(endScreen);
+
+    setCurrentWidget(endScreen);
 }
 
 GameWindow::~GameWindow()

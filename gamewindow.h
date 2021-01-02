@@ -1,5 +1,4 @@
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#pragma once
 
 #include <QStackedWidget>
 
@@ -14,4 +13,4 @@ public:
     GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
 };
-#endif // DISPLAY_H
+
