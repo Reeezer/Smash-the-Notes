@@ -42,7 +42,7 @@ public:
     void rotateCrossHair();
     void gamePause();
     void hit();
-    Note* getNextNote(QList<Note *> *);
+    Note *getNextNote(QList<Note *> *);
 
 public slots:
     void initialize();

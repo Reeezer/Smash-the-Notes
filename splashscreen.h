@@ -1,5 +1,4 @@
-#ifndef SPLASHSCREEN_H
-#define SPLASHSCREEN_H
+#pragma once
 
 #include <QWidget>
 #include <QPushButton>
@@ -13,4 +12,3 @@ private:
     QPushButton *startButton;
 };
 
-#endif // SPLASHSCREEN_H

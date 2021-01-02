@@ -4,6 +4,7 @@
 #include <QStackedWidget>
 
 #include "gameview.h"
+#include "endscreen.h"
 
 class GameWindow : public QStackedWidget
 {

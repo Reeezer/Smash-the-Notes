@@ -1,11 +1,13 @@
-#ifndef ENDSCREEN_H
-#define ENDSCREEN_H
+#pragma once
 
+#include <QWidget>
 
-class EndScreen
+class EndScreen : public QWidget
 {
 public:
-    EndScreen();
+    EndScreen(Game *game, QWidget *parent = nullptr);
+
+private:
+
 };
 
-#endif // ENDSCREEN_H

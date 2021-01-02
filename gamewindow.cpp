@@ -5,14 +5,17 @@ GameWindow::GameWindow(QWidget *parent)
     : QStackedWidget(parent)
 {
     setWindowTitle("Smash The Notes");
-    Game *game = new Game();
-    GameView *gameView = new GameView(game, this);
+    setFixedSize(1000, 600);
 
+    Game *game = new Game();
+
+    GameView *gameView = new GameView(game, this);
     addWidget(gameView);
-    setFixedSize(1000,600);
+
+    EndScreen *splashScreen = new EndScreen(game, this);
+    addWidget(splashScreen);
 }
 
 GameWindow::~GameWindow()
 {
 }
-
