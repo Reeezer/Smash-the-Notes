@@ -28,7 +28,7 @@ class QSoundEffect;
 class GameView : public QGraphicsView
 {
 public:
-    GameView(Game *game, QWidget *parent = nullptr);
+    GameView(Game *game, Character *player, QWidget *parent = nullptr);
     void update();
     void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);

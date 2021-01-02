@@ -8,11 +8,12 @@ GameWindow::GameWindow(QWidget *parent)
     setFixedSize(1000, 600);
 
     Game *game = new Game();
+    Character *player = new Character();
 
-    GameView *gameView = new GameView(game, this);
+    GameView *gameView = new GameView(game, player, this);
     addWidget(gameView);
 
-    EndScreen *endScreen = new EndScreen(game, this);
+    EndScreen *endScreen = new EndScreen(game, player, this);
     addWidget(endScreen);
 
     setCurrentWidget(endScreen);

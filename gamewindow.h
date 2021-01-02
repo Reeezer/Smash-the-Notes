@@ -2,6 +2,7 @@
 
 #include <QStackedWidget>
 
+#include "GameItems/character.h"
 #include "gameview.h"
 #include "endscreen.h"
 

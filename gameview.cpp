@@ -15,8 +15,8 @@
 #include <QRandomGenerator>
 #include <QPushButton>
 
-GameView::GameView(Game *game, QWidget *parent)
-    : QGraphicsView(parent), game(game)
+GameView::GameView(Game *game, Character *player, QWidget *parent)
+    : QGraphicsView(parent), game(game), player(player)
 {
     //Custom font
     QFontDatabase::addApplicationFont(":/font/foo.ttf");
@@ -136,7 +136,6 @@ GameView::GameView(Game *game, QWidget *parent)
     connect(restartButton, &QPushButton::clicked, this, &GameView::initialize);
 
     //Start
-    player = new Character();
     scene->addItem(player);
     player->setPos(XLINE - 110, DOWNLINE);
 
