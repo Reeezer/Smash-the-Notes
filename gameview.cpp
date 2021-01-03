@@ -10,22 +10,18 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QSoundEffect>
-#include <QFontDatabase>
 #include <QElapsedTimer>
 #include <QRandomGenerator>
 #include <QPushButton>
+
+#include <QProgressBar>
 
 GameView::GameView(Game *game, Character *player, QWidget *parent)
     : QGraphicsView(parent), game(game), player(player)
 {
     //Custom font
-    QFontDatabase::addApplicationFont(":/font/foo.ttf");
     QFont Foo("Foo", 18, QFont::Normal);
-
-    QFontDatabase::addApplicationFont(":/font/foo.ttf");
     QFont BigFoo("Foo", 70, QFont::Normal);
-
-    QFontDatabase::addApplicationFont(":/font/karen.otf");
     QFont Karen("karen", 22, QFont::Normal);
 
     //QGraphicsView & QGraphicsScene
@@ -102,6 +98,7 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     pixDownCross = scene->addPixmap(QPixmap(":/img/Crosshair/Crosshair1.png").scaled(50, 50));
     pixDownCross->setPos(XLINE + 16, DOWNLINE + 25);
 
+    //CHANGER PAR DES QPROGRESSBAR MAIS VOIR COMMENT MARCHE LES STYLESSHEETS
     //Rect : life, fever, progress
     scene->addRect(this->width() / 10, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
     scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
@@ -270,6 +267,10 @@ void GameView::gamePause()
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
+    //TEST !!!!!!!!!!!!!!
+    if(event->key() == Qt::Key_0)
+        music->stop();
+
     //The pause mode
     if (event->key() == Qt::Key_Escape && player->getAlive())
         gamePause();

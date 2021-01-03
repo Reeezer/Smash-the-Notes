@@ -7,23 +7,25 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QString>
+#include <QDebug>
 
 EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     : QWidget(parent), game(game), player(player)
 {
-    //Black background
-    setPalette(QPalette(QPalette::Background, Qt::black));
-    setAutoFillBackground(true);
+    //Custom font
+    QFont Foo("Foo", 18, QFont::Normal);
+    QFont BigFoo("Foo", 50, QFont::Normal);
+    QFont MiddleFoo("Foo", 30, QFont::Normal);
 
     //Main layout
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
 
-    //Left
+        //Left
     QVBoxLayout *leftLayout = new QVBoxLayout;
     mainLayout->addLayout(leftLayout);
     leftLayout->setAlignment(Qt::AlignCenter);
 
-    //Up left
+            //Title left
     QHBoxLayout *titleLayout = new QHBoxLayout;
     titleLayout->setAlignment(Qt::AlignCenter);
     leftLayout->addLayout(titleLayout);
@@ -31,8 +33,9 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
 
     QLabel *title = new QLabel("Victory");
     titleLayout->addWidget(title);
+    title->setFont(BigFoo);
 
-    //Middle left
+            //Results left
     QGridLayout *labelLayout = new QGridLayout;
     leftLayout->addStretch();
     leftLayout->addLayout(labelLayout);
@@ -43,6 +46,24 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     QLabel *greatLabel = new QLabel("Great : " + QString::asprintf("%d", player->getGreat()));
     QLabel *missLabel = new QLabel("Miss : " + QString::asprintf("%d", player->getMiss()));
     QLabel *passLabel = new QLabel("Pass : " + QString::asprintf("%d", player->getPass()));
+
+    labelLayout->addWidget(scoreLabel, 0 , 0);
+    labelLayout->addWidget(highScoreLabel, 0, 1);
+    labelLayout->addWidget(perfectLabel, 1, 0);
+    labelLayout->addWidget(greatLabel, 1, 1);
+    labelLayout->addWidget(missLabel, 2, 0);
+    labelLayout->addWidget(passLabel, 2, 1);
+
+    scoreLabel->setFont(Foo);
+    highScoreLabel->setFont(Foo);
+    perfectLabel->setFont(Foo);
+    greatLabel->setFont(Foo);
+    missLabel->setFont(Foo);
+    passLabel->setFont(Foo);
+
+            //Accuracy Left
+    QVBoxLayout *accuracyLayout = new QVBoxLayout;
+    leftLayout->addLayout(accuracyLayout);
     QLabel *accuracyLabel = new QLabel("Accuracy : " + QString::asprintf("%.1f", player->getAccuracy()) + "%");
     QLabel *noteLabel = new QLabel();
     if(player->getAccuracy() > 99)
@@ -60,41 +81,33 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     else
         noteLabel->setText("D");
 
-    labelLayout->addWidget(scoreLabel, 0 ,0);
-    labelLayout->addWidget(highScoreLabel, 0, 2);
-    labelLayout->addWidget(perfectLabel, 1, 0);
-    labelLayout->addWidget(greatLabel, 1, 2);
-    labelLayout->addWidget(missLabel, 2, 0);
-    labelLayout->addWidget(passLabel, 2, 2);
-    labelLayout->addWidget(accuracyLabel, 3, 1);
-    labelLayout->addWidget(noteLabel, 4, 1);
-
+    accuracyLabel->setFont(Foo);
+    noteLabel->setFont(MiddleFoo);
     accuracyLabel->setAlignment(Qt::AlignCenter);
     noteLabel->setAlignment(Qt::AlignCenter);
 
-    //Bottom left
+    accuracyLayout->addWidget(accuracyLabel);
+    accuracyLayout->addWidget(noteLabel);
+
+            //Button left
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     leftLayout->addStretch();
     leftLayout->addLayout(buttonLayout);
     leftLayout->addStretch();
 
     QPushButton *menuButton = new QPushButton("Menu");
-    QPushButton *settingsButton = new QPushButton("Paramètres");
     QPushButton *restartButton = new QPushButton("Recommencer");
     buttonLayout->addStretch();
     buttonLayout->addWidget(menuButton);
     buttonLayout->addStretch();
-    buttonLayout->addWidget(settingsButton);
-    buttonLayout->addStretch();
     buttonLayout->addWidget(restartButton);
     buttonLayout->addStretch();
 
-    //Right
+        //Right
     QPixmap pix(":/img/Background/Fever.png");
 
     QLabel *pixmap = new QLabel;
     pixmap->setPixmap(pix);
-    pixmap->setScaledContents(true);
 
     mainLayout->addWidget(pixmap);
 }

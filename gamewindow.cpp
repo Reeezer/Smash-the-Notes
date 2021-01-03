@@ -1,9 +1,14 @@
 #include "gamewindow.h"
 #include <QDebug>
+#include <QFontDatabase>
 
 GameWindow::GameWindow(QWidget *parent)
     : QStackedWidget(parent)
 {
+    //Custom font
+    QFontDatabase::addApplicationFont(":/font/foo.ttf");
+    QFontDatabase::addApplicationFont(":/font/karen.otf");
+
     setWindowTitle("Smash The Notes");
     setFixedSize(1000, 600);
 
