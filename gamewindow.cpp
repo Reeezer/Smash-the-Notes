@@ -22,16 +22,25 @@ GameWindow::GameWindow(QWidget *parent)
     addWidget(endScreen);
 
     setCurrentWidget(gameView);
+    gameView->initialize();
 
     //Connect
     connect(gameView, &GameView::gameFinished, this, &GameWindow::displayEndScreen);
+    connect(endScreen, &EndScreen::restartGame, this, &GameWindow::displayGame);
 }
 
 GameWindow::~GameWindow()
 {
 }
 
+void GameWindow::displayGame()
+{
+    setCurrentWidget(gameView);
+    gameView->initialize();
+}
+
 void GameWindow::displayEndScreen()
 {
     setCurrentWidget(endScreen);
+    endScreen->initialize();
 }

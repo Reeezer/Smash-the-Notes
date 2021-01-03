@@ -49,7 +49,7 @@ public:
     Note *getNextNote(QList<Note *> *);
 
 public slots:
-    void musicChangeState();
+    void musicEnd();
 
 signals:
     void gameFinished();

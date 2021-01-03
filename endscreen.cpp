@@ -40,12 +40,12 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     leftLayout->addStretch();
     leftLayout->addLayout(labelLayout);
 
-    QLabel *scoreLabel = new QLabel("Score : " + QString::asprintf("%d", player->getScore()));
-    QLabel *highScoreLabel = new QLabel("High score : " + QString::asprintf("%d", 0));
-    QLabel *perfectLabel = new QLabel("Perfect : " + QString::asprintf("%d", player->getPerfect()));
-    QLabel *greatLabel = new QLabel("Great : " + QString::asprintf("%d", player->getGreat()));
-    QLabel *missLabel = new QLabel("Miss : " + QString::asprintf("%d", player->getMiss()));
-    QLabel *passLabel = new QLabel("Pass : " + QString::asprintf("%d", player->getPass()));
+    scoreLabel = new QLabel();
+    highScoreLabel = new QLabel();
+    perfectLabel = new QLabel();
+    greatLabel = new QLabel();
+    missLabel = new QLabel();
+    passLabel = new QLabel();
 
     labelLayout->addWidget(scoreLabel, 0 , 0);
     labelLayout->addWidget(highScoreLabel, 0, 1);
@@ -64,22 +64,8 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
             //Accuracy Left
     QVBoxLayout *accuracyLayout = new QVBoxLayout;
     leftLayout->addLayout(accuracyLayout);
-    QLabel *accuracyLabel = new QLabel("Accuracy : " + QString::asprintf("%.1f", player->getAccuracy()) + "%");
-    QLabel *noteLabel = new QLabel();
-    if(player->getAccuracy() > 99)
-        noteLabel->setText("S++");
-    else if(player->getAccuracy() > 95)
-        noteLabel->setText("S+");
-    else if(player->getAccuracy() > 90)
-        noteLabel->setText("S");
-    else if(player->getAccuracy() > 80)
-        noteLabel->setText("A");
-    else if(player->getAccuracy() > 70)
-        noteLabel->setText("B");
-    else if(player->getAccuracy() > 50)
-        noteLabel->setText("C");
-    else
-        noteLabel->setText("D");
+    accuracyLabel = new QLabel();
+    noteLabel = new QLabel();
 
     accuracyLabel->setFont(Foo);
     noteLabel->setFont(MiddleFoo);
@@ -96,7 +82,7 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     leftLayout->addStretch();
 
     QPushButton *menuButton = new QPushButton("Menu");
-    QPushButton *restartButton = new QPushButton("Recommencer");
+    QPushButton *restartButton = new QPushButton("Restart");
     buttonLayout->addStretch();
     buttonLayout->addWidget(menuButton);
     buttonLayout->addStretch();
@@ -104,10 +90,45 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     buttonLayout->addStretch();
 
         //Right
+    //EN ATTENDANT
     QPixmap pix(":/img/Background/Fever.png");
 
     QLabel *pixmap = new QLabel;
     pixmap->setPixmap(pix);
 
     mainLayout->addWidget(pixmap);
+
+    //Connect
+    connect(restartButton, &QPushButton::clicked, this, &EndScreen::restartGame);
+}
+
+EndScreen::~EndScreen()
+{
+}
+
+
+void EndScreen::initialize()
+{
+    scoreLabel->setText("Score : " + QString::asprintf("%d", player->getScore()));
+    highScoreLabel->setText("High score : " + QString::asprintf("%d", 0));
+    perfectLabel->setText("Perfect : " + QString::asprintf("%d", player->getPerfect()));
+    greatLabel->setText("Great : " + QString::asprintf("%d", player->getGreat()));
+    missLabel->setText("Miss : " + QString::asprintf("%d", player->getMiss()));
+    passLabel->setText("Pass : " + QString::asprintf("%d", player->getPass()));
+    accuracyLabel->setText("Accuracy : " + QString::asprintf("%.1f", player->getAccuracy()) + "%");
+
+    if(player->getAccuracy() > 99)
+        noteLabel->setText("S++");
+    else if(player->getAccuracy() > 95)
+        noteLabel->setText("S+");
+    else if(player->getAccuracy() > 90)
+        noteLabel->setText("S");
+    else if(player->getAccuracy() > 80)
+        noteLabel->setText("A");
+    else if(player->getAccuracy() > 70)
+        noteLabel->setText("B");
+    else if(player->getAccuracy() > 50)
+        noteLabel->setText("C");
+    else
+        noteLabel->setText("D");
 }

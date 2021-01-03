@@ -29,7 +29,6 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     XLINE = this->width() / 5;
     UPLINE = this->height() / 3;
     DOWNLINE = this->height() * 2 / 3;
-    this->setBackgroundBrush(Qt::black);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -137,11 +136,10 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
 
     timer->start();
     this->startTimer(1);
-    initialize();
 
     //Connect
     connect(restartButton, &QPushButton::clicked, this, &GameView::initialize);
-    connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicChangeState);
+    connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicEnd);
 }
 
 void GameView::initialize()
@@ -496,9 +494,9 @@ void GameView::applyParallax(float ratio, QList<QGraphicsPixmapItem *> *backgrou
     }
 }
 
-void GameView::musicChangeState()
+void GameView::musicEnd()
 {
-    if(music->state() == QMediaPlayer::StoppedState && timer->elapsed() > 1000) //When we restart the game, we stop the music and we don't want to see the end screen
+    if(music->state() == QMediaPlayer::StoppedState && timer->elapsed() > 100) //When we restart the game, we stop the music and we don't want to see the end screen at this moment
         emit gameFinished();
 }
 
@@ -507,7 +505,7 @@ void GameView::update()
 {
     if (!_pause)
     {
-        //Actualisation of note position
+        //Update of note position
         changeNotePosition(upNotes);
         changeNotePosition(downNotes);
 
