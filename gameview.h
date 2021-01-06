@@ -1,8 +1,8 @@
-#ifndef GAMEVIEW_H
-#define GAMEVIEW_H
+#pragma once
 
 #include <QGraphicsView>
 #include <QList>
+#include <QObject>
 
 const int PERFECT = 10;
 const int GREAT = 20;
@@ -18,6 +18,7 @@ class QTime;
 class QElapsedTimer;
 class QGraphicsItem;
 class QPushButton;
+class QSoundEffect;
 
 #include "GameItems/character.h"
 #include "game.h"
@@ -27,8 +28,10 @@ class QPushButton;
 
 class GameView : public QGraphicsView
 {
+    Q_OBJECT
+
 public:
-    GameView(Game *game, QWidget *parent = nullptr);
+    GameView(Game *game, Character *player, QWidget *parent = nullptr);
     void update();
     void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);
@@ -42,10 +45,14 @@ public:
     void rotateCrossHair();
     void gamePause();
     void hit();
-    Note* getNextNote(QList<Note *> *);
+    void initialize();
+    Note *getNextNote(QList<Note *> *);
 
 public slots:
-    void initialize();
+    void musicEnd();
+
+signals:
+    void gameFinished();
 
 private:
     void keyPressEvent(QKeyEvent *);
@@ -72,4 +79,3 @@ private:
     bool _pause;
 };
 
-#endif // GAMEVIEW_H

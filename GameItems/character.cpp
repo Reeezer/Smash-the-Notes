@@ -17,7 +17,13 @@ void Character::initialize()
 {
     _state = CharacterAction::RUN;
     _life = MAXLIFE;
-    _fever = _score = _nbPerfect = _nbGreat = _framesNb = _lastElapsed = 0;
+    _fever = _score = _nbPerfect = _nbGreat = _framesNb = _lastElapsed = _accuracy = _nbPass = _nbMiss = 0;
+
+    //TEST !!!!!!!!!!!!!!!!!!!!!!!
+    _nbGreat = 50;
+    _nbMiss = _nbPass = 30;
+    _nbPerfect = 5;
+
     _combo = 1;
     _hasJumped = _isFevered = false;
     _alive = true;
@@ -115,27 +121,27 @@ void Character::feverModeDecrease()
 void Character::increaseScorePerfect()
 {
     if(_isFevered)
-        _score += 500 * _combo;
+        _score += 500;
     else
-        _score += 200 * _combo;
+        _score += 200;
     _nbPerfect++;
 }
 
 void Character::increaseScoreGreat()
 {
     if(_isFevered)
-        _score += 300 * _combo;
+        _score += 300;
     else
-        _score += 100 * _combo;
+        _score += 100;
     _nbGreat++;
 }
 
 void Character::increaseScore()
 {
     if(_isFevered)
-        _score += 150 * _combo;
+        _score += 150;
     else
-    _score += 50 * _combo;
+        _score += 50;
 }
 
 void Character::setState(CharacterAction stateSource)
@@ -163,6 +169,7 @@ int Character::getMiss() {return _nbMiss;}
 int Character::getPass() {return _nbPass;}
 int Character::getMaxLife() {return MAXLIFE;}
 int Character::getMaxFever() {return MAXFEVER;}
+float Character::getAccuracy() {return 100 * (_nbPerfect + (0.75 * _nbGreat)) / (_nbGreat + _nbPerfect + _nbMiss + _nbPass);}
 bool Character::getJump() {return _hasJumped;}
 bool Character::getAlive() {return _alive;}
 bool Character::getFevered() {return _isFevered;}

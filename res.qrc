@@ -143,5 +143,6 @@
         <file>img/Crosshair/Crosshair2.png</file>
         <file>img/Crosshair/Crosshair3.png</file>
         <file>img/Background/Fever.png</file>
+        <file>img/Background/EndScreen.png</file>
     </qresource>
 </RCC>

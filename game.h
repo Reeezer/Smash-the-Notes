@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 class QPixmap;
 class QString;
@@ -29,4 +28,3 @@ private:
     QSoundEffect **soundEffects;
 };
 
-#endif // GAME_H

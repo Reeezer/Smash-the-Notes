@@ -1,11 +1,11 @@
-#ifndef MAINMENU_H
-#define MAINMENU_H
+#pragma once
 
 #include <QWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QListWidget>
-#include <QMediaPlayer>
+
+class QLabel;
+class QPushButton;
+class QListWidget;
+class QMediaPlayer;
 
 #include "game.h"
 
@@ -29,4 +29,3 @@ private:
     QMediaPlayer *musicPreview;
 };
 
-#endif // MAINMENU_H

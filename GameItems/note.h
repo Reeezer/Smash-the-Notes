@@ -1,11 +1,12 @@
-#ifndef NOTE_H
-#define NOTE_H
+#pragma once
 
 #include <QGraphicsPixmapItem>
+
 class QPixmap;
 class QPainter;
 class QWidget;
 class QElapsedTimer;
+class QStyleOptionGraphicsItem;
 
 enum NoteType
 {
@@ -37,4 +38,3 @@ private:
     QPixmap *sprite;
 };
 
-#endif // NOTE_H
