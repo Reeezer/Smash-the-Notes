@@ -12,10 +12,13 @@
 EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     : QWidget(parent), game(game), player(player)
 {
+    setAutoFillBackground(true);
+    setPalette(QPalette(Qt::black));
+
     //Custom font
     QFont Foo("Foo", 18, QFont::Normal);
     QFont BigFoo("Foo", 50, QFont::Normal);
-    QFont MiddleFoo("Foo", 30, QFont::Normal);
+    QFont MiddleFoo("Foo", 40, QFont::Normal);
 
     //Main layout
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -90,11 +93,10 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     buttonLayout->addStretch();
 
         //Right
-    //EN ATTENDANT
-    QPixmap pix(":/img/Background/Fever.png");
+    QPixmap pix(":/img/Background/EndScreen.png");
 
     QLabel *pixmap = new QLabel;
-    pixmap->setPixmap(pix);
+    pixmap->setPixmap(pix.scaled(450, 600));
 
     mainLayout->addWidget(pixmap);
 

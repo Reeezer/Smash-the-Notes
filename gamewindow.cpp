@@ -17,9 +17,11 @@ GameWindow::GameWindow(QWidget *parent)
 
     gameView = new GameView(game, player, this);
     addWidget(gameView);
+    gameView->resize(this->width(), this->height());
 
     endScreen = new EndScreen(game, player, this);
     addWidget(endScreen);
+    endScreen->resize(this->width(), this->height());
 
     setCurrentWidget(gameView);
     gameView->initialize();
