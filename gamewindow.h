@@ -4,6 +4,8 @@
 #include <QStackedWidget>
 
 #include "gameview.h"
+#include "mainsettings.h"
+#include "controlsettings.h"
 
 class GameWindow : public QStackedWidget
 {

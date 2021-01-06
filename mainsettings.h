@@ -6,7 +6,9 @@
 #include <QPushButton>
 #include <QSlider>
 #include <QLineEdit>
+#include <QFormLayout>
 
+#include "pathwidget.h"
 #include "game.h"
 
 class MainSettings : public QWidget
@@ -20,8 +22,7 @@ private:
     QSpinBox *delaySpinBox;
     QPushButton *inputButton;
     QSlider *volumeSlider;
-    QLineEdit *mapPathText;
-    QPushButton *mapPathButton;
+    PathWidget *pathWidget;
 };
 
 #endif // MAINSETTINGS_H

@@ -11,12 +11,14 @@ CONFIG += c++11
 SOURCES += \
     GameItems\note.cpp \
     GameItems\character.cpp\
+    controlsettings.cpp \
     game.cpp \
     gameview.cpp \
     gamewindow.cpp \
     main.cpp \
     mainmenu.cpp \
     mainsettings.cpp \
+    pathwidget.cpp \
     songdetails.cpp \
     songfile.cpp \
     splashscreen.cpp \
@@ -24,11 +26,13 @@ SOURCES += \
 HEADERS += \
     GameItems\note.h \
     GameItems\character.h\
+    controlsettings.h \
     game.h \
     gameview.h \
     gamewindow.h \
     mainmenu.h \
     mainsettings.h \
+    pathwidget.h \
     songdetails.h \
     songfile.h \
     splashscreen.h \
