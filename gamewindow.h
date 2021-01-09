@@ -12,5 +12,8 @@ class GameWindow : public QStackedWidget
 public:
     GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
+
+private:
+    Game _game;
 };
 #endif // DISPLAY_H

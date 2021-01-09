@@ -4,6 +4,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
 CONFIG += c++11
 CONFIG += resources_big
+CONFIG += console
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -12,6 +13,7 @@ CONFIG += resources_big
 SOURCES += \
     GameItems/note.cpp \
     GameItems/character.cpp\
+    animatable.cpp \
     game.cpp \
     gameview.cpp \
     gamewindow.cpp \
@@ -25,6 +27,7 @@ SOURCES += \
 HEADERS += \
     GameItems/note.h \
     GameItems/character.h\
+    animatable.h \
     game.h \
     gameview.h \
     gamewindow.h \

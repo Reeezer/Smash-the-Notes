@@ -10,7 +10,6 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QSoundEffect>
-#include <QFontDatabase>
 #include <QElapsedTimer>
 #include <QRandomGenerator>
 
@@ -18,16 +17,8 @@ GameView::GameView(Game *game, QWidget *parent)
     : QGraphicsView(parent), game(game)
 {
     _pause = false;
-
     //Custom font
-    QFontDatabase::addApplicationFont("qrc:/font/foo.ttf");
-    QFont Foo("Foo", 18, QFont::Normal);
 
-    QFontDatabase::addApplicationFont("qrc:/font/foo.ttf");
-    QFont BigFoo("Foo", 70, QFont::Normal);
-
-    QFontDatabase::addApplicationFont("qrc:/font/karen.otf");
-    QFont Karen("karen", 22, QFont::Normal);
 
     //QGraphicsView & QGraphicsScene
     resize(1000, 600);
@@ -69,14 +60,14 @@ GameView::GameView(Game *game, QWidget *parent)
     upLabel = new QGraphicsSimpleTextItem();
     downLabel = new QGraphicsSimpleTextItem();
 
-    combo->setFont(Foo);
-    comboLabel->setFont(Foo);
-    score->setFont(Foo);
-    scoreLabel->setFont(Foo);
-    highScore->setFont(Foo);
-    highScoreLabel->setFont(Foo);
-    upLabel->setFont(Karen);
-    downLabel->setFont(Karen);
+    combo->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    comboLabel->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    score->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    scoreLabel->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    highScore->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    highScoreLabel->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    upLabel->setFont(game->fonts[FontType::ACCURACY]);
+    downLabel->setFont(game->fonts[FontType::ACCURACY]);
 
     scene->addItem(comboLabel);
     scene->addItem(combo);
@@ -116,7 +107,7 @@ GameView::GameView(Game *game, QWidget *parent)
     upNotes = new QList<Note *>();
     downNotes = new QList<Note *>();
 
-    QString path = "C:\\Users\\leon.muller\\Desktop\\.Projet\\jeu-de-rythme\\LFZ_-_Popsicle_Easy.osu";
+    QString path = "/home/frostblue/Development/SmashTheNotes/LFZ_-_Popsicle_Easy.osu";
     loadFromFile(path, upNotes, downNotes);
 
     for (Note *note : *upNotes)
@@ -133,19 +124,19 @@ GameView::GameView(Game *game, QWidget *parent)
 
     //Game Over label & Pause label (at first invisible)
     gameOverLabel = new QGraphicsSimpleTextItem("Game Over");
-    gameOverLabel->setFont(BigFoo);
+    gameOverLabel->setFont(game->fonts[FontType::NORMAL_LARGE]);
     scene->addItem(gameOverLabel);
     gameOverLabel->setPos(this->width() / 4, this->height() / 3);
     gameOverLabel->setVisible(false);
 
     pauseLabel = new QGraphicsSimpleTextItem("Pause");
-    pauseLabel->setFont(BigFoo);
+    pauseLabel->setFont(game->fonts[FontType::NORMAL_LARGE]);
     scene->addItem(pauseLabel);
     pauseLabel->setPos(this->width() / 3, this->height() / 3);
     pauseLabel->setVisible(false);
 
     //Start
-    player = new Character();
+    player = new Character(&(game->player));
     scene->addItem(player);
     player->setPos(XLINE - 110, DOWNLINE);
 

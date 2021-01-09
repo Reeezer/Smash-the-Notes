@@ -5,8 +5,8 @@
 #include <QDebug>
 #include <QElapsedTimer>
 
-Character::Character(QGraphicsItem *parent)
-    : QGraphicsPixmapItem(parent)
+Character::Character(Animatable (*frames)[CHARACTERACTION_ESIZE], QGraphicsItem *parent)
+    : QGraphicsPixmapItem(parent), _frames(frames)
 {
     _state = CharacterAction::RUN;
     _life = MAXLIFE;
@@ -21,51 +21,12 @@ Character::Character(QGraphicsItem *parent)
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    int maxFrame;
-    switch (_state)
-    {
-    case CharacterAction::RUN:
-        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Run/run" + QString::asprintf("%d", _framesNb) + ".png"));
-        maxFrame = 15;
-        break;
-    case CharacterAction::DAMAGED:
-        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Damage/damage" + QString::asprintf("%d", _framesNb) + ".png"));
-        maxFrame = 11;
-        break;
-    case CharacterAction::JUMP:
-        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Jump/jump" + QString::asprintf("%d", _framesNb) + ".png"));
-        maxFrame = 24;
-        break;
-    case CharacterAction::DOWN:
-        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Down/down.png"));
-        maxFrame = 0;
-        break;
-    case CharacterAction::REGENERATE:
-        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Regenerate/regenerate" + QString::asprintf("%d", _framesNb) + ".png"));
-        maxFrame = 16;
-        break;
-    case CharacterAction::FEVER:
-        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Fever/fever" + QString::asprintf("%d", _framesNb) + ".png"));
-        maxFrame = 13;
-        break;
-    case CharacterAction::HIT:
-        painter->drawPixmap(-125, -140, 300, 300, QPixmap(":/img/Character/Hit/hit" + QString::asprintf("%d", _framesNb) + ".png"));
-        maxFrame = 15;
-        break;
-    default:
-        qDebug() << "Wrong action";
-        break;
-    }
-    if(timer->elapsed() - _lastElapsed > 30)
-    {
-        _lastElapsed = timer->elapsed();
-        _framesNb++;
-    }
-    if(_framesNb > maxFrame)
+    painter->drawPixmap(-125, -140, 300, 300, (*_frames)[_state].currentPixmap());
+
+    if((*_frames)[_state].update(timer->elapsed()))
     {
         if(_state != CharacterAction::DOWN)
             _state = CharacterAction::RUN;
-        _framesNb = 0;
     }
 }
 
@@ -134,11 +95,12 @@ void Character::increaseScore()
 
 void Character::setState(CharacterAction stateSource)
 {
+    (*_frames)[_state].reset();
     _state = stateSource;
     if(stateSource == CharacterAction::HIT)
-        _framesNb = 9;
+        (*_frames)[_state].reset(9);
     else
-        _framesNb = 0;
+        (*_frames)[_state].reset();
 }
 
 void Character::increaseCombo() {_combo++;}
