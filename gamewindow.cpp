@@ -16,7 +16,10 @@ GameWindow::GameWindow(QWidget *parent)
     ControlSettings *controlSettings = new ControlSettings(game, this);
     addWidget(controlSettings);
 
-    setCurrentWidget(controlSettings);
+    SplashScreen *splashScreen = new SplashScreen(this);
+    addWidget(splashScreen);
+
+    setCurrentWidget(splashScreen);
 
     resize(800,400);
 

@@ -6,6 +6,7 @@
 #include "gameview.h"
 #include "mainsettings.h"
 #include "controlsettings.h"
+#include "splashscreen.h"
 
 class GameWindow : public QStackedWidget
 {
