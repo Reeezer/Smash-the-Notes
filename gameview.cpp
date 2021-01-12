@@ -54,12 +54,12 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     upLabel = new QGraphicsSimpleTextItem();
     downLabel = new QGraphicsSimpleTextItem();
 
-    combo->setFont(game->fonts[FontType::NORMAL_SMALL]);
-    comboLabel->setFont(game->fonts[FontType::NORMAL_SMALL]);
-    score->setFont(game->fonts[FontType::NORMAL_SMALL]);
-    scoreLabel->setFont(game->fonts[FontType::NORMAL_SMALL]);
-    highScore->setFont(game->fonts[FontType::NORMAL_SMALL]);
-    highScoreLabel->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    combo->setFont(game->fonts[FontType::NORMAL_18]);
+    comboLabel->setFont(game->fonts[FontType::NORMAL_18]);
+    score->setFont(game->fonts[FontType::NORMAL_18]);
+    scoreLabel->setFont(game->fonts[FontType::NORMAL_18]);
+    highScore->setFont(game->fonts[FontType::NORMAL_18]);
+    highScoreLabel->setFont(game->fonts[FontType::NORMAL_18]);
     upLabel->setFont(game->fonts[FontType::ACCURACY]);
     downLabel->setFont(game->fonts[FontType::ACCURACY]);
 
@@ -122,13 +122,13 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
 
     //Game Over label & Pause label with buttons (at first invisible)
     gameOverLabel = new QGraphicsSimpleTextItem("Game Over");
-    gameOverLabel->setFont(game->fonts[NORMAL_LARGE]);
+    gameOverLabel->setFont(game->fonts[NORMAL_70]);
     gameOverLabel->setZValue(1000);
     scene->addItem(gameOverLabel);
     gameOverLabel->setPos(this->width() / 4, this->height() / 3);
 
     pauseLabel = new QGraphicsSimpleTextItem("Pause");
-    pauseLabel->setFont(game->fonts[NORMAL_LARGE]);
+    pauseLabel->setFont(game->fonts[NORMAL_70]);
     pauseLabel->setZValue(1000);
     scene->addItem(pauseLabel);
     pauseLabel->setPos(this->width() / 3, this->height() / 3);

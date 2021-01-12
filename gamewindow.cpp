@@ -26,8 +26,9 @@ GameWindow::GameWindow(QWidget *parent)
     QObject::connect(_gameView, &GameView::gameFinished, this, &GameWindow::displayEndScreen);
     QObject::connect(_endScreen, &EndScreen::restartGame, this, &GameWindow::restartGame);
 
-    setCurrentWidget(_gameView);
     _gameView->newGame();
+    setCurrentWidget(_endScreen);
+    _endScreen->initialize();
 }
 
 GameWindow::~GameWindow()
@@ -38,18 +39,18 @@ GameWindow::~GameWindow()
 
 void GameWindow::restartGame()
 {
-    setCurrentWidget(_gameView);
     _gameView->initialize();
+    setCurrentWidget(_gameView);
 }
 
 void GameWindow::displayGame()
 {
-    setCurrentWidget(_gameView);
     _gameView->newGame();
+    setCurrentWidget(_gameView);
 }
 
 void GameWindow::displayEndScreen()
 {
-    setCurrentWidget(_endScreen);
     _endScreen->initialize();
+    setCurrentWidget(_endScreen);
 }
