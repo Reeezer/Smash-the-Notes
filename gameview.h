@@ -45,10 +45,11 @@ public:
     void rotateCrossHair();
     void gamePause();
     void hit();
-    void initialize();
     Note *getNextNote(QList<Note *> *);
 
 public slots:
+    void newGame();
+    void initialize();
     void musicEnd();
 
 signals:

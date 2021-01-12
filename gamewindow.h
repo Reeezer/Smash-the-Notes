@@ -17,6 +17,7 @@ public:
 public slots:
     void displayEndScreen();
     void displayGame();
+    void restartGame();
 //    void displayMainMenu();
 //    void displaySongDetails();
 //    void displaySettings();

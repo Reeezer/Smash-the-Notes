@@ -54,7 +54,6 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     upLabel = new QGraphicsSimpleTextItem();
     downLabel = new QGraphicsSimpleTextItem();
 
-
     combo->setFont(game->fonts[FontType::NORMAL_SMALL]);
     comboLabel->setFont(game->fonts[FontType::NORMAL_SMALL]);
     score->setFont(game->fonts[FontType::NORMAL_SMALL]);
@@ -154,11 +153,8 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     QObject::connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicEnd);
 }
 
-void GameView::initialize()
+void GameView::newGame()
 {
-    _pause = false;
-    _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
-
     //Background
     if(backgroundList->size() > 0)
     {
@@ -168,6 +164,14 @@ void GameView::initialize()
         backgroundList->clear();
     }
     backgroundDisplay();
+
+    initialize();
+}
+
+void GameView::initialize()
+{
+    _pause = false;
+    _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
 
     //Notes
     for (Note *note : *upNotes)
@@ -487,15 +491,8 @@ void GameView::backgroundDisplay()
         backgroundList->push_front(pix2);
     }
 
-    for(int i = 1; i < backgroundList->size(); i+=2)
-    {
-        backgroundList->at(i)->setZValue(-10 * (i+1));
-    }
-
-    for(int i = 0; i < backgroundList->size(); i+=2)
-    {
-        backgroundList->at(i)->setZValue(-10 * (i+1));
-    }
+    for(int i = 0; i < backgroundList->size(); i++)
+        backgroundList->at(i)->setZValue(-10 * (i + 1));
 }
 
 //Crosshair animation
