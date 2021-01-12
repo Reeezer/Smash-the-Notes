@@ -14,7 +14,7 @@ public:
     Animatable();
     Animatable(QString, int, int);
 
-    bool update(int, bool once = false);
+    bool update(int);
     void reset(int value = 0);
     QPixmap currentPixmap();
 

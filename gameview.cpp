@@ -19,7 +19,6 @@ GameView::GameView(Game *game, QWidget *parent)
     _pause = false;
     //Custom font
 
-
     //QGraphicsView & QGraphicsScene
     resize(1000, 600);
     XLINE = this->width() / 5;
@@ -107,7 +106,7 @@ GameView::GameView(Game *game, QWidget *parent)
     upNotes = new QList<Note *>();
     downNotes = new QList<Note *>();
 
-    QString path = "/home/frostblue/Development/SmashTheNotes/LFZ_-_Popsicle_Easy.osu";
+    QString path = "C:\\dev\\HS20\\Qt-P2\\P2-SmashTheNotes\\LFZ_-_Popsicle_Easy.osu";
     loadFromFile(path, upNotes, downNotes);
 
     for (Note *note : *upNotes)
@@ -136,7 +135,9 @@ GameView::GameView(Game *game, QWidget *parent)
     pauseLabel->setVisible(false);
 
     //Start
-    player = new Character(&(game->player));
+
+    /* player */
+    player = new Character();
     scene->addItem(player);
     player->setPos(XLINE - 110, DOWNLINE);
 

@@ -5,8 +5,8 @@
 #include <QDebug>
 #include <QElapsedTimer>
 
-Character::Character(Animatable (*frames)[CHARACTERACTION_ESIZE], QGraphicsItem *parent)
-    : QGraphicsPixmapItem(parent), _frames(frames)
+Character::Character(QGraphicsItem *parent)
+    : QGraphicsPixmapItem(parent)
 {
     _state = CharacterAction::RUN;
     _life = MAXLIFE;
@@ -15,15 +15,22 @@ Character::Character(Animatable (*frames)[CHARACTERACTION_ESIZE], QGraphicsItem 
     _hasJumped = _isFevered = false;
     _alive = true;
 
+    _frames[RUN] = Animatable(":/img/Character/Run/run%d.png", 15, 30);
+    _frames[DOWN] = Animatable(":/img/Character/Down/down%d.png", 1, 30);
+    _frames[REGENERATE] = Animatable(":/img/Character/Regenerate/regenerate%d.png", 16, 30);
+    _frames[FEVER] = Animatable(":/img/Character/Fever/fever%d.png", 13, 30);
+    _frames[DAMAGED] = Animatable(":/img/Character/Damage/damage%d.png", 11, 30);
+    _frames[HIT] = Animatable(":/img/Character/Hit/hit%d.png", 15, 30);
+    _frames[JUMP] = Animatable(":/img/Character/Jump/jump%d.png", 24, 30);
+
     timer = new QElapsedTimer();
     timer->start();
 }
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(-125, -140, 300, 300, (*_frames)[_state].currentPixmap());
-
-    if((*_frames)[_state].update(timer->elapsed()))
+    painter->drawPixmap(-125, -140, 300, 300, _frames[_state].currentPixmap());
+    if(_frames[_state].update(timer->elapsed()))
     {
         if(_state != CharacterAction::DOWN)
             _state = CharacterAction::RUN;
@@ -95,12 +102,12 @@ void Character::increaseScore()
 
 void Character::setState(CharacterAction stateSource)
 {
-    (*_frames)[_state].reset();
+    _frames[_state].reset();
     _state = stateSource;
     if(stateSource == CharacterAction::HIT)
-        (*_frames)[_state].reset(9);
+        _frames[_state].reset(9);
     else
-        (*_frames)[_state].reset();
+        _frames[_state].reset();
 }
 
 void Character::increaseCombo() {_combo++;}

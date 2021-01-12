@@ -31,7 +31,7 @@ enum CharacterAction
 class Character : public QGraphicsPixmapItem
 {
 public:
-    Character(Animatable (*frames)[CHARACTERACTION_ESIZE], QGraphicsItem *parent = nullptr);
+    Character(QGraphicsItem *parent = nullptr);
     void damage();
     void regenerate();
     void increaseFever();
@@ -68,7 +68,7 @@ private:
     bool _hasJumped, _isFevered, _alive;
     CharacterAction _state;
 
-    Animatable (*_frames)[CHARACTERACTION_ESIZE];
+    Animatable _frames[CHARACTERACTION_ESIZE];
 };
 
 #endif // CHARACTER_H

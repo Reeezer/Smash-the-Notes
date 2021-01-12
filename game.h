@@ -30,12 +30,7 @@ struct Game
     int delay;
     int volume;
 
-    QPixmap **sprites;
-    QSoundEffect **soundEffects;
-
-    // FIXME work in progress starts here
     QFont fonts[FONT_ESIZE];
-    Animatable player[CHARACTERACTION_ESIZE];
 };
 
 bool loadRessources(Game *);
