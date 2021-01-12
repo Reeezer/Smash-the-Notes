@@ -27,8 +27,7 @@ GameWindow::GameWindow(QWidget *parent)
     QObject::connect(_endScreen, &EndScreen::restartGame, this, &GameWindow::restartGame);
 
     _gameView->newGame();
-    setCurrentWidget(_endScreen);
-    _endScreen->initialize();
+    setCurrentWidget(_gameView);
 }
 
 GameWindow::~GameWindow()

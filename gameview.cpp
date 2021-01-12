@@ -261,15 +261,9 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
         else
         {
             if (getNextNote(Notes)->getNoteType() == NoteType::TRAP)
-            {
                 changeLabel("PASS", false);
-                player->increasePass();
-            }
             else
-            {
                 changeLabel("MISS", false);
-                player->increaseMiss();
-            }
         }
     }
 }
@@ -422,8 +416,14 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
             int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)3000));
             if ((Notes->at(i)->getNoteType() != NoteType::SMASH) || (Notes->at(i)->getNoteType() == NoteType::SMASH && (Notes->at(i)->x() >= 600 || Notes->at(i)->x() <= 10)))
                 Notes->at(i)->setX(x);
-            if (x <= -2 * PIXMAPHALF)
+            if (x <= 0)
+            {
+                if(Notes->first()->getNoteType() == NoteType::TRAP)
+                    player->increasePass();
+                else
+                    player->increaseMiss();
                 removeNotePassed(Notes);
+            }
         }
     }
 }
@@ -596,6 +596,9 @@ void GameView::update()
             player->feverModeDecrease();
         if (!player->getFever() && backgroundFever->isVisible())
             backgroundFever->setVisible(false);
+
+        qDebug() << music->position() << " - " << music->duration();
+        qDebug() << "S:" << player->getScore() << " - P:" << player->getPerfect() << " - G:" << player->getGreat() << " - M:" << player->getMiss() << " - P:" << player->getPass();
 
         scene->update();
     }
