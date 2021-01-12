@@ -1,12 +1,14 @@
 #pragma once
 
 #include <QWidget>
+#include <QSpinBox>
+#include <QPushButton>
+#include <QSlider>
+#include <QLineEdit>
+#include <QFormLayout>
+#include <QObject>
 
-class QSpinBox;
-class QPushButton;
-class QSlider;
-class QLineEdit;
-
+#include "pathwidget.h"
 #include "game.h"
 
 class MainSettings : public QWidget
@@ -21,6 +23,13 @@ private:
     QPushButton *inputButton;
     QPushButton *mapPathButton;
     QSlider *volumeSlider;
-    QLineEdit *mapPathText;
+    PathWidget *pathWidget;
+
+public slots:
+    void setNewDelay();
+    void displayControlSettings();
+    void setNewVolume();
+    void validateAndSetNewDirectory();
+    void openModalFileExplorer();
 };
 

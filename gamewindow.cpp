@@ -18,9 +18,14 @@ GameWindow::GameWindow(QWidget *parent)
     setFixedSize(1000,600);
     setWindowTitle("Smash The Notes");
 
-
-    MainMenu *mainMenu = new MainMenu(game, this);
+    MainMenu *mainMenu = new MainMenu(_game, this);
     addWidget(mainMenu);
+    
+    MainSettings *mainSettings = new MainSettings(_game, this);
+    addWidget(mainSettings);
+
+    ControlSettings *controlSettings = new ControlSettings(_game, this);
+    addWidget(controlSettings);
     
     _gameView->resize(this->width(), this->height());
 
