@@ -1,10 +1,10 @@
-#ifndef SONGDETAILS_H
-#define SONGDETAILS_H
+#pragma once
 
 #include <QWidget>
-#include <QLabel>
-#include <QPixmap>
-#include <QListWidget>
+
+class QLabel;
+class QPixmap;
+class QListWidget;
 
 #include "game.h"
 
@@ -23,5 +23,3 @@ private:
 
     QListWidget *highscoreList;
 };
-
-#endif // SONGDETAILS_H
