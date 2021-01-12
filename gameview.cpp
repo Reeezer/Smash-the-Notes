@@ -31,7 +31,7 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
 
     //Set up the music & sound effect
     music = new QMediaPlayer(this);
-    music->setMedia(QUrl("qrc:/music/test.mp3"));
+    music->setMedia(QUrl("qrc:/music/test2.mp3"));
 
     timer = new QElapsedTimer();
 
@@ -241,6 +241,7 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
                 if (getNextNote(Notes)->getNoteType() == NoteType::NORMALUP || getNextNote(Notes)->getNoteType() == NoteType::NORMALDOWN)
                     removeNotePassed(Notes);
                 player->damage();
+                player->increaseMiss();
                 if (player->getLife() <= 0)
                 {
                     player->setState(CharacterAction::DOWN);
@@ -420,7 +421,7 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
             {
                 if(Notes->first()->getNoteType() == NoteType::TRAP)
                     player->increasePass();
-                else
+                else if(Notes->first()->getNoteType() != NoteType::TRAP && Notes->first()->getNoteType() != NoteType::BONUS)
                     player->increaseMiss();
                 removeNotePassed(Notes);
             }
@@ -596,9 +597,6 @@ void GameView::update()
             player->feverModeDecrease();
         if (!player->getFever() && backgroundFever->isVisible())
             backgroundFever->setVisible(false);
-
-        qDebug() << music->position() << " - " << music->duration();
-        qDebug() << "S:" << player->getScore() << " - P:" << player->getPerfect() << " - G:" << player->getGreat() << " - M:" << player->getMiss() << " - P:" << player->getPass();
 
         scene->update();
     }

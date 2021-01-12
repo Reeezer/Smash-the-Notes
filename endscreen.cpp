@@ -46,6 +46,10 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     missLabel = new QLabel();
     passLabel = new QLabel();
 
+    highScoreLabel->setAlignment(Qt::AlignRight);
+    greatLabel->setAlignment(Qt::AlignRight);
+    passLabel->setAlignment(Qt::AlignRight);
+
     labelLayout->addWidget(scoreLabel, 0 , 0);
     labelLayout->addWidget(highScoreLabel, 0, 1);
     labelLayout->addWidget(perfectLabel, 1, 0);
@@ -108,11 +112,11 @@ EndScreen::~EndScreen()
 void EndScreen::initialize()
 {
     scoreLabel->setText("Score : " + QString::asprintf("%d", player->getScore()));
-    highScoreLabel->setText("High score : " + QString::asprintf("%d", 0));
+    highScoreLabel->setText(QString::asprintf("%d", 0) + " : High score");
     perfectLabel->setText("Perfect : " + QString::asprintf("%d", player->getPerfect()));
-    greatLabel->setText("Great : " + QString::asprintf("%d", player->getGreat()));
+    greatLabel->setText(QString::asprintf("%d", player->getGreat()) + " : Great");
     missLabel->setText("Miss : " + QString::asprintf("%d", player->getMiss()));
-    passLabel->setText("Pass : " + QString::asprintf("%d", player->getPass()));
+    passLabel->setText(QString::asprintf("%d", player->getPass()) + " : Pass");
     accuracyLabel->setText("Accuracy : " + QString::asprintf("%.1f", player->getAccuracy()) + "%");
 
     if(player->getAccuracy() > 99)
