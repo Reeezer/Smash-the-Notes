@@ -7,6 +7,7 @@
 #include <QSlider>
 #include <QLineEdit>
 #include <QFormLayout>
+#include <QObject>
 
 #include "pathwidget.h"
 #include "game.h"
@@ -23,6 +24,13 @@ private:
     QPushButton *inputButton;
     QSlider *volumeSlider;
     PathWidget *pathWidget;
+
+public slots:
+    void setNewDelay();
+    void displayControlSettings();
+    void setNewVolume();
+    void validateAndSetNewDirectory();
+    void openModalFileExplorer();
 };
 
 #endif // MAINSETTINGS_H
