@@ -47,9 +47,8 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
 
     //Background
     _ratio = 0.0032;
-    backgroundDisplay();
-
     backgroundFever = scene->addPixmap(QPixmap(":/img/Background/Fever.png").scaled(QSize(this->width(), this->height())));
+    backgroundList = new QList<QGraphicsPixmapItem *>();
 
     //Display
     //Texts
@@ -61,6 +60,15 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     highScore = new QGraphicsSimpleTextItem();
     upLabel = new QGraphicsSimpleTextItem();
     downLabel = new QGraphicsSimpleTextItem();
+
+    combo->setZValue(30);
+    comboLabel->setZValue(30);
+    score->setZValue(30);
+    scoreLabel->setZValue(30);
+    highScore->setZValue(30);
+    highScoreLabel->setZValue(30);
+    upLabel->setZValue(30);
+    downLabel->setZValue(30);
 
     combo->setFont(Foo);
     comboLabel->setFont(Foo);
@@ -94,17 +102,26 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     _countCross = 0;
     pixUpCross = scene->addPixmap(QPixmap(":/img/Crosshair/Crosshair1.png").scaled(50, 50));
     pixUpCross->setPos(XLINE + 16, UPLINE + 25);
+    pixUpCross->setZValue(250);
     pixDownCross = scene->addPixmap(QPixmap(":/img/Crosshair/Crosshair1.png").scaled(50, 50));
     pixDownCross->setPos(XLINE + 16, DOWNLINE + 25);
+    pixDownCross->setZValue(250);
 
     //CHANGER PAR DES QPROGRESSBAR MAIS VOIR COMMENT MARCHE LES STYLESSHEETS
     //Rect : life, fever, progress
-    scene->addRect(this->width() / 10, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
-    scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
-    scene->addRect(0, this->height() * 59 / 60, this->width(), this->height() / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
+    QGraphicsRectItem *rect1 = scene->addRect(this->width() / 10, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
+    QGraphicsRectItem *rect2 = scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
+    QGraphicsRectItem *rect3 = scene->addRect(0, this->height() * 59 / 60, this->width(), this->height() / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
     lifeRect = scene->addRect(this->width() / 10, this->height() * 57 / 60, this->width() / 2, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(204, 0, 0)));
     feverRect = scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(68, 201, 228)));
     durationRect = scene->addRect(0, this->height() * 59 / 60, this->width(), this->height() / 60, QPen(Qt::white), QBrush(Qt::white));
+
+    rect1->setZValue(200);
+    rect2->setZValue(200);
+    rect3->setZValue(200);
+    lifeRect->setZValue(200);
+    feverRect->setZValue(200);
+    durationRect->setZValue(200);
 
     //Set up
     upNotes = new QList<Note *>();
@@ -113,11 +130,13 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     //Game Over label & Pause label with buttons (at first invisible)
     gameOverLabel = new QGraphicsSimpleTextItem("Game Over");
     gameOverLabel->setFont(BigFoo);
+    gameOverLabel->setZValue(1000);
     scene->addItem(gameOverLabel);
     gameOverLabel->setPos(this->width() / 4, this->height() / 3);
 
     pauseLabel = new QGraphicsSimpleTextItem("Pause");
     pauseLabel->setFont(BigFoo);
+    pauseLabel->setZValue(1000);
     scene->addItem(pauseLabel);
     pauseLabel->setPos(this->width() / 3, this->height() / 3);
 
@@ -134,20 +153,29 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     scene->addItem(player);
     player->setPos(XLINE - 110, DOWNLINE);
 
-    timer->start();
     this->startTimer(1);
 
     //Connect
-    connect(restartButton, &QPushButton::clicked, this, &GameView::initialize);
-    connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicEnd);
+    QObject::connect(restartButton, &QPushButton::clicked, this, &GameView::initialize);
+    QObject::connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicEnd);
 }
 
 void GameView::initialize()
 {
     _pause = false;
-    _rotationCrossHair = 1;
-    _countCross = _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
+    _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
 
+    //Background
+    if(backgroundList->size() > 0)
+    {
+        for(QGraphicsPixmapItem *element : *backgroundList)
+            scene->removeItem(element);
+        scene->removeItem(backLayer);
+        backgroundList->clear();
+    }
+    backgroundDisplay();
+
+    //Notes
     for (Note *note : *upNotes)
         removeNotePassed(upNotes);
     for (Note *note : *downNotes)
@@ -171,6 +199,7 @@ void GameView::initialize()
         scene->addItem(note);
     }
 
+    //Set up
     backgroundFever->setVisible(false);
     gameOverLabel->setVisible(false);
     pauseLabel->setVisible(false);
@@ -178,6 +207,8 @@ void GameView::initialize()
     restartButton->setVisible(false);
 
     player->initialize();
+    player->setY(DOWNLINE);
+    player->setZValue(300);
 
     timer->restart();
     music->stop();
@@ -265,10 +296,6 @@ void GameView::gamePause()
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
-    //TEST !!!!!!!!!!!!!!
-    if(event->key() == Qt::Key_0)
-        music->stop();
-
     //The pause mode
     if (event->key() == Qt::Key_Escape && player->getAlive())
         gamePause();
@@ -352,6 +379,8 @@ void GameView::hitSmash(QList<Note *> *Notes)
 
     player->increaseScore();
     getNextNote(Notes)->hit();
+
+    //If we hit the smash a number of times, we wan't to erase it.
     if (getNextNote(Notes)->getHit() == NBSMASHHIT)
         removeNotePassed(Notes);
 }
@@ -429,7 +458,6 @@ void GameView::backgroundDisplay()
 {
     QGraphicsPixmapItem *pix1 = new QGraphicsPixmapItem();
     QGraphicsPixmapItem *pix2 = new QGraphicsPixmapItem();
-    backgroundList = new QList<QGraphicsPixmapItem *>();
     int max = 0;
 
     quint32 rand = QRandomGenerator::global()->bounded(1, 5);
@@ -453,7 +481,8 @@ void GameView::backgroundDisplay()
     }
 
     //The last layer (the sky) does not move, then we don't add it in the List
-    scene->addPixmap(QPixmap(":/img/Background/" + QString::asprintf("%d", rand) + "/Layer" + QString::asprintf("%d", max) + ".png").scaled(QSize(this->width(), this->height())));
+    backLayer = scene->addPixmap(QPixmap(":/img/Background/" + QString::asprintf("%d", rand) + "/Layer" + QString::asprintf("%d", max) + ".png").scaled(QSize(this->width(), this->height())));
+    backLayer->setZValue(-1000);
     for (int i = max - 1; i > 0; i--)
     {
         pix1 = scene->addPixmap(QPixmap(":/img/Background/" + QString::asprintf("%d", rand) + "/Layer" + QString::asprintf("%d", i) + ".png").scaled(QSize(this->width(), this->height())));
@@ -461,6 +490,16 @@ void GameView::backgroundDisplay()
         pix2->setPos(this->width(), 0);
         backgroundList->push_front(pix1);
         backgroundList->push_front(pix2);
+    }
+
+    for(int i = 1; i < backgroundList->size(); i+=2)
+    {
+        backgroundList->at(i)->setZValue(-10 * (i+1));
+    }
+
+    for(int i = 0; i < backgroundList->size(); i+=2)
+    {
+        backgroundList->at(i)->setZValue(-10 * (i+1));
     }
 }
 

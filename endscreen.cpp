@@ -101,7 +101,7 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     mainLayout->addWidget(pixmap);
 
     //Connect
-    connect(restartButton, &QPushButton::clicked, this, &EndScreen::restartGame);
+    QObject::connect(restartButton, &QPushButton::clicked, this, &EndScreen::restartGame);
 }
 
 EndScreen::~EndScreen()

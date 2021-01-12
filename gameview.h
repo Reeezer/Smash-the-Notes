@@ -67,7 +67,7 @@ private:
 
     QPushButton *restartButton, *quitButton;
 
-    QGraphicsPixmapItem *pixUpCross, *pixDownCross, *backgroundFever;
+    QGraphicsPixmapItem *pixUpCross, *pixDownCross, *backgroundFever, *backLayer;
 
     QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel, *gameOverLabel, *pauseLabel;
     QGraphicsRectItem *lifeRect, *feverRect, *durationRect;

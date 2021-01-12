@@ -17,14 +17,7 @@ void Character::initialize()
 {
     _state = CharacterAction::RUN;
     _life = MAXLIFE;
-    _fever = _score = _nbPerfect = _nbGreat = _framesNb = _lastElapsed = _accuracy = _nbPass = _nbMiss = 0;
-
-    //TEST !!!!!!!!!!!!!!!!!!!!!!!
-    _nbGreat = 50;
-    _nbMiss = _nbPass = 30;
-    _nbPerfect = 5;
-
-    _combo = 1;
+    _fever = _score = _combo = _nbPerfect = _nbGreat = _framesNb = _lastElapsed = _accuracy = _nbPass = _nbMiss = 0;
     _hasJumped = _isFevered = false;
     _alive = true;
 
@@ -154,7 +147,7 @@ void Character::setState(CharacterAction stateSource)
 }
 
 void Character::increaseCombo() {_combo++;}
-void Character::comboBreak() {_combo = 1;}
+void Character::comboBreak() {_combo = 0;}
 void Character::setJump(bool _state) {_hasJumped = _state;}
 void Character::increaseMiss() {_nbMiss++;}
 void Character::increasePass() {_nbPass++;}
