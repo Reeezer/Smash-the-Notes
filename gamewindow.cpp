@@ -27,6 +27,9 @@ GameWindow::GameWindow(QWidget *parent)
     ControlSettings *controlSettings = new ControlSettings(_game, this);
     addWidget(controlSettings);
     
+    SplashScreen *splashScreen = new SplashScreen(this);
+    addWidget(splashScreen);
+    
     _gameView->resize(this->width(), this->height());
 
     _endScreen = new EndScreen(_game, _player, this);
