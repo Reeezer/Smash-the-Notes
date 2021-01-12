@@ -23,7 +23,10 @@ public slots:
 //    void displaySplashScreen();
 
 private:
-    GameView *gameView;
-    EndScreen *endScreen;
+    Game *_game;
+    Character *_player;
+    GameView *_gameView;
+    EndScreen *_endScreen;
+
 };
 

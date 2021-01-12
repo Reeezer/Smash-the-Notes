@@ -14,16 +14,9 @@
 #include <QRandomGenerator>
 #include <QPushButton>
 
-#include <QProgressBar>
-
-GameView::GameView(Game *game, Character *player, QWidget *parent)
-    : QGraphicsView(parent), game(game), player(player)
+GameView::GameView(Game *game, QWidget *parent)
+    : QGraphicsView(parent), game(game)
 {
-    //Custom font
-    QFont Foo("Foo", 18, QFont::Normal);
-    QFont BigFoo("Foo", 70, QFont::Normal);
-    QFont Karen("karen", 22, QFont::Normal);
-
     //QGraphicsView & QGraphicsScene
     resize(1000, 600);
     XLINE = this->width() / 5;
@@ -61,6 +54,16 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     upLabel = new QGraphicsSimpleTextItem();
     downLabel = new QGraphicsSimpleTextItem();
 
+
+    combo->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    comboLabel->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    score->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    scoreLabel->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    highScore->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    highScoreLabel->setFont(game->fonts[FontType::NORMAL_SMALL]);
+    upLabel->setFont(game->fonts[FontType::ACCURACY]);
+    downLabel->setFont(game->fonts[FontType::ACCURACY]);
+
     combo->setZValue(30);
     comboLabel->setZValue(30);
     score->setZValue(30);
@@ -69,15 +72,6 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     highScoreLabel->setZValue(30);
     upLabel->setZValue(30);
     downLabel->setZValue(30);
-
-    combo->setFont(Foo);
-    comboLabel->setFont(Foo);
-    score->setFont(Foo);
-    scoreLabel->setFont(Foo);
-    highScore->setFont(Foo);
-    highScoreLabel->setFont(Foo);
-    upLabel->setFont(Karen);
-    downLabel->setFont(Karen);
 
     scene->addItem(comboLabel);
     scene->addItem(combo);
@@ -149,6 +143,18 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
 
     quitButton->setGeometry(this->width() / 4 + 280, this->height() / 2 + 30, 100, 50);
 
+    //Game Over label & Pause label (at first invisible)
+    gameOverLabel = new QGraphicsSimpleTextItem("Game Over");
+    gameOverLabel->setFont(game->fonts[FontType::NORMAL_LARGE]);
+    scene->addItem(gameOverLabel);
+    gameOverLabel->setPos(this->width() / 4, this->height() / 3);
+    gameOverLabel->setVisible(false);
+
+    pauseLabel = new QGraphicsSimpleTextItem("Pause");
+    pauseLabel->setFont(game->fonts[FontType::NORMAL_LARGE]);
+    scene->addItem(pauseLabel);
+    pauseLabel->setPos(this->width() / 3, this->height() / 3);
+
     //Start
     scene->addItem(player);
     player->setPos(XLINE - 110, DOWNLINE);
@@ -181,6 +187,7 @@ void GameView::initialize()
     for (Note *note : *downNotes)
         removeNotePassed(downNotes);
     QString path = "C:\\Users\\leon.muller\\Desktop\\.Projet\\jeu-de-rythme\\LFZ_-_Popsicle_Easy.osu";
+
     loadFromFile(path, upNotes, downNotes);
     for (Note *note : *upNotes)
     {

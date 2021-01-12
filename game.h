@@ -1,5 +1,10 @@
 #pragma once
 
+#include "animatable.h"
+#include "GameItems/character.h"
+
+#include <QFont>
+
 class QPixmap;
 class QString;
 class QSoundEffect;
@@ -12,19 +17,21 @@ enum SpriteIndex {
 
 };
 
+enum FontType {
+    NORMAL_SMALL,
+    NORMAL_LARGE,
+    ACCURACY,
+    FONT_ESIZE
+};
 
-class Game
+struct Game
 {
-public:
-    Game();
-
-    bool loadRessources(void);
-
-private:
     int delay;
     int volume;
 
-    QPixmap **sprites;
-    QSoundEffect **soundEffects;
+    QFont fonts[FONT_ESIZE];
 };
 
+bool loadRessources(Game *);
+
+#endif // GAME_H

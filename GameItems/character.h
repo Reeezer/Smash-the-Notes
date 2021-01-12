@@ -7,6 +7,8 @@ const int REGENERATION = 80;
 
 #include <QGraphicsPixmapItem>
 
+#include "animatable.h"
+
 class QPixmap;
 class QPainter;
 class QStyleOptionGraphicsItem;
@@ -21,7 +23,8 @@ enum CharacterAction
     FEVER,
     DAMAGED,
     HIT,
-    JUMP
+    JUMP,
+    CHARACTERACTION_ESIZE
 };
 
 class Character : public QGraphicsPixmapItem
@@ -65,5 +68,7 @@ private:
     float _fever, _accuracy;
     bool _hasJumped, _isFevered, _alive;
     CharacterAction _state;
+
+    Animatable _frames[CHARACTERACTION_ESIZE];
 };
 

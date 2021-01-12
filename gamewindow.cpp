@@ -5,44 +5,47 @@
 GameWindow::GameWindow(QWidget *parent)
     : QStackedWidget(parent)
 {
-    //Custom font
-    QFontDatabase::addApplicationFont(":/font/foo.ttf");
-    QFontDatabase::addApplicationFont(":/font/karen.otf");
+    _game = new Game();
+    _player = new Character();
+    
+    if (!loadRessources(_game))
+        qDebug() << "Failed to load ressources";
+    
+    _gameView = new GameView(_game, _player, this);
+    addWidget(_gameView);
 
+    setFixedSize(1000,600);
     setWindowTitle("Smash The Notes");
-    setFixedSize(1000, 600);
 
-    Game *game = new Game();
-    Character *player = new Character();
+    _gameView->resize(this->width(), this->height());
 
-    gameView = new GameView(game, player, this);
-    addWidget(gameView);
-    gameView->resize(this->width(), this->height());
+    _endScreen = new EndScreen(_game, _player, this);
+    addWidget(_endScreen);
+    _endScreen->resize(this->width(), this->height());
 
-    endScreen = new EndScreen(game, player, this);
-    addWidget(endScreen);
-    endScreen->resize(this->width(), this->height());
-
-    setCurrentWidget(gameView);
-    gameView->initialize();
+    setCurrentWidget(_gameView);
+    _gameView->initialize();
 
     //Connect
-    QObject::connect(gameView, &GameView::gameFinished, this, &GameWindow::displayEndScreen);
-    QObject::connect(endScreen, &EndScreen::restartGame, this, &GameWindow::displayGame);
+    QObject::connect(_gameView, &GameView::gameFinished, this, &GameWindow::displayEndScreen);
+    QObject::connect(_endScreen, &EndScreen::restartGame, this, &GameWindow::displayGame);
+
 }
 
 GameWindow::~GameWindow()
 {
+    delete _game;
+    delete _player;
 }
 
 void GameWindow::displayGame()
 {
-    setCurrentWidget(gameView);
-    gameView->initialize();
+    setCurrentWidget(_gameView);
+    _gameView->initialize();
 }
 
 void GameWindow::displayEndScreen()
 {
-    setCurrentWidget(endScreen);
-    endScreen->initialize();
+    setCurrentWidget(_endScreen);
+    _endScreen->initialize();
 }
