@@ -1,5 +1,4 @@
-#ifndef MAINMENU_H
-#define MAINMENU_H
+#pragma once
 
 #include <QWidget>
 #include <QLabel>
@@ -8,9 +7,9 @@
 #include <QMediaPlayer>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+
 #include "gameview.h"
 #include "song.h"
-
 #include "game.h"
 
 class MainMenu : public QWidget
@@ -42,4 +41,3 @@ private:
     static void initializeQListWidget(QListWidget*);
 };
 
-#endif // MAINMENU_H

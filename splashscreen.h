@@ -1,8 +1,8 @@
-#ifndef SPLASHSCREEN_H
-#define SPLASHSCREEN_H
+#pragma once
 
 #include <QWidget>
-#include <QPushButton>
+
+class QPushButton;
 
 class SplashScreen : public QWidget
 {
@@ -13,4 +13,3 @@ private:
     QPushButton *startButton;
 };
 
-#endif // SPLASHSCREEN_H

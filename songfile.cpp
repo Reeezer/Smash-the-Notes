@@ -8,18 +8,18 @@
 #include <QRegularExpression>
 
 static NoteType columnToType[] = {
-    NoteType::NORMAL,
+    NoteType::NORMALDOWN,
     NoteType::BONUS,
     NoteType::TRAP,
-    NoteType::NORMAL,
+    NoteType::NORMALUP,
     NoteType::BONUS,
     NoteType::TRAP,
     NoteType::SMASH
 };
 
-static void tokenize(QTextStream&, QMap<QString,QString>&, QList<QString>&);
+static void tokenize(QTextStream &, QMap<QString, QString> &, QList<QString> &);
 
-void tokenize(QTextStream& instream, QMap<QString,QString>& info_tokens, QList<QString>& notes_tokens)
+void tokenize(QTextStream &instream, QMap<QString, QString> &info_tokens, QList<QString> &notes_tokens)
 {
     /* Regexes for the different contents */
     QRegularExpression sectionrx("\\[([^]]+)\\]");
@@ -29,7 +29,8 @@ void tokenize(QTextStream& instream, QMap<QString,QString>& info_tokens, QList<Q
     QString section = "Invalid";
     QString line;
 
-    while(instream.readLineInto(&line)) {
+    while (instream.readLineInto(&line))
+    {
         QRegularExpressionMatch sectionmatch = sectionrx.match(line);
         QRegularExpressionMatch propertymatch = propertyrx.match(line);
         QRegularExpressionMatch hitobjectmatch = hitobjectrx.match(line);
@@ -43,20 +44,21 @@ void tokenize(QTextStream& instream, QMap<QString,QString>& info_tokens, QList<Q
     }
 }
 
-bool loadFromFile(QString& path, QList<Note *> *upNotes, QList<Note *> *downNotes)
+bool loadFromFile(QString &path, QList<Note *> *upNotes, QList<Note *> *downNotes)
 {
     qDebug() << "loading file: '" + path + "'";
 
     /* Open the file */
     QFile infile(path);
-    if (!infile.open(QFile::ReadOnly | QFile::Text)) {
+    if (!infile.open(QFile::ReadOnly | QFile::Text))
+    {
         qDebug() << "error opening file: " + infile.errorString();
         return false;
     }
 
     QTextStream in(&infile);
 
-    QMap<QString,QString> info_tokens;
+    QMap<QString, QString> info_tokens;
     QList<QString> notes_tokens;
     tokenize(in, info_tokens, notes_tokens);
 
@@ -71,22 +73,27 @@ bool loadFromFile(QString& path, QList<Note *> *upNotes, QList<Note *> *downNote
 
     /* lire les notes dans les listes */
 
-    for (QString note : notes_tokens) {
+    for (QString note : notes_tokens)
+    {
         QStringList settings_list = note.split(',');
-        int x         = settings_list.takeFirst().toInt();
-        int y         = settings_list.takeFirst().toInt();  // not important
+        int x = settings_list.takeFirst().toInt();
+        int y = settings_list.takeFirst().toInt(); // not important
         int timestamp = settings_list.takeFirst().toInt();
         Q_UNUSED(y);
 
         int column = (x * 7) / 512;
         NoteType type = columnToType[column];
 
-        Note *new_note = new Note(type, timestamp);
-
         if (column > 2)
+        {
+            Note *new_note = new Note(type, timestamp);
             upNotes->append(new_note);
+        }
         else
+        {
+            Note *new_note = new Note(type, timestamp);
             downNotes->append(new_note);
+        }
     }
 
     qDebug() << QString::asprintf("read %d notes (%d up, %d down)", notes_tokens.size(), upNotes->size(), downNotes->size());

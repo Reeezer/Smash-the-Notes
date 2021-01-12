@@ -1,11 +1,11 @@
-#ifndef MAINSETTINGS_H
-#define MAINSETTINGS_H
+#pragma once
 
 #include <QWidget>
-#include <QSpinBox>
-#include <QPushButton>
-#include <QSlider>
-#include <QLineEdit>
+
+class QSpinBox;
+class QPushButton;
+class QSlider;
+class QLineEdit;
 
 #include "game.h"
 
@@ -19,9 +19,8 @@ private:
 
     QSpinBox *delaySpinBox;
     QPushButton *inputButton;
+    QPushButton *mapPathButton;
     QSlider *volumeSlider;
     QLineEdit *mapPathText;
-    QPushButton *mapPathButton;
 };
 
-#endif // MAINSETTINGS_H
