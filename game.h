@@ -33,5 +33,3 @@ struct Game
 };
 
 bool loadRessources(Game *);
-
-#endif // GAME_H

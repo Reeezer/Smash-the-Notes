@@ -14,8 +14,8 @@
 #include <QRandomGenerator>
 #include <QPushButton>
 
-GameView::GameView(Game *game, QWidget *parent)
-    : QGraphicsView(parent), game(game)
+GameView::GameView(Game *game, Character *player, QWidget *parent)
+    : QGraphicsView(parent), game(game), player(player)
 {
     //QGraphicsView & QGraphicsScene
     resize(1000, 600);
@@ -123,13 +123,13 @@ GameView::GameView(Game *game, QWidget *parent)
 
     //Game Over label & Pause label with buttons (at first invisible)
     gameOverLabel = new QGraphicsSimpleTextItem("Game Over");
-    gameOverLabel->setFont(BigFoo);
+    gameOverLabel->setFont(game->fonts[NORMAL_LARGE]);
     gameOverLabel->setZValue(1000);
     scene->addItem(gameOverLabel);
     gameOverLabel->setPos(this->width() / 4, this->height() / 3);
 
     pauseLabel = new QGraphicsSimpleTextItem("Pause");
-    pauseLabel->setFont(BigFoo);
+    pauseLabel->setFont(game->fonts[NORMAL_LARGE]);
     pauseLabel->setZValue(1000);
     scene->addItem(pauseLabel);
     pauseLabel->setPos(this->width() / 3, this->height() / 3);
@@ -186,7 +186,7 @@ void GameView::initialize()
         removeNotePassed(upNotes);
     for (Note *note : *downNotes)
         removeNotePassed(downNotes);
-    QString path = "C:\\Users\\leon.muller\\Desktop\\.Projet\\jeu-de-rythme\\LFZ_-_Popsicle_Easy.osu";
+    QString path = "C:\\dev\\HS20\\Qt-P2\\P2-SmashTheNotes\\LFZ_-_Popsicle_Easy.osu";
 
     loadFromFile(path, upNotes, downNotes);
     for (Note *note : *upNotes)
