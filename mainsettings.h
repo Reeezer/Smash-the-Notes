@@ -1,5 +1,4 @@
-#ifndef MAINSETTINGS_H
-#define MAINSETTINGS_H
+#pragma once
 
 #include <QWidget>
 #include <QSpinBox>
@@ -7,6 +6,7 @@
 #include <QSlider>
 #include <QLineEdit>
 #include <QFormLayout>
+#include <QObject>
 
 #include "pathwidget.h"
 #include "game.h"
@@ -21,8 +21,15 @@ private:
 
     QSpinBox *delaySpinBox;
     QPushButton *inputButton;
+    QPushButton *mapPathButton;
     QSlider *volumeSlider;
     PathWidget *pathWidget;
+
+public slots:
+    void setNewDelay();
+    void displayControlSettings();
+    void setNewVolume();
+    void validateAndSetNewDirectory();
+    void openModalFileExplorer();
 };
 
-#endif // MAINSETTINGS_H
