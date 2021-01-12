@@ -1,5 +1,4 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#pragma once
 
 const int MAXLIFE = 300;
 const int MAXFEVER = 100;
@@ -32,6 +31,7 @@ class Character : public QGraphicsPixmapItem
 {
 public:
     Character(QGraphicsItem *parent = nullptr);
+    void initialize();
     void damage();
     void regenerate();
     void increaseFever();
@@ -57,6 +57,7 @@ public:
     int getPass();
     int getMaxFever();
     int getMaxLife();
+    float getAccuracy();
     bool getJump();
     bool getAlive();
     bool getFevered();
@@ -64,11 +65,10 @@ public:
 private:
     QElapsedTimer *timer;
     int _life, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass, _framesNb, _lastElapsed;
-    float _fever;
+    float _fever, _accuracy;
     bool _hasJumped, _isFevered, _alive;
     CharacterAction _state;
 
     Animatable _frames[CHARACTERACTION_ESIZE];
 };
 
-#endif // CHARACTER_H

@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include "animatable.h"
 #include "GameItems/character.h"

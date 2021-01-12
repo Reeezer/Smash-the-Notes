@@ -1,4 +1,5 @@
 QT       += core gui
+QT += core
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
@@ -14,6 +15,7 @@ SOURCES += \
     GameItems/note.cpp \
     GameItems/character.cpp\
     animatable.cpp \
+    endscreen.cpp \
     game.cpp \
     gameview.cpp \
     gamewindow.cpp \
@@ -28,6 +30,7 @@ HEADERS += \
     GameItems/note.h \
     GameItems/character.h\
     animatable.h \
+    endscreen.h \
     game.h \
     gameview.h \
     gamewindow.h \

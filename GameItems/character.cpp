@@ -8,10 +8,16 @@
 Character::Character(QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent)
 {
+    timer = new QElapsedTimer();
+    timer->start();
+    initialize();
+}
+
+void Character::initialize()
+{
     _state = CharacterAction::RUN;
     _life = MAXLIFE;
-    _fever = _score = _nbPerfect = _nbGreat = _framesNb = _lastElapsed = 0;
-    _combo = 1;
+    _fever = _score = _combo = _nbPerfect = _nbGreat = _framesNb = _lastElapsed = _accuracy = _nbPass = _nbMiss = 0;
     _hasJumped = _isFevered = false;
     _alive = true;
 
@@ -24,7 +30,7 @@ Character::Character(QGraphicsItem *parent)
     _frames[JUMP] = Animatable(":/img/Character/Jump/jump%d.png", 24, 30);
 
     timer = new QElapsedTimer();
-    timer->start();
+    timer->restart();
 }
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -77,27 +83,27 @@ void Character::feverModeDecrease()
 void Character::increaseScorePerfect()
 {
     if(_isFevered)
-        _score += 500 * _combo;
+        _score += 500;
     else
-        _score += 200 * _combo;
+        _score += 200;
     _nbPerfect++;
 }
 
 void Character::increaseScoreGreat()
 {
     if(_isFevered)
-        _score += 300 * _combo;
+        _score += 300;
     else
-        _score += 100 * _combo;
+        _score += 100;
     _nbGreat++;
 }
 
 void Character::increaseScore()
 {
     if(_isFevered)
-        _score += 150 * _combo;
+        _score += 150;
     else
-    _score += 50 * _combo;
+        _score += 50;
 }
 
 void Character::setState(CharacterAction stateSource)
@@ -111,7 +117,7 @@ void Character::setState(CharacterAction stateSource)
 }
 
 void Character::increaseCombo() {_combo++;}
-void Character::comboBreak() {_combo = 1;}
+void Character::comboBreak() {_combo = 0;}
 void Character::setJump(bool _state) {_hasJumped = _state;}
 void Character::increaseMiss() {_nbMiss++;}
 void Character::increasePass() {_nbPass++;}
@@ -126,6 +132,7 @@ int Character::getMiss() {return _nbMiss;}
 int Character::getPass() {return _nbPass;}
 int Character::getMaxLife() {return MAXLIFE;}
 int Character::getMaxFever() {return MAXFEVER;}
+float Character::getAccuracy() {return 100 * (_nbPerfect + (0.75 * _nbGreat)) / (_nbGreat + _nbPerfect + _nbMiss + _nbPass);}
 bool Character::getJump() {return _hasJumped;}
 bool Character::getAlive() {return _alive;}
 bool Character::getFevered() {return _isFevered;}

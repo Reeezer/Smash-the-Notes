@@ -1,13 +1,14 @@
-#ifndef GAMEVIEW_H
-#define GAMEVIEW_H
+#pragma once
 
 #include <QGraphicsView>
 #include <QList>
+#include <QObject>
 
 const int PERFECT = 10;
 const int GREAT = 20;
 const int NOTPASSED = 140;
 const int PIXMAPHALF = 40;
+const int NBSMASHHIT = 20;
 
 class QGraphicsScene;
 class QMediaPlayer;
@@ -16,6 +17,8 @@ class QLabel;
 class QTime;
 class QElapsedTimer;
 class QGraphicsItem;
+class QPushButton;
+class QSoundEffect;
 
 #include "GameItems/character.h"
 #include "game.h"
@@ -25,8 +28,10 @@ class QGraphicsItem;
 
 class GameView : public QGraphicsView
 {
+    Q_OBJECT
+
 public:
-    GameView(Game *game, QWidget *parent = nullptr);
+    GameView(Game *game, Character *player, QWidget *parent = nullptr);
     void update();
     void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);
@@ -38,7 +43,16 @@ public:
     void applyParallax(float, QList<QGraphicsPixmapItem *> *);
     void backgroundDisplay();
     void rotateCrossHair();
-    Note* getNextNote(QList<Note *> *);
+    void gamePause();
+    void hit();
+    void initialize();
+    Note *getNextNote(QList<Note *> *);
+
+public slots:
+    void musicEnd();
+
+signals:
+    void gameFinished();
 
 private:
     void keyPressEvent(QKeyEvent *);
@@ -51,16 +65,17 @@ private:
     Character *player;
     QElapsedTimer *timer;
 
-    QGraphicsPixmapItem *pixUpCross, *pixDownCross, *backgroundFever;
+    QPushButton *restartButton, *quitButton;
+
+    QGraphicsPixmapItem *pixUpCross, *pixDownCross, *backgroundFever, *backLayer;
 
     QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel, *gameOverLabel, *pauseLabel;
     QGraphicsRectItem *lifeRect, *feverRect, *durationRect;
 
     QList<Note *> *upNotes, *downNotes;
     QList<QGraphicsPixmapItem *> *backgroundList;
-    int XLINE, UPLINE, DOWNLINE, _highScore, _lastElapsed, _rotationCrossHair, _countCross;
+    int XLINE, UPLINE, DOWNLINE, _highScore, _lastBackgroundElapsed, _rotationCrossHair, _countCross, _lastJumpElapsed, _lastSmashElapsed;
     float _ratio;
     bool _pause;
 };
 
-#endif // GAMEVIEW_H
