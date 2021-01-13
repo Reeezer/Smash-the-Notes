@@ -18,8 +18,10 @@ enum SpriteIndex {
 };
 
 enum FontType {
-    NORMAL_SMALL,
-    NORMAL_LARGE,
+    NORMAL_18,
+    NORMAL_70,
+    NORMAL_40,
+    NORMAL_50,
     ACCURACY,
     FONT_ESIZE
 };

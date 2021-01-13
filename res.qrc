@@ -144,5 +144,6 @@
         <file>img/Crosshair/Crosshair3.png</file>
         <file>img/Background/Fever.png</file>
         <file>img/Background/EndScreen.png</file>
+        <file>music/test2.mp3</file>
     </qresource>
 </RCC>

@@ -36,7 +36,7 @@ public:
     void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);
     void hitSmash(QList<Note *> *);
-    void removeNotePassed(QList<Note *> *);
+    void removeFirstNote(QList<Note *> *);
     void removeNoteHitten(QList<Note *> *);
     void changeNotePosition(QList<Note *> *);
     void changeLabel(QString, bool);
@@ -45,10 +45,11 @@ public:
     void rotateCrossHair();
     void gamePause();
     void hit();
-    void initialize();
     Note *getNextNote(QList<Note *> *);
 
 public slots:
+    void newGame();
+    void initialize();
     void musicEnd();
 
 signals:
@@ -74,6 +75,7 @@ private:
 
     QList<Note *> *upNotes, *downNotes;
     QList<QGraphicsPixmapItem *> *backgroundList;
+    QList<QPixmap> *crosshairList;
     int XLINE, UPLINE, DOWNLINE, _highScore, _lastBackgroundElapsed, _rotationCrossHair, _countCross, _lastJumpElapsed, _lastSmashElapsed;
     float _ratio;
     bool _pause;
