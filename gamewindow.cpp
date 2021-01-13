@@ -1,4 +1,5 @@
 #include "gamewindow.h"
+#include "mainmenu.h"
 #include <QDebug>
 #include <QFontDatabase>
 
@@ -16,6 +17,22 @@ GameWindow::GameWindow(QWidget *parent)
     
     _gameView = new GameView(_game, _player, this);
     addWidget(_gameView);
+
+    setFixedSize(1000,600);
+    setWindowTitle("Smash The Notes");
+
+    MainMenu *mainMenu = new MainMenu(_game, this);
+    addWidget(mainMenu);
+    
+    MainSettings *mainSettings = new MainSettings(_game, this);
+    addWidget(mainSettings);
+
+    ControlSettings *controlSettings = new ControlSettings(_game, this);
+    addWidget(controlSettings);
+    
+    SplashScreen *splashScreen = new SplashScreen(this);
+    addWidget(splashScreen);
+    
     _gameView->resize(this->width(), this->height());
 
     _endScreen = new EndScreen(_game, _player, this);

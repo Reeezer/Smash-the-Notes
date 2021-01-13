@@ -14,6 +14,7 @@ CONFIG += console
 SOURCES += \
     GameItems/note.cpp \
     GameItems/character.cpp\
+    controlsettings.cpp \
     animatable.cpp \
     endscreen.cpp \
     game.cpp \
@@ -22,11 +23,15 @@ SOURCES += \
     main.cpp \
     mainmenu.cpp \
     mainsettings.cpp \
+    pathwidget.cpp \
+    song.cpp \
     songdetails.cpp \
     songfile.cpp \
+    songitem.cpp \
     splashscreen.cpp \
 
 HEADERS += \
+    controlsettings.h \
     GameItems/note.h \
     GameItems/character.h\
     animatable.h \
@@ -36,8 +41,11 @@ HEADERS += \
     gamewindow.h \
     mainmenu.h \
     mainsettings.h \
+    pathwidget.h \
+    song.h \
     songdetails.h \
     songfile.h \
+    songitem.h \
     splashscreen.h \
 
 # Default rules for deployment.

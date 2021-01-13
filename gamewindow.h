@@ -4,7 +4,11 @@
 
 #include "GameItems/character.h"
 #include "gameview.h"
+#include "mainsettings.h"
+#include "controlsettings.h"
+#include "splashscreen.h"
 #include "endscreen.h"
+
 
 class GameWindow : public QStackedWidget
 {

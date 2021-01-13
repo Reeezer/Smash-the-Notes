@@ -1,18 +1,28 @@
 #pragma once
 
 #include <QWidget>
+#include <QLabel>
+#include <QPushButton>
+#include <QListWidget>
+#include <QMediaPlayer>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
-class QLabel;
-class QPushButton;
-class QListWidget;
-class QMediaPlayer;
-
+#include "gameview.h"
+#include "song.h"
 #include "game.h"
 
 class MainMenu : public QWidget
 {
 public:
     MainMenu(Game *game, QWidget *parent = nullptr);
+
+public slots:
+    void playSelectedSong();
+    void openSelectedSongDetails();
+    void openSettingsMenu();
+    void adaptToSelectedSong();
+    void adaptToPreselection();
 
 private:
     Game *game;
@@ -25,7 +35,9 @@ private:
     QPushButton *detailsButton;
     QPushButton *settingsButton;
 
-    QListWidget *songList;
+    QListWidget *songsList;
     QMediaPlayer *musicPreview;
+
+    static void initializeQListWidget(QListWidget*);
 };
 
