@@ -36,7 +36,7 @@ public:
     void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);
     void hitSmash(QList<Note *> *);
-    void removeNotePassed(QList<Note *> *);
+    void removeFirstNote(QList<Note *> *);
     void removeNoteHitten(QList<Note *> *);
     void changeNotePosition(QList<Note *> *);
     void changeLabel(QString, bool);

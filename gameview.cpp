@@ -175,9 +175,9 @@ void GameView::initialize()
 
     //Notes
     for (Note *note : *upNotes)
-        removeNotePassed(upNotes);
+        removeFirstNote(upNotes);
     for (Note *note : *downNotes)
-        removeNotePassed(downNotes);
+        removeFirstNote(downNotes);
     QString path = "C:\\Users\\leon.muller\\Desktop\\.Projet\\jeu-de-rythme\\LFZ_-_Popsicle_Easy.osu";
 
     loadFromFile(path, upNotes, downNotes);
@@ -239,7 +239,7 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
             {
                 player->setState(CharacterAction::DAMAGED);
                 if (getNextNote(Notes)->getNoteType() == NoteType::NORMALUP || getNextNote(Notes)->getNoteType() == NoteType::NORMALDOWN)
-                    removeNotePassed(Notes);
+                    removeFirstNote(Notes);
                 player->damage();
                 player->increaseMiss();
                 if (player->getLife() <= 0)
@@ -253,7 +253,7 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
             else if (getNextNote(Notes)->getNoteType() == NoteType::BONUS)
             {
                 player->setState(CharacterAction::REGENERATE);
-                removeNotePassed(Notes);
+                removeFirstNote(Notes);
                 player->regenerate();
                 player->increaseScore();
             }
@@ -376,7 +376,7 @@ void GameView::hitSmash(QList<Note *> *Notes)
 
     //If we hit the smash a number of times, we wan't to erase it.
     if (getNextNote(Notes)->getHit() == NBSMASHHIT)
-        removeNotePassed(Notes);
+        removeFirstNote(Notes);
 }
 
 void GameView::hit()
@@ -392,7 +392,7 @@ void GameView::hit()
     }
 }
 
-void GameView::removeNotePassed(QList<Note *> *Notes)
+void GameView::removeFirstNote(QList<Note *> *Notes)
 {
     scene->removeItem(Notes->first());
     Note *note = Notes->takeFirst();
@@ -412,18 +412,23 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
 {
     if (!Notes->isEmpty())
     {
+        qDebug() << Notes->first()->getTimeout() << " - " << music->position();
+
+        if(Notes->first()->getNoteType() == NoteType::SMASH && Notes->first()->getTimeout() < music->position())
+            removeFirstNote(Notes);
+
         for (int i = 0; i < Notes->count(); i++)
         {
             int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)3000));
             if ((Notes->at(i)->getNoteType() != NoteType::SMASH) || (Notes->at(i)->getNoteType() == NoteType::SMASH && (Notes->at(i)->x() >= 600 || Notes->at(i)->x() <= 10)))
                 Notes->at(i)->setX(x);
-            if (x <= 0)
+            if (Notes->at(i)->x() <= 0)
             {
                 if(Notes->first()->getNoteType() == NoteType::TRAP)
                     player->increasePass();
                 else if(Notes->first()->getNoteType() != NoteType::TRAP && Notes->first()->getNoteType() != NoteType::BONUS)
                     player->increaseMiss();
-                removeNotePassed(Notes);
+                removeFirstNote(Notes);
             }
         }
     }
@@ -534,7 +539,7 @@ void GameView::musicEnd()
 
 //Update the display
 void GameView::update()
-{
+{  
     if (!_pause)
     {
         //Update of note position
