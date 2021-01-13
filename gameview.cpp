@@ -91,12 +91,16 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     downLabel->setPos(XLINE - 100, DOWNLINE - 100);
 
     //Crosshair
-    _rotationCrossHair = 1;
-    _countCross = 0;
-    pixUpCross = scene->addPixmap(QPixmap(":/img/Crosshair/Crosshair1.png").scaled(50, 50));
+    _rotationCrossHair = _countCross = 0;
+
+    crosshairList = new QList<QPixmap>();
+    for(int i = 1; i <= 3; i++)
+        crosshairList->push_back(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d", i) + ".png").scaled(QSize(50, 50)));
+
+    pixUpCross = scene->addPixmap(crosshairList->first());
     pixUpCross->setPos(XLINE + 16, UPLINE + 25);
     pixUpCross->setZValue(250);
-    pixDownCross = scene->addPixmap(QPixmap(":/img/Crosshair/Crosshair1.png").scaled(50, 50));
+    pixDownCross = scene->addPixmap(crosshairList->first());
     pixDownCross->setPos(XLINE + 16, DOWNLINE + 25);
     pixDownCross->setZValue(250);
 
@@ -412,8 +416,6 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
 {
     if (!Notes->isEmpty())
     {
-        qDebug() << Notes->first()->getTimeout() << " - " << music->position();
-
         if(Notes->first()->getNoteType() == NoteType::SMASH && Notes->first()->getTimeout() < music->position())
             removeFirstNote(Notes);
 
@@ -507,11 +509,11 @@ void GameView::rotateCrossHair()
     _countCross++;
     if (_countCross >= 15) //15 times 10ms (to be prettier & smoother)
     {
-        pixUpCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d", _rotationCrossHair) + ".png").scaled(50, 50));
-        pixDownCross->setPixmap(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d", _rotationCrossHair) + ".png").scaled(50, 50));
+        pixUpCross->setPixmap(crosshairList->at(_rotationCrossHair));
+        pixDownCross->setPixmap(crosshairList->at(_rotationCrossHair));
         _rotationCrossHair++;
-        if (_rotationCrossHair > 3)
-            _rotationCrossHair = 1;
+        if (_rotationCrossHair >= 3)
+            _rotationCrossHair = 0;
         _countCross = 0;
     }
 }
