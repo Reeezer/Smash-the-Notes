@@ -8,8 +8,9 @@
 #include <QElapsedTimer>
 
 Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
-    : QGraphicsPixmapItem(parent), _noteType(type), _timestamp(timestamp)
+    : QGraphicsPixmapItem(parent), _noteType(type), _timeStamp(timestamp)
 {
+    _timeOut = _timeStamp + TIMEOUT;
     _hits = _lastElapsed = _framesNb = 0;
     quint32 rand = QRandomGenerator::global()->bounded(1, 4);
 
@@ -94,11 +95,9 @@ Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
     timer->start();
 }
 
-int Note::getTimestamp() {return _timestamp;}
+int Note::getTimeStamp() {return _timeStamp;}
 NoteType Note::getNoteType() {return _noteType;}
-int Note::getMaxHits() {return _maxHits;}
-int Note::getPoints() {return _points;}
-int Note::getTimeout() {return _timeout;}
+int Note::getTimeOut() {return _timeOut;}
 int Note::getHit() {return _hits;}
 
 void Note::hit() {_hits++;}

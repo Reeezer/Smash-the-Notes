@@ -416,12 +416,12 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
 {
     if (!Notes->isEmpty())
     {
-        if(Notes->first()->getNoteType() == NoteType::SMASH && Notes->first()->getTimeout() < music->position())
+        if(Notes->first()->getNoteType() == NoteType::SMASH && Notes->first()->getTimeOut() < music->position())
             removeFirstNote(Notes);
 
         for (int i = 0; i < Notes->count(); i++)
         {
-            int x = XLINE + ((Notes->at(i)->getTimestamp() - music->position()) * ((double)(this->width() - XLINE) / (double)3000));
+            int x = XLINE + ((Notes->at(i)->getTimeStamp() - music->position()) * ((double)(this->width() - XLINE) / (double)3000));
             if ((Notes->at(i)->getNoteType() != NoteType::SMASH) || (Notes->at(i)->getNoteType() == NoteType::SMASH && (Notes->at(i)->x() >= 600 || Notes->at(i)->x() <= 10)))
                 Notes->at(i)->setX(x);
             if (Notes->at(i)->x() <= 0)
