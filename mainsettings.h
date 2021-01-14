@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QFormLayout>
 #include <QObject>
+#include <QVBoxLayout>
 
 #include "pathwidget.h"
 #include "game.h"
@@ -24,6 +25,7 @@ private:
     QPushButton *mapPathButton;
     QSlider *volumeSlider;
     PathWidget *pathWidget;
+    QPushButton *returnButton;
 
 public slots:
     void setNewDelay();
