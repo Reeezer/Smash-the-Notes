@@ -15,6 +15,7 @@ SOURCES += \
     GameItems/note.cpp \
     GameItems/character.cpp\
     controlsettings.cpp \
+    controlsettings.cpp \
     animatable.cpp \
     endscreen.cpp \
     game.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
     splashscreen.cpp \
 
 HEADERS += \
+    controlsettings.h \
     controlsettings.h \
     GameItems/note.h \
     GameItems/character.h\
