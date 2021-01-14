@@ -25,6 +25,7 @@ SOURCES += \
     mainmenu.cpp \
     mainsettings.cpp \
     pathwidget.cpp \
+    pathwidget.cpp \
     song.cpp \
     song.cpp \
     songdetails.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     gamewindow.h \
     mainmenu.h \
     mainsettings.h \
+    pathwidget.h \
     pathwidget.h \
     song.h \
     song.h \
