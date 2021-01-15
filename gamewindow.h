@@ -8,7 +8,7 @@
 #include "controlsettings.h"
 #include "splashscreen.h"
 #include "endscreen.h"
-#include "mainmenu.h"
+
 
 class GameWindow : public QStackedWidget
 {
@@ -22,21 +22,16 @@ public slots:
     void displayEndScreen();
     void displayGame();
     void restartGame();
-    void displayMainMenu();
+//    void displayMainMenu();
 //    void displaySongDetails();
 //    void displaySettings();
 //    void displaySplashScreen();
-    void displayControlSettings();
 
 private:
     Game *_game;
     Character *_player;
     GameView *_gameView;
     EndScreen *_endScreen;
-    MainMenu *_mainMenu;
-    MainSettings *_mainSettings;
-    ControlSettings *_controlSettings;
-    SplashScreen *_splashScreen;
 
 };
 

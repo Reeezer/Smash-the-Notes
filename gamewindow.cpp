@@ -1,4 +1,5 @@
 #include "gamewindow.h"
+#include "mainmenu.h"
 #include <QDebug>
 #include <QFontDatabase>
 
@@ -16,23 +17,23 @@ GameWindow::GameWindow(QWidget *parent)
     
     _gameView = new GameView(_game, _player, this);
     addWidget(_gameView);
+
+    setFixedSize(1000,600);
+    setWindowTitle("Smash The Notes");
+
+    MainMenu *mainMenu = new MainMenu(_game, this);
+    addWidget(mainMenu);
+    
+    MainSettings *mainSettings = new MainSettings(_game, this);
+    addWidget(mainSettings);
+
+    ControlSettings *controlSettings = new ControlSettings(_game, this);
+    addWidget(controlSettings);
+    
+    SplashScreen *splashScreen = new SplashScreen(this);
+    addWidget(splashScreen);
+    
     _gameView->resize(this->width(), this->height());
-
-    _mainMenu = new MainMenu(_game, this);
-    addWidget(_mainMenu);
-    _mainMenu->resize(this->width(), this->height());
-    
-    _mainSettings = new MainSettings(_game, this);
-    addWidget(_mainSettings);
-    _mainSettings->resize(this->width(), this->height());
-
-    _controlSettings = new ControlSettings(_game, this);
-    addWidget(_controlSettings);
-    _controlSettings->resize(this->width(), this->height());
-    
-    _splashScreen = new SplashScreen(this);
-    addWidget(_splashScreen);
-    _splashScreen->resize(this->width(), this->height());
 
     _endScreen = new EndScreen(_game, _player, this);
     addWidget(_endScreen);
@@ -41,11 +42,9 @@ GameWindow::GameWindow(QWidget *parent)
     //Connect
     QObject::connect(_gameView, &GameView::gameFinished, this, &GameWindow::displayEndScreen);
     QObject::connect(_endScreen, &EndScreen::restartGame, this, &GameWindow::restartGame);
-    QObject::connect(_mainSettings, &MainSettings::mainMenuCall, this, &GameWindow::displayMainMenu);
-    QObject::connect(_mainSettings, &MainSettings::controlSettingsCall, this, &GameWindow::displayControlSettings);
 
     _gameView->newGame();
-    setCurrentWidget(_mainSettings);
+    setCurrentWidget(_gameView);
 }
 
 GameWindow::~GameWindow()
@@ -70,14 +69,4 @@ void GameWindow::displayEndScreen()
 {
     _endScreen->initialize();
     setCurrentWidget(_endScreen);
-}
-
-void GameWindow::displayMainMenu()
-{
-    setCurrentWidget(_mainMenu);
-}
-
-void GameWindow::displayControlSettings()
-{
-    setCurrentWidget(_controlSettings);
 }
