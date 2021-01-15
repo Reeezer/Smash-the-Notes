@@ -14,6 +14,8 @@
 
 class MainSettings : public QWidget
 {
+    Q_OBJECT
+
 public:
     MainSettings(Game *game, QWidget *parent = nullptr);
 
@@ -33,5 +35,10 @@ public slots:
     void setNewVolume();
     void validateAndSetNewDirectory();
     void openModalFileExplorer();
+    void returnButtonPressed();
+
+signals:
+    void mainMenuCall();
+    void controlSettingsCall();
 };
 
