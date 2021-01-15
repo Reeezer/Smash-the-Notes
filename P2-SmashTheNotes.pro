@@ -15,7 +15,6 @@ SOURCES += \
     GameItems/note.cpp \
     GameItems/character.cpp\
     controlsettings.cpp \
-    controlsettings.cpp \
     animatable.cpp \
     endscreen.cpp \
     game.cpp \
@@ -25,8 +24,6 @@ SOURCES += \
     mainmenu.cpp \
     mainsettings.cpp \
     pathwidget.cpp \
-    pathwidget.cpp \
-    song.cpp \
     song.cpp \
     songdetails.cpp \
     songfile.cpp \
@@ -34,7 +31,6 @@ SOURCES += \
     splashscreen.cpp \
 
 HEADERS += \
-    controlsettings.h \
     controlsettings.h \
     GameItems/note.h \
     GameItems/character.h\
@@ -46,8 +42,6 @@ HEADERS += \
     mainmenu.h \
     mainsettings.h \
     pathwidget.h \
-    pathwidget.h \
-    song.h \
     song.h \
     songdetails.h \
     songfile.h \
