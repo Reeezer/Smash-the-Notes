@@ -268,7 +268,10 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
             if (getNextNote(Notes)->getNoteType() == NoteType::TRAP)
                 changeLabel("PASS", false);
             else
+            {
                 changeLabel("MISS", false);
+                player->comboBreak();
+            }
         }
     }
 }
