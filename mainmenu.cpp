@@ -22,31 +22,28 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
 
     //Layouts
     QHBoxLayout *buttons = new QHBoxLayout;
-    buttons->addWidget(startButton);
     buttons->addWidget(detailsButton);
+    buttons->addWidget(settingsButton);
 
     QVBoxLayout *left = new QVBoxLayout;
     left->addWidget(songnameLabel);
     left->addWidget(difficultyLabel);
     left->addWidget(highscoreLabel);
     left->addLayout(buttons);
-
-    QVBoxLayout *right = new QVBoxLayout;
-    right->addWidget(songsList);
-    right->addWidget(settingsButton);
+    left->addWidget(startButton);
 
     QHBoxLayout *main = new QHBoxLayout;
     main->addLayout(left);
-    main->addLayout(right);
+    main->addWidget(songsList);
     this->setLayout(main);
 
     //Connections
     connect(startButton, &QPushButton::clicked, this, &MainMenu::playSelectedSong);
     connect(songsList, &QListWidget::itemDoubleClicked, this, &MainMenu::playSelectedSong);
-//    connect(detailsButton, &QPushButton::clicked, this, &MainMenu::openSelectedSongDetails);
-//    connect(settingsButton, &QPushButton::clicked, this, &MainMenu::openSettingsMenu);
-//    connect(songsList, &QListWidget::itemClicked, this, &MainMenu::adaptToSelectedSong);
-//    connect(songsList, &QListWidget::itemEntered, this, &MainMenu::adaptToPreselection);
+    connect(detailsButton, &QPushButton::clicked, this, &MainMenu::openSelectedSongDetails);
+    connect(settingsButton, &QPushButton::clicked, this, &MainMenu::openSettingsMenu);
+    connect(songsList, &QListWidget::itemClicked, this, &MainMenu::adaptToSelectedSong);
+    connect(songsList, &QListWidget::itemEntered, this, &MainMenu::adaptToPreselection);
 }
 
 void MainMenu::initializeQListWidget(QListWidget* songsList)
@@ -60,4 +57,25 @@ void MainMenu::initializeQListWidget(QListWidget* songsList)
 
 void MainMenu::playSelectedSong()
 {
+    emit gameViewCall();
+}
+
+void MainMenu::openSelectedSongDetails()
+{
+    emit songDetailsCall();
+}
+
+void MainMenu::openSettingsMenu()
+{
+    emit mainSettingsCall();
+}
+
+void MainMenu::adaptToSelectedSong()
+{
+
+}
+
+void MainMenu::adaptToPreselection()
+{
+
 }

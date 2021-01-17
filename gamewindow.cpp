@@ -38,14 +38,21 @@ GameWindow::GameWindow(QWidget *parent)
     addWidget(_endScreen);
     _endScreen->resize(this->width(), this->height());
 
+    _songDetails = new SongDetails(_game, this);
+    addWidget(_songDetails);
+    _songDetails->resize(this->width(), this->height());
+
     //Connect
     QObject::connect(_gameView, &GameView::gameFinished, this, &GameWindow::displayEndScreen);
     QObject::connect(_endScreen, &EndScreen::restartGame, this, &GameWindow::restartGame);
     QObject::connect(_mainSettings, &MainSettings::mainMenuCall, this, &GameWindow::displayMainMenu);
     QObject::connect(_mainSettings, &MainSettings::controlSettingsCall, this, &GameWindow::displayControlSettings);
+    QObject::connect(_mainMenu, &MainMenu::gameViewCall, this, &GameWindow::displayGame);
+    QObject::connect(_mainMenu, &MainMenu::songDetailsCall, this, &GameWindow::displaySongDetails);
+    QObject::connect(_mainMenu, &MainMenu::mainSettingsCall, this, &GameWindow::displaySettings);
 
     _gameView->newGame();
-    setCurrentWidget(_mainSettings);
+    setCurrentWidget(_mainMenu);
 }
 
 GameWindow::~GameWindow()
@@ -80,4 +87,14 @@ void GameWindow::displayMainMenu()
 void GameWindow::displayControlSettings()
 {
     setCurrentWidget(_controlSettings);
+}
+
+void GameWindow::displaySettings()
+{
+    setCurrentWidget(_mainSettings);
+}
+
+void GameWindow::displaySongDetails()
+{
+    setCurrentWidget(_songDetails);
 }
