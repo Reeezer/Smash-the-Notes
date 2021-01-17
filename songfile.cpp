@@ -44,7 +44,7 @@ void tokenize(QTextStream &instream, QMap<QString, QString> &info_tokens, QList<
     }
 }
 
-bool loadFromFile(QString &path, QList<Note *> *upNotes, QList<Note *> *downNotes)
+bool loadOsuFile(QString &path, QList<Note *> *upNotes, QList<Note *> *downNotes)
 {
     qDebug() << "loading file: '" + path + "'";
 
