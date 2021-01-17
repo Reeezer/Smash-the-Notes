@@ -43,9 +43,10 @@ GameWindow::GameWindow(QWidget *parent)
     QObject::connect(_endScreen, &EndScreen::restartGame, this, &GameWindow::restartGame);
     QObject::connect(_mainSettings, &MainSettings::mainMenuCall, this, &GameWindow::displayMainMenu);
     QObject::connect(_mainSettings, &MainSettings::controlSettingsCall, this, &GameWindow::displayControlSettings);
+    QObject::connect(_splashScreen, &SplashScreen::mainMenuCall, this, &GameWindow::displayMainMenu);
 
     _gameView->newGame();
-    setCurrentWidget(_mainSettings);
+    setCurrentWidget(_splashScreen);
 }
 
 GameWindow::~GameWindow()
