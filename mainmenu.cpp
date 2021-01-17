@@ -1,4 +1,6 @@
 #include "mainmenu.h"
+#include "dirutils.h"
+#include "songitem.h"
 
 MainMenu::MainMenu(Game *game, QWidget *parent)
     : QWidget(parent), game(game)
@@ -18,7 +20,7 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     //Widgets configuration
     startButton->setDisabled(true);
     detailsButton->setDisabled(true);
-    initializeQListWidget(songsList);
+    initializeSongList(songsList);
 
     //Layouts
     QHBoxLayout *buttons = new QHBoxLayout;
@@ -46,13 +48,14 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     connect(songsList, &QListWidget::itemEntered, this, &MainMenu::adaptToPreselection);
 }
 
-void MainMenu::initializeQListWidget(QListWidget* songsList)
+void MainMenu::initializeSongList(QListWidget* songsList)
 {
-//    QList<Song*> list = getSongList();
-//    for(int i = 0; i < list.length(); i++)
-//    {
-//        songsList->addItem(QString(list.at(i)->artist + " - " list.at(i)->title));
-//    }
+    QList<Song*> list;
+    getSongList("C:\\Users\\lucadavi.meyer\\Desktop\\songdir", &list);
+    for(Song *song : list)
+    {
+        songsList->addItem(new SongItem(song));
+    }
 }
 
 void MainMenu::playSelectedSong()
