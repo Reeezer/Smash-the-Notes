@@ -1,15 +1,24 @@
 #pragma once
 
-#include <QWidget>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QKeyEvent>
 
-class QPushButton;
-
-class SplashScreen : public QWidget
+class SplashScreen : public QPushButton
 {
+    Q_OBJECT
+
 public:
     SplashScreen(QWidget *parent = nullptr);
 
 private:
-    QPushButton *startButton;
+    void keyPressEvent(QKeyEvent *);
+
+signals:
+    void mainMenuCall();
+
+public slots:
+    void splashScreenPass();
 };
 
