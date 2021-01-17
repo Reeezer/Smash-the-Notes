@@ -26,6 +26,7 @@ SOURCES += \
     pathwidget.cpp \
     song.cpp \
     songdetails.cpp \
+    songdir.cpp \
     songfile.cpp \
     songitem.cpp \
     splashscreen.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     pathwidget.h \
     song.h \
     songdetails.h \
+    songdir.h \
     songfile.h \
     songitem.h \
     splashscreen.h \

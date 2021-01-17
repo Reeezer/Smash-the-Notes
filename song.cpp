@@ -1,16 +1,17 @@
 #include "song.h"
 
 Song::Song()
-{
+{}
 
-}
+Song::Song(QString path) : _path(path)
+{}
 
 Rank Song::getRank()
 {
-    return rank;
+    return _rank;
 }
 
 QString Song::getPath()
 {
-    return path;
+    return _path;
 }
