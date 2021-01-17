@@ -4,13 +4,13 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     : QWidget(parent), game(game)
 {
     //Widgets
-    songnameLabel = new QLabel("Musique", this);
-    difficultyLabel = new QLabel("Difficulté", this);
-    highscoreLabel = new QLabel("Highscore", this);
+    songnameLabel = new QLabel(tr("Music"), this);
+    difficultyLabel = new QLabel(tr("Difficulty"), this);
+    highscoreLabel = new QLabel(tr("Highscore"), this);
 
-    startButton = new QPushButton("Play", this); //TODO : icon
-    detailsButton = new QPushButton("Détails", this); //TODO : icon
-    settingsButton = new QPushButton("Options", this); //TODO : icon
+    startButton = new QPushButton(tr("Play"), this); //TODO : icon
+    detailsButton = new QPushButton(tr("Details"), this); //TODO : icon
+    settingsButton = new QPushButton(tr("Settings"), this); //TODO : icon
 
     songsList = new QListWidget(this);
     musicPreview = new QMediaPlayer(this); //TODO : flags
