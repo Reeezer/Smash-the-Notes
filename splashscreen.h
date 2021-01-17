@@ -1,12 +1,11 @@
 #pragma once
 
-#include <QWidget>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QKeyEvent>
 
-class SplashScreen : public QWidget
+class SplashScreen : public QPushButton
 {
     Q_OBJECT
 
@@ -15,8 +14,6 @@ public:
 
 private:
     void keyPressEvent(QKeyEvent *);
-
-    QPushButton *startButton;
 
 signals:
     void mainMenuCall();
