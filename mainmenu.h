@@ -14,6 +14,8 @@
 
 class MainMenu : public QWidget
 {
+    Q_OBJECT
+
 public:
     MainMenu(Game *game, QWidget *parent = nullptr);
 
@@ -39,5 +41,10 @@ private:
     QMediaPlayer *musicPreview;
 
     static void initializeQListWidget(QListWidget*);
+
+signals:
+    void songDetailsCall();
+    void mainSettingsCall();
+    void gameViewCall();
 };
 
