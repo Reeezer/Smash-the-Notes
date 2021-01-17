@@ -184,7 +184,7 @@ void GameView::initialize()
         removeFirstNote(downNotes);
     QString path = "C:\\Users\\leon.muller\\Desktop\\.Projet\\jeu-de-rythme\\LFZ_-_Popsicle_Easy.osu";
 
-    loadFromFile(path, upNotes, downNotes);
+    loadOsuFile(path, upNotes, downNotes);
     for (Note *note : *upNotes)
     {
         if (note->getNoteType() == NoteType::SMASH)

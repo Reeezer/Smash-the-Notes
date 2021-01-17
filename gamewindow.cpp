@@ -50,9 +50,11 @@ GameWindow::GameWindow(QWidget *parent)
     QObject::connect(_mainMenu, &MainMenu::gameViewCall, this, &GameWindow::displayGame);
     QObject::connect(_mainMenu, &MainMenu::songDetailsCall, this, &GameWindow::displaySongDetails);
     QObject::connect(_mainMenu, &MainMenu::mainSettingsCall, this, &GameWindow::displaySettings);
+    QObject::connect(_splashScreen, &SplashScreen::mainMenuCall, this, &GameWindow::displayMainMenu);
+    QObject::connect(_controlSettings, &ControlSettings::mainSettingsCall, this, &GameWindow::displaySettings);
+    
+    setCurrentWidget(_splashScreen);
 
-    _gameView->newGame();
-    setCurrentWidget(_mainMenu);
 }
 
 GameWindow::~GameWindow()
