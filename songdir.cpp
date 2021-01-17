@@ -9,12 +9,15 @@ void getSongList (QString path, QList<Song *> *songlist)
         qDebug() << "dir found: " << dirpath;
         QDir dir(path + QDir::separator() + dirpath);
 
-        QString osufilepath = dirpath + QDir::separator() + dir.entryList(QStringList("*.osu"), QDir::Files)[0];
-        qDebug() << "found osu file: " << osufilepath;
+        QStringList foundFiles = dir.entryList(QStringList("*.osu"), QDir::Files);
+        if(foundFiles.size() > 0) {
+            QString osufilepath = dirpath + QDir::separator() + foundFiles[0];
+            qDebug() << "found osu file: " << osufilepath;
 
-        Song *song = new Song(path + QDir::separator() + osufilepath);
-        qDebug() << "new song with osu file set to: " << song->getPath();
+            Song *song = new Song(path + QDir::separator() + osufilepath);
+            qDebug() << "new song with osu file set to: " << song->getPath();
 
-        songlist->append(song);
+            songlist->append(song);
+        }
     }
 }
