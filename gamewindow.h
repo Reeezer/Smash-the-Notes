@@ -24,7 +24,7 @@ public slots:
     void restartGame();
     void displayMainMenu();
 //    void displaySongDetails();
-//    void displaySettings();
+    void displaySettings();
 //    void displaySplashScreen();
     void displayControlSettings();
 

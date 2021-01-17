@@ -6,4 +6,4 @@
 
 #include "GameItems/note.h"
 
-bool loadFromFile(QString& , QList<Note *> *, QList<Note *> *);
+bool loadOsuFile(QString& , QList<Note *> *, QList<Note *> *);

@@ -19,13 +19,14 @@ class Song
 {
 public:
     Song();
+    Song(QString);
 
     Rank getRank();
     QString getPath();
 
 private:
-    Rank rank;
-    QString path;
+    Rank _rank;
+    QString _path;
 };
 
 #endif // SONG_H
