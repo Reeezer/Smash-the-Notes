@@ -40,7 +40,7 @@ private:
     QListWidget *songsList;
     QMediaPlayer *musicPreview;
 
-    static void initializeQListWidget(QListWidget*);
+    static void initializeSongList(QListWidget*);
 
 signals:
     void songDetailsCall();
