@@ -1,4 +1,4 @@
-#include "songdir.h"
+#include "dirutils.h"
 
 void getSongList (QString path, QList<Song *> *songlist)
 {

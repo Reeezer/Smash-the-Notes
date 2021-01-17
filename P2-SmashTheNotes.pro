@@ -16,7 +16,9 @@ SOURCES += \
     GameItems/character.cpp\
     controlsettings.cpp \
     animatable.cpp \
+    dirutils.cpp \
     endscreen.cpp \
+    fileutils.cpp \
     game.cpp \
     gameview.cpp \
     gamewindow.cpp \
@@ -26,8 +28,6 @@ SOURCES += \
     pathwidget.cpp \
     song.cpp \
     songdetails.cpp \
-    songdir.cpp \
-    songfile.cpp \
     songitem.cpp \
     splashscreen.cpp \
 
@@ -36,7 +36,9 @@ HEADERS += \
     GameItems/note.h \
     GameItems/character.h\
     animatable.h \
+    dirutils.h \
     endscreen.h \
+    fileutils.h \
     game.h \
     gameview.h \
     gamewindow.h \
@@ -45,8 +47,6 @@ HEADERS += \
     pathwidget.h \
     song.h \
     songdetails.h \
-    songdir.h \
-    songfile.h \
     songitem.h \
     splashscreen.h \
 

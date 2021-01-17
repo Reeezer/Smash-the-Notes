@@ -22,7 +22,7 @@ class QSoundEffect;
 
 #include "GameItems/character.h"
 #include "game.h"
-#include "songfile.h"
+#include "fileutils.h"
 #include "GameItems/note.h"
 //class Song; //TODO : change to include when Song is implemented
 
