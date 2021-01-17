@@ -43,6 +43,7 @@ GameWindow::GameWindow(QWidget *parent)
     QObject::connect(_endScreen, &EndScreen::restartGame, this, &GameWindow::restartGame);
     QObject::connect(_mainSettings, &MainSettings::mainMenuCall, this, &GameWindow::displayMainMenu);
     QObject::connect(_mainSettings, &MainSettings::controlSettingsCall, this, &GameWindow::displayControlSettings);
+    QObject::connect(_controlSettings, &ControlSettings::mainSettingsCall, this, &GameWindow::displaySettings);
 
     _gameView->newGame();
     setCurrentWidget(_mainSettings);
@@ -80,4 +81,9 @@ void GameWindow::displayMainMenu()
 void GameWindow::displayControlSettings()
 {
     setCurrentWidget(_controlSettings);
+}
+
+void GameWindow::displaySettings()
+{
+    setCurrentWidget(_mainSettings);
 }
