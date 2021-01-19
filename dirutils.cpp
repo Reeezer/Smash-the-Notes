@@ -20,8 +20,13 @@ void getSongList (QString path, QList<Song *> *songlist)
             QMap<QString, QString> songMetadata;
             loadOsuFileMetadata(absoluteOsuFilePath, &songMetadata);
 
-            Song *song = new Song(songMetadata["Metadata/Title"], songMetadata["Metadata/Artist"], absoluteOsuFilePath);
+            QString artist = songMetadata["Metadata/Artist"];
+            QString title = songMetadata["Metadata/Title"];
+            QString absoluteAudioFilePath = path + QDir::separator() + dirpath + QDir::separator() + songMetadata["General/AudioFilename"];
+
+            Song *song = new Song(title, artist, absoluteOsuFilePath, absoluteAudioFilePath);
             qDebug() << "new song with osu file set to: " << song->getPath();
+            qDebug() << "audio file path set to: " << song->getAudioFilePath();
 
             songlist->append(song);
         }

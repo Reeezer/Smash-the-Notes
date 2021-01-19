@@ -31,12 +31,11 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
 
     //Set up the music & sound effect
     music = new QMediaPlayer(this);
-    music->setMedia(QUrl("qrc:/music/test.mp3"));
 
     timer = new QElapsedTimer();
 
     hitEffect = new QSoundEffect(this);
-    hitEffect->setSource(QUrl("qrc:/music/hit-normal.wav"));
+    hitEffect->setSource(QUrl("qrc:/audio/hit-normal.wav"));
 
     //Background
     _ratio = 0.0032;
@@ -199,8 +198,11 @@ void GameView::newGame(Song *song)
         scene->addItem(note);
     }
 
+    qDebug() << "new game with audio file: " + _currentSong->getAudioFilePath();
+
     timer->restart();
     music->stop();
+    music->setMedia(QUrl::fromLocalFile(_currentSong->getAudioFilePath()));
     music->play();
 }
 
