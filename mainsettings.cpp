@@ -4,10 +4,10 @@ MainSettings::MainSettings(Game *game, QWidget *parent)
     : QWidget(parent), game(game)
 {
     delaySpinBox = new QSpinBox(this);
-    inputButton = new QPushButton(this);
+    inputButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/plus.png"), "", this);
     volumeSlider = new QSlider(Qt::Horizontal, this);
     pathWidget = new PathWidget(this);
-    returnButton = new QPushButton(this);
+    returnButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/arrowLeft.png"), "", this);
 
     QFormLayout *layout = new QFormLayout();
     layout->addRow(tr("delay"), delaySpinBox);
