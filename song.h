@@ -10,7 +10,7 @@ class Song
 {
 public:
     Song();
-    Song(QString, QString, QString, QString, QString);
+    Song(QString, QString, QString);
 
     Rank getRank();
     QString getPath();

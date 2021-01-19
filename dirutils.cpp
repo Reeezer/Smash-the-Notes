@@ -17,17 +17,11 @@ void getSongList (QString path, QList<Song *> *songlist)
             qDebug() << "found osu file: " << osufilepath;
 
             QString absoluteOsuFilePath = path + QDir::separator() + osufilepath;
-
-            QMap<QString, QString> songMetadata;
-            loadOsuFileMetadata(absoluteOsuFilePath, &songMetadata);
-
-            QString artist = songMetadata["Metadata/Artist"];
-            QString title = songMetadata["Metadata/Title"];
             QString absoluteAudioFilePath = path + QDir::separator() + dirpath + QDir::separator() + songMetadata["General/AudioFilename"];
             /* le nom du fichier de highscore ne change jamais et n'a pas besoin d'exister, il sera créé si il n'existe pas */
             QString absoluteHighscoreFilePath = path + QDir::separator() + dirpath + QDir::separator() + "highscores.json";
 
-            Song *song = new Song(title, artist, absoluteOsuFilePath, absoluteAudioFilePath, absoluteHighscoreFilePath);
+            Song *song = new Song(absoluteOsuFilePath, absoluteAudioFilePath, absoluteHighscoreFilePath);
             qDebug() << "new song with osu file set to: " << song->getPath();
             qDebug() << "audio file path set to: " << song->getAudioFilePath();
             qDebug() << "highscore file path set to: " << song->getHighscoreFilePath();
