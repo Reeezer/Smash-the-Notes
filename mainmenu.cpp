@@ -6,9 +6,9 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     : QWidget(parent), game(game)
 {
     //Widgets
-    songnameLabel = new QLabel(tr("Music"), this);
-    difficultyLabel = new QLabel(tr("Difficulty"), this);
-    highscoreLabel = new QLabel(tr("Highscore"), this);
+    songnameLabel = new QLabel(tr("Music: "), this);
+    difficultyLabel = new QLabel(tr("Difficulty: "), this);
+    highscoreLabel = new QLabel(tr("Highscore: "), this);
 
     startButton = new QPushButton(tr("Play"), this); //TODO : icon
     detailsButton = new QPushButton(tr("Details"), this); //TODO : icon
@@ -31,6 +31,7 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     left->addWidget(songnameLabel);
     left->addWidget(difficultyLabel);
     left->addWidget(highscoreLabel);
+    left->addStretch();
     left->addLayout(buttons);
     left->addWidget(startButton);
 
@@ -78,6 +79,10 @@ void MainMenu::adaptToSelectedSong()
     /* une fois qu'une musique a été sélectionnée on peut activer les boutons de façon permanente */
     startButton->setEnabled(true);
     detailsButton->setEnabled(true);
+
+    if (Song *song = getSelectedSong()) {
+        songnameLabel->setText("Music: " + song->getArtist() + " - " + song->getTitle());
+    }
 }
 
 void MainMenu::adaptToPreselection()

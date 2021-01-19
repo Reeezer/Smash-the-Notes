@@ -19,15 +19,17 @@ class Song
 {
 public:
     Song();
-    Song(QString, QString);
+    Song(QString, QString, QString);
 
     Rank getRank();
     QString getPath();
+    QString getArtist();
     QString getTitle();
 
 private:
     Rank _rank;
     QString _title;
+    QString _artist;
     QString _path;
 };
 
