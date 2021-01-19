@@ -1,5 +1,6 @@
 #include "dirutils.h"
 #include "fileutils.h"
+#include "song.h"
 
 void getSongList (QString path, QList<Song *> *songlist)
 {
@@ -23,10 +24,25 @@ void getSongList (QString path, QList<Song *> *songlist)
             QString artist = songMetadata["Metadata/Artist"];
             QString title = songMetadata["Metadata/Title"];
             QString absoluteAudioFilePath = path + QDir::separator() + dirpath + QDir::separator() + songMetadata["General/AudioFilename"];
+            /* le nom du fichier de highscore ne change jamais et n'a pas besoin d'exister, il sera créé si il n'existe pas */
+            QString absoluteHighscoreFilePath = path + QDir::separator() + dirpath + QDir::separator() + "highscores.json";
 
-            Song *song = new Song(title, artist, absoluteOsuFilePath, absoluteAudioFilePath);
+            Song *song = new Song(title, artist, absoluteOsuFilePath, absoluteAudioFilePath, absoluteHighscoreFilePath);
             qDebug() << "new song with osu file set to: " << song->getPath();
             qDebug() << "audio file path set to: " << song->getAudioFilePath();
+            qDebug() << "highscore file path set to: " << song->getHighscoreFilePath();
+
+            QFileInfo highscoreFileInfo(absoluteHighscoreFilePath);
+            if (highscoreFileInfo.exists() && highscoreFileInfo.isFile()) {
+                qDebug() << "found highscore file at " << absoluteHighscoreFilePath;
+
+                QList<int> scores;
+                Rank rank;
+                if(loadHighscoreFile(absoluteHighscoreFilePath, &rank, &scores)) {
+                    song->setRank(rank);
+                    song->setHighscores(scores);
+                }
+            }
 
             songlist->append(song);
         }
