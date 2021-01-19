@@ -21,10 +21,7 @@ public:
     int getPlayCount();
     int getHighscore();
 
-
-    void setRank(Rank);
-    void setHighscores(QList<int>);
-
+    void addHighscore(Rank, int);
 
 private:
     Rank _rank;

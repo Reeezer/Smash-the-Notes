@@ -32,18 +32,6 @@ void getSongList (QString path, QList<Song *> *songlist)
             qDebug() << "audio file path set to: " << song->getAudioFilePath();
             qDebug() << "highscore file path set to: " << song->getHighscoreFilePath();
 
-            QFileInfo highscoreFileInfo(absoluteHighscoreFilePath);
-            if (highscoreFileInfo.exists() && highscoreFileInfo.isFile()) {
-                qDebug() << "found highscore file at " << absoluteHighscoreFilePath;
-
-                QList<int> scores;
-                Rank rank;
-                if(loadHighscoreFile(absoluteHighscoreFilePath, &rank, &scores)) {
-                    song->setRank(rank);
-                    song->setHighscores(scores);
-                }
-            }
-
             songlist->append(song);
         }
     }

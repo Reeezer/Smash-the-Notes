@@ -1,11 +1,21 @@
 #include "song.h"
+#include "fileutils.h"
+
+#include <QFileInfo>
+#include <QDebug>
 
 Song::Song()
 {}
 
 Song::Song(QString title, QString artist, QString path, QString audioFilePath, QString highscoreFilePath)
     : _title(title), _artist(artist), _path(path), _audioFilePath(audioFilePath), _highscoreFilePath(highscoreFilePath)
-{}
+{
+    QFileInfo highscoreFileInfo(_highscoreFilePath);
+    if (highscoreFileInfo.exists() && highscoreFileInfo.isFile()) {
+        qDebug() << "found highscore file at " << _highscoreFilePath;
+        loadHighscoreFile(_highscoreFilePath, &_rank, &_highscores);
+    }
+}
 
 Rank Song::getRank()
 {
@@ -50,13 +60,11 @@ int Song::getHighscore()
         return -1;
 }
 
-void Song::setRank(Rank rank)
+void Song::addHighscore(Rank rank, int score)
 {
-    _rank = rank;
-}
-
-void Song::setHighscores(QList<int> scores)
-{
-    for (int score : scores)
-        _highscores.append(score);
+    /* n'effectuer l'ajout que si le score est plus haut */
+    if (getHighscore() < score) {
+        _highscores.insert(0, score);
+        writeHighscoreFile(_highscoreFilePath, _rank, &_highscores);
+    }
 }
