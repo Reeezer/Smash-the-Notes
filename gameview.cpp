@@ -154,7 +154,7 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     //Connect
     QObject::connect(restartButton, &QPushButton::clicked, this, &GameView::initialize);
     QObject::connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicEnd);
-    QObject::connect(quitButton, &QPushButton::clicked, this, &GameView::returnToMenu);
+    QObject::connect(quitButton, &QPushButton::clicked, this, &GameView::displayMainMenu);
 }
 
 void GameView::newGame(Song *song)
@@ -304,6 +304,9 @@ void GameView::gamePause()
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
+    if (event->key() == Qt::Key_Return)
+        displayEndScreen();
+
     //The pause mode
     if (event->key() == Qt::Key_Escape && player->getAlive())
         gamePause();
@@ -546,7 +549,7 @@ void GameView::applyParallax(float ratio, QList<QGraphicsPixmapItem *> *backgrou
 void GameView::musicEnd()
 {
     if(music->state() == QMediaPlayer::StoppedState && timer->elapsed() > 100) //When we restart the game, we stop the music and we don't want to see the end screen at this moment
-        emit gameFinished();
+        emit displayEndScreen();
 }
 
 //Update the display

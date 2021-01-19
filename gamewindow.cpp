@@ -44,10 +44,10 @@ GameWindow::GameWindow(QWidget *parent)
     _songDetails->resize(this->width(), this->height());
 
     //Connect
-    QObject::connect(_gameView, &GameView::gameFinished, this, &GameWindow::displayEndScreen);
-    QObject::connect(_gameView, &GameView::returnToMenu, this, &GameWindow::displayMainMenu);
+    QObject::connect(_gameView, &GameView::displayEndScreen, this, &GameWindow::displayEndScreen);
+    QObject::connect(_gameView, &GameView::displayMainMenu, this, &GameWindow::displayMainMenu);
     QObject::connect(_endScreen, &EndScreen::restartGame, this, &GameWindow::restartGame);
-    QObject::connect(_endScreen, &EndScreen::returnToMenu, this, &GameWindow::displayMainMenu);
+    QObject::connect(_endScreen, &EndScreen::displayMainMenu, this, &GameWindow::displayMainMenu);
     QObject::connect(_mainSettings, &MainSettings::displayMainMenu, this, &GameWindow::displayMainMenu);
     QObject::connect(_mainSettings, &MainSettings::displayControlSettings, this, &GameWindow::displayControlSettings);
     QObject::connect(_mainMenu, &MainMenu::displayGameView, this, &GameWindow::displayGame);

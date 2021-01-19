@@ -53,8 +53,8 @@ public slots:
     void musicEnd();
 
 signals:
-    void gameFinished();
-    void returnToMenu();
+    void displayEndScreen();
+    void displayMainMenu();
 
 private:
     void keyPressEvent(QKeyEvent *);
