@@ -31,7 +31,7 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
 
     //Set up the music & sound effect
     music = new QMediaPlayer(this);
-    music->setMedia(QUrl("qrc:/music/test2.mp3"));
+    music->setMedia(QUrl("qrc:/music/test.mp3"));
 
     timer = new QElapsedTimer();
 
@@ -182,7 +182,7 @@ void GameView::initialize()
         removeFirstNote(upNotes);
     for (Note *note : *downNotes)
         removeFirstNote(downNotes);
-    QString path = "C:\\Users\\leon.muller\\Desktop\\.Projet\\jeu-de-rythme\\LFZ_-_Popsicle_Easy.osu";
+    QString path = "C:\\dev\\HS20\\Qt-P2\\P2-SmashTheNotes\\LFZ_-_Popsicle_Easy.osu";
 
     loadOsuFile(path, upNotes, downNotes);
     for (Note *note : *upNotes)

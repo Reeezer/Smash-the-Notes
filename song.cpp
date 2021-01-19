@@ -3,7 +3,7 @@
 Song::Song()
 {}
 
-Song::Song(QString path) : _path(path)
+Song::Song(QString title, QString path) : _title(title),  _path(path)
 {}
 
 Rank Song::getRank()
@@ -14,4 +14,9 @@ Rank Song::getRank()
 QString Song::getPath()
 {
     return _path;
+}
+
+QString Song::getTitle()
+{
+    return _title;
 }
