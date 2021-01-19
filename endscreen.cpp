@@ -84,8 +84,8 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     leftLayout->addLayout(buttonLayout);
     leftLayout->addStretch();
 
-    QPushButton *menuButton = new QPushButton("Menu");
-    QPushButton *restartButton = new QPushButton("Restart");
+    QPushButton *menuButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/home.png"), "Menu");
+    QPushButton *restartButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/return.png"), "Restart");
     buttonLayout->addStretch();
     buttonLayout->addWidget(menuButton);
     buttonLayout->addStretch();

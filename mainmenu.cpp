@@ -10,12 +10,12 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     difficultyLabel = new QLabel(tr("Difficulty"), this);
     highscoreLabel = new QLabel(tr("Highscore"), this);
 
-    startButton = new QPushButton(tr("Play"), this); //TODO : icon
-    detailsButton = new QPushButton(tr("Details"), this); //TODO : icon
-    settingsButton = new QPushButton(tr("Settings"), this); //TODO : icon
+    startButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/forward.png"), tr("Play"), this);
+    detailsButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/barsHorizontal.png"), tr("Details"), this);
+    settingsButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/wrench.png"), tr("Settings"), this);
 
     songsList = new QListWidget(this);
-    musicPreview = new QMediaPlayer(this); //TODO : flags
+    musicPreview = new QMediaPlayer(this);
 
     //Widgets configuration
     startButton->setDisabled(true);
