@@ -75,10 +75,22 @@ void MainMenu::openSettingsMenu()
 
 void MainMenu::adaptToSelectedSong()
 {
-
+    /* une fois qu'une musique a été sélectionnée on peut activer les boutons de façon permanente */
+    startButton->setEnabled(true);
+    detailsButton->setEnabled(true);
 }
 
 void MainMenu::adaptToPreselection()
 {
 
+}
+
+Song * MainMenu::getSelectedSong()
+{
+    SongItem *selectedItem = (SongItem*) songsList->currentItem();
+
+    if (selectedItem)
+        return selectedItem->getSong();
+    else
+        return nullptr;
 }

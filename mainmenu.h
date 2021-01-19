@@ -19,6 +19,8 @@ class MainMenu : public QWidget
 public:
     MainMenu(Game *game, QWidget *parent = nullptr);
 
+    Song * getSelectedSong();
+
 public slots:
     void playSelectedSong();
     void openSelectedSongDetails();
