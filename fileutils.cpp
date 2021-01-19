@@ -17,9 +17,9 @@ static NoteType columnToType[] = {
     NoteType::SMASH
 };
 
-static void tokenize(QTextStream &, QMap<QString, QString> *, QList<QString> *);
+static void tokenizeOsuFile(QTextStream &, QMap<QString, QString> *, QList<QString> *);
 
-void tokenize(QTextStream &instream, QMap<QString, QString> *info_tokens, QList<QString> *notes_tokens)
+void tokenizeOsuFile(QTextStream &instream, QMap<QString, QString> *info_tokens, QList<QString> *notes_tokens)
 {
     /* Regexes for the different contents */
     QRegularExpression sectionrx("\\[([^]]+)\\]");
@@ -44,6 +44,8 @@ void tokenize(QTextStream &instream, QMap<QString, QString> *info_tokens, QList<
     }
 }
 
+
+
 bool loadOsuFileMetadata(QString &path, QMap<QString, QString> *metadata)
 {
     qDebug() << "loading metadata from file: '" + path + "'";
@@ -58,7 +60,7 @@ bool loadOsuFileMetadata(QString &path, QMap<QString, QString> *metadata)
 
     QTextStream in(&infile);
 
-    tokenize(in, metadata, nullptr);
+    tokenizeOsuFile(in, metadata, nullptr);
 
     /* lire les metadonnées de la musique */
 
@@ -68,6 +70,8 @@ bool loadOsuFileMetadata(QString &path, QMap<QString, QString> *metadata)
 
     qDebug() << QString::asprintf("artist: '%s', title: '%s'", title.toStdString().c_str(), artist.toStdString().c_str());
     qDebug() << QString::asprintf("relative audio file path: '%s'", relative_music_path.toStdString().c_str());
+
+    return true;
 }
 
 bool loadOsuFile(QString &path, QList<Note *> *upNotes, QList<Note *> *downNotes)
@@ -86,7 +90,7 @@ bool loadOsuFile(QString &path, QList<Note *> *upNotes, QList<Note *> *downNotes
 
     QMap<QString, QString> info_tokens;
     QList<QString> notes_tokens;
-    tokenize(in, &info_tokens, &notes_tokens);
+    tokenizeOsuFile(in, &info_tokens, &notes_tokens);
 
     /* lire les metadonnées de la musique */
 
