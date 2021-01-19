@@ -4,16 +4,7 @@
 #include <QList>
 #include <QString>
 
-enum Rank
-{
-    D,
-    C,
-    B,
-    A,
-    S,
-    SS,
-    SSS
-};
+#include "rank.h"
 
 class Song
 {

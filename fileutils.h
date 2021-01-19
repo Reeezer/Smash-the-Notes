@@ -5,7 +5,7 @@
 #include <QString>
 
 #include "gameitems/note.h"
-#include "song.h"
+#include "rank.h"
 
 bool loadHighscoreFile(QString &, Rank *, QList<int> *);
 bool loadOsuFile(QString& , QList<Note *> *, QList<Note *> *);
