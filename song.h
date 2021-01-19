@@ -10,7 +10,7 @@ class Song
 {
 public:
     Song();
-    Song(QString, QString, QString);
+    Song(QString, QString);
 
     Rank getRank();
     QString getPath();
@@ -27,7 +27,7 @@ private:
     Rank _rank;
     QString _title;
     QString _artist;
-    QString _path;
+    QString _osuFilePath;
     QString _audioFilePath;
     QString _highscoreFilePath;
     QList<int> _highscores;

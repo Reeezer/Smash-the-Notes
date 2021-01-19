@@ -13,15 +13,13 @@ void getSongList (QString path, QList<Song *> *songlist)
 
         QStringList foundFiles = dir.entryList(QStringList("*.osu"), QDir::Files);
         if(foundFiles.size() > 0) {
-            QString osufilepath = dirpath + QDir::separator() + foundFiles[0];
-            qDebug() << "found osu file: " << osufilepath;
+            QString osufilename = foundFiles[0];
+            qDebug() << "found osu file: " << osufilename;
 
-            QString absoluteOsuFilePath = path + QDir::separator() + osufilepath;
-            QString absoluteAudioFilePath = path + QDir::separator() + dirpath + QDir::separator() + songMetadata["General/AudioFilename"];
-            /* le nom du fichier de highscore ne change jamais et n'a pas besoin d'exister, il sera créé si il n'existe pas */
-            QString absoluteHighscoreFilePath = path + QDir::separator() + dirpath + QDir::separator() + "highscores.json";
+            QString absoluteBasePath = path + QDir::separator() + dirpath;
 
-            Song *song = new Song(absoluteOsuFilePath, absoluteAudioFilePath, absoluteHighscoreFilePath);
+            /* La classe song se charge elle-même de construire les autres chemins d'accès */
+            Song *song = new Song(absoluteBasePath, osufilename);
             qDebug() << "new song with osu file set to: " << song->getPath();
             qDebug() << "audio file path set to: " << song->getAudioFilePath();
             qDebug() << "highscore file path set to: " << song->getHighscoreFilePath();

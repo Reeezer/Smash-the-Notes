@@ -2,19 +2,23 @@
 #include "fileutils.h"
 
 #include <QFileInfo>
+#include <QDir>
 #include <QDebug>
 
 Song::Song()
 {}
 
-Song::Song(QString osuFilePath, QString audioFilePath, QString highscoreFilePath)
-    : _osuFilePath(osuFilePath), _audioFilePath(audioFilePath), _highscoreFilePath(highscoreFilePath)
+Song::Song(QString absoluteBasePath, QString osuFileName)
 {
+    _osuFilePath = absoluteBasePath + QDir::separator() + osuFileName;
+    _highscoreFilePath = absoluteBasePath + QDir::separator() + "highscores.json";
+
     QMap<QString, QString> songMetadata;
     loadOsuFileMetadata(_osuFilePath, &songMetadata);
 
     _artist = songMetadata["Metadata/Artist"];
     _title = songMetadata["Metadata/Title"];
+    _audioFilePath = absoluteBasePath + songMetadata["General/AudioFilename"];
 
     QFileInfo highscoreFileInfo(_highscoreFilePath);
     if (highscoreFileInfo.exists() && highscoreFileInfo.isFile()) {
