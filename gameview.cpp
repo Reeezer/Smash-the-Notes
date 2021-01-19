@@ -556,8 +556,21 @@ void GameView::applyParallax(float ratio, QList<QGraphicsPixmapItem *> *backgrou
 
 void GameView::musicEnd()
 {
-    if(music->state() == QMediaPlayer::StoppedState && timer->elapsed() > 100) //When we restart the game, we stop the music and we don't want to see the end screen at this moment
+    if(music->state() == QMediaPlayer::StoppedState && timer->elapsed() > 100) {//When we restart the game, we stop the music and we don't want to see the end screen at this moment
+        Rank rank;
+
+        if(player->getAccuracy() > 99)      rank = Rank::SSS;
+        else if(player->getAccuracy() > 95) rank = Rank::SS;
+        else if(player->getAccuracy() > 90) rank = Rank::S;
+        else if(player->getAccuracy() > 80) rank = Rank::A;
+        else if(player->getAccuracy() > 70) rank = Rank::B;
+        else if(player->getAccuracy() > 50) rank = Rank::C;
+        else                                rank = Rank::D;
+
+        _currentSong->addHighscore(rank, player->getScore());
+
         emit displayEndScreen();
+    }
 }
 
 //Update the display
@@ -628,4 +641,9 @@ void GameView::update()
 
         scene->update();
     }
+}
+
+Song * GameView::getCurrentSong()
+{
+    return _currentSong;
 }

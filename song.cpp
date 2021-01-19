@@ -18,7 +18,7 @@ Song::Song(QString absoluteBasePath, QString osuFileName)
 
     _artist = songMetadata["Metadata/Artist"];
     _title = songMetadata["Metadata/Title"];
-    _audioFilePath = absoluteBasePath + songMetadata["General/AudioFilename"];
+    _audioFilePath = absoluteBasePath + QDir::separator() + songMetadata["General/AudioFilename"];
 
     QFileInfo highscoreFileInfo(_highscoreFilePath);
     if (highscoreFileInfo.exists() && highscoreFileInfo.isFile()) {

@@ -71,7 +71,29 @@ void MainMenu::adaptToSelectedSong()
         songnameLabel->setText("Music: " + song->getArtist() + " - " + song->getTitle());
 
         if (song->getPlayCount() > 0) {
-            rankLabel->setText("Rank: " + QString::number(song->getRank())); // FIXME afficher une vrai string avec le rang
+            switch(song->getRank()) {
+            case SSS:
+                rankLabel->setText("Rank: S++");
+                break;
+            case SS:
+                rankLabel->setText("Rank: S+");
+                break;
+            case S:
+                rankLabel->setText("Rank: S");
+                break;
+            case A:
+                rankLabel->setText("Rank: A");
+                break;
+            case B:
+                rankLabel->setText("Rank: B");
+                break;
+            case C:
+                rankLabel->setText("Rank: C");
+                break;
+            case D:
+                rankLabel->setText("Rank: D");
+                break;
+            }
 
             if (song->getHighscore() > 0)
                 highscoreLabel->setText("Highscore: " + QString::number(song->getHighscore()));
