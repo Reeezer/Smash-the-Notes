@@ -67,7 +67,7 @@ GameWindow::~GameWindow()
 
 void GameWindow::restartGame()
 {
-    _gameView->initialize();
+    _gameView->restartGame();
     setCurrentWidget(_gameView);
 }
 

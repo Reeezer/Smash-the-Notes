@@ -152,7 +152,7 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     this->startTimer(1);
 
     //Connect
-    QObject::connect(restartButton, &QPushButton::clicked, this, &GameView::initialize);
+    QObject::connect(restartButton, &QPushButton::clicked, this, &GameView::restartGame);
     QObject::connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicEnd);
     QObject::connect(quitButton, &QPushButton::clicked, this, &GameView::displayMainMenu);
 }
@@ -171,13 +171,25 @@ void GameView::newGame(Song *song)
     }
     backgroundDisplay();
 
-    initialize();
+    restartGame();
+}
+
+void GameView::restartGame()
+{
+    _pause = false;
+    _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
 
     //Notes
     for (Note *note : *upNotes)
+    {
+        Q_UNUSED(note)
         removeFirstNote(upNotes);
+    }
     for (Note *note : *downNotes)
+    {
+        Q_UNUSED(note)
         removeFirstNote(downNotes);
+    }
 
     QString path = _currentSong->getPath();
 
@@ -205,12 +217,6 @@ void GameView::newGame(Song *song)
     music->stop();
     music->setMedia(QUrl::fromLocalFile(_currentSong->getAudioFilePath()));
     music->play();
-}
-
-void GameView::initialize()
-{
-    _pause = false;
-    _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
 
     //Set up
     backgroundFever->setVisible(false);

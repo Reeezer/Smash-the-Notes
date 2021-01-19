@@ -49,7 +49,7 @@ public:
 
 public slots:
     void newGame(Song *);
-    void initialize();
+    void restartGame();
     void musicEnd();
 
 signals:
