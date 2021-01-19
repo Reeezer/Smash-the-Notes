@@ -52,7 +52,7 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
 void MainMenu::initializeSongList(QListWidget* songsList)
 {
     QList<Song*> list;
-    getSongList("C:\\songdir", &list);
+    getSongList("C:\\Users\\lucadavi.meyer\\Desktop\\songdir", &list);
     for(Song *song : list)
     {
         songsList->addItem(new SongItem(song));
@@ -65,8 +65,12 @@ void MainMenu::adaptToSelectedSong()
     startButton->setEnabled(true);
     detailsButton->setEnabled(true);
 
+    /* normalement il devrait toujours y avoir un Song * associé, mais plutôt que de crash à cause d'une segfault on
+     * on affiche un message d'erreur via qDebug(). De son côté l'utilisateur ne verra aucune différence */
     if (Song *song = getSelectedSong()) {
         songnameLabel->setText("Music: " + song->getArtist() + " - " + song->getTitle());
+    } else {
+        qDebug() << "uh oh, somehow adaptToSelectedSong() in'" __FILE__ "' got called, but didn't have a valid song associated, that should not happen";
     }
 }
 
