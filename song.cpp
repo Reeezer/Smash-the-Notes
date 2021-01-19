@@ -32,6 +32,7 @@ void Song::addHighscore(Rank rank, int score)
     /* n'effectuer l'ajout que si le score est plus haut */
     if (getHighscore() < score) {
         _highscores.insert(0, score);
+        _rank = rank;
         writeHighscoreFile(_highscoreFilePath, _rank, &_highscores);
     }
 }
