@@ -1,11 +1,15 @@
 #include "gameitems/note.h"
 #include "fileutils.h"
+#include "song.h"
 
 #include <QDebug>
 
 #include <QFile>
 #include <QTextStream>
 #include <QRegularExpression>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 static NoteType columnToType[] = {
     NoteType::NORMALDOWN,
@@ -44,7 +48,48 @@ void tokenizeOsuFile(QTextStream &instream, QMap<QString, QString> *info_tokens,
     }
 }
 
+bool loadHighscoreFile(QString &path, Rank *rank, QList<int> *scores)
+{
+    qDebug() << "loading highscores from file: '" + path + "'";
 
+    /* Open the file */
+    QFile infile(path);
+    if (!infile.open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug() << "error opening file: " + infile.errorString();
+        return false;
+    }
+
+    QTextStream in(&infile);
+    QString jsonstring = in.readAll();
+    QJsonDocument jsondoc = QJsonDocument::fromJson(jsonstring.toUtf8());
+    QJsonObject root = jsondoc.object();
+
+    QJsonValue rankvalue = root["rank"];
+    if (!rankvalue.isDouble()) { /* pas de type int en json, on est obligés de valider avec un double */
+        qDebug() << "the file contains an invalid rank value and will be ignored: " << rankvalue;
+        return false;
+    }
+    *rank = (Rank) rankvalue.toInt();
+
+    QJsonValue scorevalue = root["scorelist"];
+    if (!scorevalue.isArray()) {
+        qDebug() << "the file does not contain a correct score list and will be ignored: " << scorevalue;
+        return false;
+    }
+
+    QJsonArray scoresarray = root["scorelist"].toArray();
+    for (QJsonValue val : scoresarray) {
+        if (val.isDouble())
+            scores->append(val.toInt());
+        else
+            qDebug() << "the file contains an invalid score value that is not an integer which will be ignored: " << val;
+    }
+
+    qDebug() << "highscore file loaded with rank value = " + QString::number(*rank) + " and " + QString::number(scores->size()) + " score entries";
+
+    return true;
+}
 
 bool loadOsuFileMetadata(QString &path, QMap<QString, QString> *metadata)
 {
