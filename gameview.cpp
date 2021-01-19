@@ -258,6 +258,8 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
                     player->setState(CharacterAction::DOWN);
                     music->pause();
                     gameOverLabel->setVisible(true);
+                    restartButton->setVisible(true);
+                    quitButton->setVisible(true);
                 }
                 player->comboBreak();
             }
