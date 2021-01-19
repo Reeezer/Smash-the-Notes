@@ -22,9 +22,6 @@ public:
     Song * getSelectedSong();
 
 public slots:
-    void playSelectedSong();
-    void openSelectedSongDetails();
-    void openSettingsMenu();
     void adaptToSelectedSong();
     void adaptToPreselection();
 
@@ -45,8 +42,8 @@ private:
     static void initializeSongList(QListWidget*);
 
 signals:
-    void songDetailsCall();
-    void mainSettingsCall();
-    void gameViewCall();
+    void displaySongDetails();
+    void displayMainSettings();
+    void displayGameView();
 };
 

@@ -20,10 +20,10 @@ class QGraphicsItem;
 class QPushButton;
 class QSoundEffect;
 
-#include "GameItems/character.h"
+#include "gameitems/character.h"
 #include "game.h"
 #include "fileutils.h"
-#include "GameItems/note.h"
+#include "gameitems/note.h"
 #include "song.h"
 
 class GameView : public QGraphicsView
@@ -54,6 +54,7 @@ public slots:
 
 signals:
     void gameFinished();
+    void returnToMenu();
 
 private:
     void keyPressEvent(QKeyEvent *);

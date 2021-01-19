@@ -16,9 +16,6 @@ private:
     void keyPressEvent(QKeyEvent *);
 
 signals:
-    void mainMenuCall();
-
-public slots:
-    void splashScreenPass();
+    void displayMainMenu();
 };
 

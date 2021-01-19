@@ -102,6 +102,7 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
 
     //Connect
     QObject::connect(restartButton, &QPushButton::clicked, this, &EndScreen::restartGame);
+    QObject::connect(menuButton, &QPushButton::clicked, this, &EndScreen::returnToMenu);
 }
 
 EndScreen::~EndScreen()

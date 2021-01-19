@@ -31,14 +31,12 @@ private:
 
 public slots:
     void setNewDelay();
-    void displayControlSettings();
     void setNewVolume();
     void validateAndSetNewDirectory();
     void openModalFileExplorer();
-    void returnButtonPressed();
 
 signals:
-    void mainMenuCall();
-    void controlSettingsCall();
+    void displayMainMenu();
+    void displayControlSettings();
 };
 

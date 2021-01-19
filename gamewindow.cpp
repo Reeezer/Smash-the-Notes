@@ -44,17 +44,18 @@ GameWindow::GameWindow(QWidget *parent)
 
     //Connect
     QObject::connect(_gameView, &GameView::gameFinished, this, &GameWindow::displayEndScreen);
+    QObject::connect(_gameView, &GameView::returnToMenu, this, &GameWindow::displayMainMenu);
     QObject::connect(_endScreen, &EndScreen::restartGame, this, &GameWindow::restartGame);
-    QObject::connect(_mainSettings, &MainSettings::mainMenuCall, this, &GameWindow::displayMainMenu);
-    QObject::connect(_mainSettings, &MainSettings::controlSettingsCall, this, &GameWindow::displayControlSettings);
-    QObject::connect(_mainMenu, &MainMenu::gameViewCall, this, &GameWindow::displayGame);
-    QObject::connect(_mainMenu, &MainMenu::songDetailsCall, this, &GameWindow::displaySongDetails);
-    QObject::connect(_mainMenu, &MainMenu::mainSettingsCall, this, &GameWindow::displaySettings);
-    QObject::connect(_splashScreen, &SplashScreen::mainMenuCall, this, &GameWindow::displayMainMenu);
-    QObject::connect(_controlSettings, &ControlSettings::mainSettingsCall, this, &GameWindow::displaySettings);
+    QObject::connect(_endScreen, &EndScreen::returnToMenu, this, &GameWindow::displayMainMenu);
+    QObject::connect(_mainSettings, &MainSettings::displayMainMenu, this, &GameWindow::displayMainMenu);
+    QObject::connect(_mainSettings, &MainSettings::displayControlSettings, this, &GameWindow::displayControlSettings);
+    QObject::connect(_mainMenu, &MainMenu::displayGameView, this, &GameWindow::displayGame);
+    QObject::connect(_mainMenu, &MainMenu::displaySongDetails, this, &GameWindow::displaySongDetails);
+    QObject::connect(_mainMenu, &MainMenu::displayMainSettings, this, &GameWindow::displaySettings);
+    QObject::connect(_splashScreen, &SplashScreen::displayMainMenu, this, &GameWindow::displayMainMenu);
+    QObject::connect(_controlSettings, &ControlSettings::displayMainSettings, this, &GameWindow::displaySettings);
     
     setCurrentWidget(_splashScreen);
-
 }
 
 GameWindow::~GameWindow()

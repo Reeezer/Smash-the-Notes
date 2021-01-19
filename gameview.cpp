@@ -154,6 +154,7 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     //Connect
     QObject::connect(restartButton, &QPushButton::clicked, this, &GameView::initialize);
     QObject::connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicEnd);
+    QObject::connect(quitButton, &QPushButton::clicked, this, &GameView::returnToMenu);
 }
 
 void GameView::newGame(Song *song)
@@ -317,9 +318,9 @@ void GameView::keyPressEvent(QKeyEvent *event)
             //If it's a SMASH note we can smash our keyboard to hit more & quicker
             if ((!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH) || (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH))
             {
-                if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH)
+                if (!downNotes->isEmpty() && getNextNote(downNotes)->getNoteType() == NoteType::SMASH && getNextNote(downNotes)->x() <= 600)
                     hitSmash(downNotes);
-                if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH)
+                if (!upNotes->isEmpty() && getNextNote(upNotes)->getNoteType() == NoteType::SMASH && getNextNote(upNotes)->x() <= 600)
                     hitSmash(upNotes);
             }
             //If it's not, we have to check which kind of note it is

@@ -41,10 +41,10 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     this->setLayout(main);
 
     //Connections
-    connect(startButton, &QPushButton::clicked, this, &MainMenu::playSelectedSong);
-    connect(songsList, &QListWidget::itemDoubleClicked, this, &MainMenu::playSelectedSong);
-    connect(detailsButton, &QPushButton::clicked, this, &MainMenu::openSelectedSongDetails);
-    connect(settingsButton, &QPushButton::clicked, this, &MainMenu::openSettingsMenu);
+    connect(startButton, &QPushButton::clicked, this, &MainMenu::displayGameView);
+    connect(songsList, &QListWidget::itemDoubleClicked, this, &MainMenu::displayGameView);
+    connect(detailsButton, &QPushButton::clicked, this, &MainMenu::displaySongDetails);
+    connect(settingsButton, &QPushButton::clicked, this, &MainMenu::displayMainSettings);
     connect(songsList, &QListWidget::itemClicked, this, &MainMenu::adaptToSelectedSong);
     connect(songsList, &QListWidget::itemEntered, this, &MainMenu::adaptToPreselection);
 }
@@ -52,26 +52,11 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
 void MainMenu::initializeSongList(QListWidget* songsList)
 {
     QList<Song*> list;
-    getSongList("C:\\Users\\lucadavi.meyer\\Desktop\\songdir", &list);
+    getSongList("C:\\songdir", &list);
     for(Song *song : list)
     {
         songsList->addItem(new SongItem(song));
     }
-}
-
-void MainMenu::playSelectedSong()
-{
-    emit gameViewCall();
-}
-
-void MainMenu::openSelectedSongDetails()
-{
-    emit songDetailsCall();
-}
-
-void MainMenu::openSettingsMenu()
-{
-    emit mainSettingsCall();
 }
 
 void MainMenu::adaptToSelectedSong()

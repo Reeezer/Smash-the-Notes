@@ -29,17 +29,12 @@ MainSettings::MainSettings(Game *game, QWidget *parent)
     connect(volumeSlider, &QSlider::valueChanged, this, &MainSettings::setNewVolume);
     connect(pathWidget->mapPathText, &QLineEdit::textChanged, this, &MainSettings::validateAndSetNewDirectory);
     connect(pathWidget->mapPathButton, &QPushButton::clicked, this, &MainSettings::openModalFileExplorer);
-    connect(returnButton, &QPushButton::clicked, this, &MainSettings::returnButtonPressed);
+    connect(returnButton, &QPushButton::clicked, this, &MainSettings::displayMainMenu);
 }
 
 void MainSettings::setNewDelay()
 {
 
-}
-
-void MainSettings::displayControlSettings()
-{
-    emit controlSettingsCall();
 }
 
 void MainSettings::setNewVolume()
@@ -55,9 +50,4 @@ void MainSettings::validateAndSetNewDirectory()
 void MainSettings::openModalFileExplorer()
 {
 
-}
-
-void MainSettings::returnButtonPressed()
-{
-    emit mainMenuCall();
 }

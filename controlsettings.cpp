@@ -30,10 +30,5 @@ ControlSettings::ControlSettings(Game *game, QWidget *parent)
     returnButtonLayout->addLayout(layout);
     this->setLayout(returnButtonLayout);
 
-    connect(returnButton, &QPushButton::clicked, this, &ControlSettings::returnButtonPressed);
-}
-
-void ControlSettings::returnButtonPressed()
-{
-    emit mainSettingsCall();
+    connect(returnButton, &QPushButton::clicked, this, &ControlSettings::displayMainSettings);
 }

@@ -26,11 +26,8 @@ private:
     QPushButton *validationButton;
     QPushButton *returnButton;
 
-public slots:
-    void returnButtonPressed();
-
 signals:
-    void mainSettingsCall();
+    void displayMainSettings();
 };
 
 #endif // CONTROLSETTINGS_H
