@@ -6,7 +6,7 @@
 class QLabel;
 
 #include "game.h"
-#include "GameItems/character.h"
+#include "gameitems/character.h"
 
 class EndScreen : public QWidget
 {

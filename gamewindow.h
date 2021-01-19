@@ -2,7 +2,7 @@
 
 #include <QStackedWidget>
 
-#include "GameItems/character.h"
+#include "gameitems/character.h"
 #include "gameview.h"
 #include "mainsettings.h"
 #include "controlsettings.h"

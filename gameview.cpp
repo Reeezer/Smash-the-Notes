@@ -31,12 +31,11 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
 
     //Set up the music & sound effect
     music = new QMediaPlayer(this);
-    music->setMedia(QUrl("qrc:/music/test2.mp3"));
 
     timer = new QElapsedTimer();
 
     hitEffect = new QSoundEffect(this);
-    hitEffect->setSource(QUrl("qrc:/music/hit-normal.wav"));
+    hitEffect->setSource(QUrl("qrc:/audio/hit-normal.wav"));
 
     //Background
     _ratio = 0.0032;
@@ -157,8 +156,10 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     QObject::connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicEnd);
 }
 
-void GameView::newGame()
+void GameView::newGame(Song *song)
 {
+    _currentSong = song;
+
     //Background
     if(backgroundList->size() > 0)
     {
@@ -170,19 +171,14 @@ void GameView::newGame()
     backgroundDisplay();
 
     initialize();
-}
-
-void GameView::initialize()
-{
-    _pause = false;
-    _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
 
     //Notes
     for (Note *note : *upNotes)
         removeFirstNote(upNotes);
     for (Note *note : *downNotes)
         removeFirstNote(downNotes);
-    QString path = "C:\\Users\\leon.muller\\Desktop\\.Projet\\jeu-de-rythme\\LFZ_-_Popsicle_Easy.osu";
+
+    QString path = _currentSong->getPath();
 
     loadOsuFile(path, upNotes, downNotes);
     for (Note *note : *upNotes)
@@ -202,6 +198,19 @@ void GameView::initialize()
         scene->addItem(note);
     }
 
+    qDebug() << "new game with audio file: " + _currentSong->getAudioFilePath();
+
+    timer->restart();
+    music->stop();
+    music->setMedia(QUrl::fromLocalFile(_currentSong->getAudioFilePath()));
+    music->play();
+}
+
+void GameView::initialize()
+{
+    _pause = false;
+    _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
+
     //Set up
     backgroundFever->setVisible(false);
     gameOverLabel->setVisible(false);
@@ -213,9 +222,6 @@ void GameView::initialize()
     player->setY(DOWNLINE);
     player->setZValue(300);
 
-    timer->restart();
-    music->stop();
-    music->play();
     update();
 }
 
@@ -268,7 +274,10 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
             if (getNextNote(Notes)->getNoteType() == NoteType::TRAP)
                 changeLabel("PASS", false);
             else
+            {
                 changeLabel("MISS", false);
+                player->comboBreak();
+            }
         }
     }
 }

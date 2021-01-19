@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>music/test.mp3</file>
-        <file>music/hit-normal.wav</file>
         <file>font/foo.ttf</file>
         <file>img/Character/Run/run0.png</file>
         <file>img/Character/Run/run1.png</file>
@@ -144,7 +142,6 @@
         <file>img/Crosshair/Crosshair3.png</file>
         <file>img/Background/Fever.png</file>
         <file>img/Background/EndScreen.png</file>
-        <file>music/test2.mp3</file>
         <file>img/Icons/PNG/Black/1x/arrowDown.png</file>
         <file>img/Icons/PNG/Black/1x/arrowLeft.png</file>
         <file>img/Icons/PNG/Black/1x/arrowRight.png</file>
@@ -250,5 +247,6 @@
         <file>img/Icons/PNG/Black/1x/zoomDefault.png</file>
         <file>img/Icons/PNG/Black/1x/zoomIn.png</file>
         <file>img/Icons/PNG/Black/1x/zoomOut.png</file>
+        <file>audio/hit-normal.wav</file>
     </qresource>
 </RCC>

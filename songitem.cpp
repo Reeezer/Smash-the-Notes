@@ -8,7 +8,7 @@ SongItem::SongItem(QListWidget *parent)
 SongItem::SongItem(Song *song, QListWidget *parent)
     : QListWidgetItem(parent), _song(song)
 {
-    setText(song->getPath());
+    setText(song->getArtist() + " - " + song->getTitle());
 }
 
 Song* SongItem::getSong()

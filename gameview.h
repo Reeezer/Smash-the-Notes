@@ -24,7 +24,7 @@ class QSoundEffect;
 #include "game.h"
 #include "fileutils.h"
 #include "GameItems/note.h"
-//class Song; //TODO : change to include when Song is implemented
+#include "song.h"
 
 class GameView : public QGraphicsView
 {
@@ -48,7 +48,7 @@ public:
     Note *getNextNote(QList<Note *> *);
 
 public slots:
-    void newGame();
+    void newGame(Song *);
     void initialize();
     void musicEnd();
 
@@ -79,5 +79,7 @@ private:
     int XLINE, UPLINE, DOWNLINE, _highScore, _lastBackgroundElapsed, _rotationCrossHair, _countCross, _lastJumpElapsed, _lastSmashElapsed;
     float _ratio;
     bool _pause;
+
+    Song *_currentSong;
 };
 

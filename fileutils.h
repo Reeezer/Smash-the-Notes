@@ -4,6 +4,7 @@
 #include <QMap>
 #include <QString>
 
-#include "GameItems/note.h"
+#include "gameitems/note.h"
 
 bool loadOsuFile(QString& , QList<Note *> *, QList<Note *> *);
+bool loadOsuFileMetadata(QString &, QMap<QString, QString> *);
