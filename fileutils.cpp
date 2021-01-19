@@ -90,6 +90,40 @@ bool loadHighscoreFile(QString &path, Rank *rank, QList<int> *scores)
     return true;
 }
 
+bool writeHighscoreFile(QString &path, Rank rank, QList<int> *scores)
+{
+    qDebug() << "writing highscores to file: '" + path + "'";
+
+    /* Open the file */
+    QFile outfile(path);
+    if (!outfile.open(QFile::WriteOnly | QFile::Text))
+    {
+        qDebug() << "error opening file: " + outfile.errorString();
+        return false;
+    }
+
+    QJsonDocument jsondocument;
+    QJsonObject root;
+
+    root["rank"] = (int) rank;
+
+    QJsonArray scorearray;
+    for (int score : *scores) {
+        scorearray.append(score);
+    }
+
+    root["scorelist"] = scorearray;
+
+    jsondocument.setObject(root);
+
+    qDebug() << "highscores succesfully saved";
+
+    /* par défaut toJson écrit de l'UTF-8 et c'est aussi l'encodage qu'on utilise à la lecture (là explicitement par contre) */
+    outfile.write(jsondocument.toJson());
+
+    return true;
+}
+
 bool loadOsuFileMetadata(QString &path, QMap<QString, QString> *metadata)
 {
     qDebug() << "loading metadata from file: '" + path + "'";
