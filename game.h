@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animatable.h"
-#include "GameItems/character.h"
+#include "gameitems/character.h"
 
 #include <QFont>
 

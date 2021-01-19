@@ -1,4 +1,4 @@
-#include "GameItems/note.h"
+#include "gameitems/note.h"
 #include "fileutils.h"
 
 #include <QDebug>
