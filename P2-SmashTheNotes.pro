@@ -45,6 +45,7 @@ HEADERS += \
     mainmenu.h \
     mainsettings.h \
     pathwidget.h \
+    rank.h \
     song.h \
     songdetails.h \
     songitem.h \

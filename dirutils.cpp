@@ -1,5 +1,6 @@
 #include "dirutils.h"
 #include "fileutils.h"
+#include "song.h"
 
 void getSongList (QString path, QList<Song *> *songlist)
 {
@@ -12,21 +13,16 @@ void getSongList (QString path, QList<Song *> *songlist)
 
         QStringList foundFiles = dir.entryList(QStringList("*.osu"), QDir::Files);
         if(foundFiles.size() > 0) {
-            QString osufilepath = dirpath + QDir::separator() + foundFiles[0];
-            qDebug() << "found osu file: " << osufilepath;
+            QString osufilename = foundFiles[0];
+            qDebug() << "found osu file: " << osufilename;
 
-            QString absoluteOsuFilePath = path + QDir::separator() + osufilepath;
+            QString absoluteBasePath = path + QDir::separator() + dirpath;
 
-            QMap<QString, QString> songMetadata;
-            loadOsuFileMetadata(absoluteOsuFilePath, &songMetadata);
-
-            QString artist = songMetadata["Metadata/Artist"];
-            QString title = songMetadata["Metadata/Title"];
-            QString absoluteAudioFilePath = path + QDir::separator() + dirpath + QDir::separator() + songMetadata["General/AudioFilename"];
-
-            Song *song = new Song(title, artist, absoluteOsuFilePath, absoluteAudioFilePath);
+            /* La classe song se charge elle-même de construire les autres chemins d'accès */
+            Song *song = new Song(absoluteBasePath, osufilename);
             qDebug() << "new song with osu file set to: " << song->getPath();
             qDebug() << "audio file path set to: " << song->getAudioFilePath();
+            qDebug() << "highscore file path set to: " << song->getHighscoreFilePath();
 
             songlist->append(song);
         }

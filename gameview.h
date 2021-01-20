@@ -46,15 +46,16 @@ public:
     void gamePause();
     void hit();
     Note *getNextNote(QList<Note *> *);
+    Song *getCurrentSong();
 
 public slots:
     void newGame(Song *);
-    void initialize();
+    void restartGame();
     void musicEnd();
 
 signals:
-    void gameFinished();
-    void returnToMenu();
+    void displayEndScreen();
+    void displayMainMenu();
 
 private:
     void keyPressEvent(QKeyEvent *);

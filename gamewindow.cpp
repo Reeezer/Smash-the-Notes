@@ -44,10 +44,10 @@ GameWindow::GameWindow(QWidget *parent)
     _songDetails->resize(this->width(), this->height());
 
     //Connect
-    QObject::connect(_gameView, &GameView::gameFinished, this, &GameWindow::displayEndScreen);
-    QObject::connect(_gameView, &GameView::returnToMenu, this, &GameWindow::displayMainMenu);
+    QObject::connect(_gameView, &GameView::displayEndScreen, this, &GameWindow::displayEndScreen);
+    QObject::connect(_gameView, &GameView::displayMainMenu, this, &GameWindow::displayMainMenu);
     QObject::connect(_endScreen, &EndScreen::restartGame, this, &GameWindow::restartGame);
-    QObject::connect(_endScreen, &EndScreen::returnToMenu, this, &GameWindow::displayMainMenu);
+    QObject::connect(_endScreen, &EndScreen::displayMainMenu, this, &GameWindow::displayMainMenu);
     QObject::connect(_mainSettings, &MainSettings::displayMainMenu, this, &GameWindow::displayMainMenu);
     QObject::connect(_mainSettings, &MainSettings::displayControlSettings, this, &GameWindow::displayControlSettings);
     QObject::connect(_mainMenu, &MainMenu::displayGameView, this, &GameWindow::displayGame);
@@ -67,7 +67,7 @@ GameWindow::~GameWindow()
 
 void GameWindow::restartGame()
 {
-    _gameView->initialize();
+    _gameView->restartGame();
     setCurrentWidget(_gameView);
 }
 
@@ -91,6 +91,8 @@ void GameWindow::displayEndScreen()
 
 void GameWindow::displayMainMenu()
 {
+    /* mettre à jour le score en réaffichant le song actuel (pour quand on est sortis du jeu) */
+    _mainMenu->adaptToSelectedSong();
     setCurrentWidget(_mainMenu);
 }
 
