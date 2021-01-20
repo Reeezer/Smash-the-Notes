@@ -20,6 +20,7 @@ public:
     QString getHighscoreFilePath();
     int getPlayCount();
     int getHighscore();
+    QStringList getHighscoreList();
 
     void addHighscore(Rank, int);
 

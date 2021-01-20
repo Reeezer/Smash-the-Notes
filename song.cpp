@@ -79,3 +79,13 @@ int Song::getHighscore()
     else
         return -1;
 }
+
+QStringList Song::getHighscoreList()
+{
+    QStringList scoreList;
+
+    for (int score : _highscores)
+        scoreList.append(QString::number(score));
+
+    return scoreList;
+}
