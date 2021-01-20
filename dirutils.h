@@ -1,5 +1,5 @@
-#ifndef SONGDIR_H
-#define SONGDIR_H
+#ifndef DIRUTILS_H
+#define DIRUTILS_H
 
 #include "song.h"
 
@@ -9,4 +9,4 @@
 
 void getSongList(QString, QList<Song *> *);
 
-#endif // SONGDIR_H
+#endif // DIRUTILS_H

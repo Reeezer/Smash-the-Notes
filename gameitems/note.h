@@ -1,4 +1,5 @@
-#pragma once
+#ifndef NOTE_H
+#define NOTE_H
 
 #include <QGraphicsPixmapItem>
 
@@ -44,3 +45,4 @@ private:
     QPixmap *_sprite;
 };
 
+#endif // NOTE_H

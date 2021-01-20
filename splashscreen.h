@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SPLASHSCREEN_H
+#define SPLASHSCREEN_H
 
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -19,3 +20,4 @@ protected:
     void keyPressEvent(QKeyEvent *);
 };
 
+#endif // SPLASHSCREEN_H

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CHARACTER_H
+#define CHARACTER_H
 
 const int MAXLIFE = 300;
 const int MAXFEVER = 100;
@@ -83,3 +84,4 @@ private:
     Animatable _frames[CHARACTERACTION_ESIZE];
 };
 
+#endif // CHARACTER_H

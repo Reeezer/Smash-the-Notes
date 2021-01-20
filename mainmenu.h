@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MAINMENU_H
+#define MAINMENU_H
 
 #include <QWidget>
 #include <QLabel>
@@ -47,3 +48,4 @@ private:
     QMediaPlayer *_musicPreview;
 };
 
+#endif // MAINMENU_H

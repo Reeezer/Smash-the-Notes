@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SONGDETAILS_H
+#define SONGDETAILS_H
 
 #include <QWidget>
 #include <QLabel>
@@ -28,3 +29,6 @@ private:
 
     QListWidget *_highscoreList;
 };
+
+#endif // SONGDETAILS_H
+

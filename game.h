@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_H
+#define GAME_H
 
 #include "animatable.h"
 #include "gameitems/character.h"
@@ -27,3 +28,5 @@ struct Game
 };
 
 bool loadRessources(Game *);
+
+#endif // GAME_H

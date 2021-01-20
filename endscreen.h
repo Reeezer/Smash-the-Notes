@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ENDSCREEN_H
+#define ENDSCREEN_H
 
 #include <QWidget>
 #include <QObject>
@@ -35,4 +36,6 @@ private:
     QLabel *_accuracyLabel;
     QLabel *_noteLabel;
 };
+
+#endif // ENDSCREEN_H
 

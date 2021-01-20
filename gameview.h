@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAMEVIEW_H
+#define GAMEVIEW_H
 
 #include <QGraphicsView>
 #include <QList>
@@ -105,3 +106,4 @@ private:
     Song *_currentSong;
 };
 
+#endif // GAMEVIEW_H

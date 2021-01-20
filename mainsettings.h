@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MAINSETTINGS_H
+#define MAINSETTINGS_H
 
 #include <QWidget>
 #include <QSpinBox>
@@ -41,3 +42,4 @@ private:
     QPushButton *_returnButton;
 };
 
+#endif // MAINSETTINGS_H
