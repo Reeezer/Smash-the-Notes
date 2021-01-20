@@ -23,7 +23,6 @@ public:
 
 public slots:
     void adaptToSelectedSong();
-    void adaptToPreselection();
 
 signals:
     void displaySongDetails();

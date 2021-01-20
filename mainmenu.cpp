@@ -60,7 +60,6 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     connect(_detailsButton, &QPushButton::clicked, this, &MainMenu::displaySongDetails);
     connect(_settingsButton, &QPushButton::clicked, this, &MainMenu::displayMainSettings);
     connect(_songsList, &QListWidget::itemClicked, this, &MainMenu::adaptToSelectedSong);
-    connect(_songsList, &QListWidget::itemEntered, this, &MainMenu::adaptToPreselection);
 }
 
 void MainMenu::initializeSongList(QListWidget* songsList)
@@ -120,11 +119,6 @@ void MainMenu::adaptToSelectedSong()
     } else {
         qDebug() << "uh oh, somehow adaptToSelectedSong() in'" __FILE__ "' got called, but didn't have a valid song associated, that should not happen";
     }
-}
-
-void MainMenu::adaptToPreselection()
-{
-
 }
 
 Song * MainMenu::getSelectedSong()
