@@ -1,4 +1,5 @@
 #include "gamewindow.h"
+
 #include <QDebug>
 #include <QFontDatabase>
 
@@ -9,7 +10,7 @@ GameWindow::GameWindow(QWidget *parent)
     setWindowTitle("Smash The Notes");
     setWindowIcon(QIcon(":/img/Icons/PNG/Black/1x/musicOn.png"));
 
-    _game = new Game();
+    _game = new GameData();
     _player = new Character();
 
     if (!loadRessources(_game))
@@ -68,13 +69,15 @@ GameWindow::~GameWindow()
 
 void GameWindow::restartGame()
 {
+    qDebug() << "restarting game and switching to the game view";
     _gameView->restartGame();
     setCurrentWidget(_gameView);
 }
 
 void GameWindow::displayGame()
-{
+{   
     Song *song = _mainMenu->getSelectedSong();
+    qDebug() << "starting game with the map at '" + song->getPath() + "' and switching to the game view";
 
     if (song) {
         _gameView->newGame(song);
@@ -86,12 +89,15 @@ void GameWindow::displayGame()
 
 void GameWindow::displayEndScreen()
 {
+    qDebug() << "switching to the endscreen view";
     _endScreen->initialize();
     setCurrentWidget(_endScreen);
 }
 
 void GameWindow::displayMainMenu()
 {
+    qDebug() << "displaying the main menu";
+
     /* mettre à jour le score en réaffichant le song actuel (pour quand on est sortis du jeu) */
     if (_mainMenu->getSelectedSong())
         _mainMenu->adaptToSelectedSong();
@@ -100,16 +106,25 @@ void GameWindow::displayMainMenu()
 
 void GameWindow::displayControlSettings()
 {
+    qDebug() << "displaying the controls settings";
     setCurrentWidget(_controlSettings);
 }
 
 void GameWindow::displaySettings()
 {
+    qDebug() << "displaying the main settings";
     setCurrentWidget(_mainSettings);
 }
 
 void GameWindow::displaySongDetails()
 {
-    _songDetails->setSongDetails(_mainMenu->getSelectedSong());
-    setCurrentWidget(_songDetails);
+    Song *song = _mainMenu->getSelectedSong();
+    if (song) {
+        qDebug() << "displaying the song details for the map '" + song->getPath() + "'";
+        _songDetails->setSongDetails(song);
+        setCurrentWidget(_songDetails);
+    }
+    else {
+        qDebug() << "uh oh, displaySongDetails() got called without a song selected, this shouldn't happen, not switching view";
+    }
 }

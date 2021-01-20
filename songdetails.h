@@ -1,9 +1,11 @@
-#pragma once
+#ifndef SONGDETAILS_H
+#define SONGDETAILS_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QListWidget>
-#include <QPushButton>
+
+class QLabel;
+class QPushButton;
+class QListWidget;
 
 #include "song.h"
 
@@ -15,16 +17,19 @@ public:
     SongDetails(QWidget *parent = nullptr);
 
 public slots:
-    void setSongDetails(Song*);
+    void setSongDetails(Song *);
 
 signals:
     void displayMainMenu();
 
 private:
-    QLabel *titleLabel;
-    QLabel *highscoreLabel;
-    QLabel *rankLabel;
-    QPushButton *returnButton;
+    QLabel *_titleLabel;
+    QLabel *_highscoreLabel;
+    QLabel *_rankLabel;
+    QPushButton *_returnButton;
 
-    QListWidget *highscoreList;
+    QListWidget *_highscoreList;
 };
+
+#endif // SONGDETAILS_H
+

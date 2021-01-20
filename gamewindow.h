@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAMEWINDOW_H
+#define GAMEWINDOW_H
 
 #include <QStackedWidget>
 
@@ -26,11 +27,10 @@ public slots:
     void displayMainMenu();
     void displaySongDetails();
     void displaySettings();
-//    void displaySplashScreen();
     void displayControlSettings();
 
 private:
-    Game *_game;
+    GameData *_game;
     Character *_player;
     GameView *_gameView;
     EndScreen *_endScreen;
@@ -42,3 +42,4 @@ private:
 
 };
 
+#endif // GAMEWINDOW_H

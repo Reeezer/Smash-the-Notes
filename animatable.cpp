@@ -9,6 +9,8 @@ Animatable::Animatable()
 Animatable::Animatable(QString basePathFormatted, int frameCount, int frameDt)
     : _frameCount(frameCount), _frameDt(frameDt), _lastElapsed(0)
 {
+    qDebug() << "loading new animatable using name structure '" + basePathFormatted + "'";
+
     _frames = new QPixmap[frameCount];
     for (int i = 0; i < frameCount; i++) {
         _frames[i] = QPixmap(QString::asprintf(basePathFormatted.toStdString().c_str(), i));
@@ -25,7 +27,7 @@ bool Animatable::update(int elapsed)
     return (_currentFrame + 1) >= _frameCount;
 }
 
-QPixmap Animatable::currentPixmap()
+QPixmap Animatable::getCurrentPixmap()
 {
     return _frames[_currentFrame % _frameCount];
 }

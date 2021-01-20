@@ -2,7 +2,6 @@
 #include "fileutils.h"
 
 #include <QDebug>
-
 #include <QFile>
 #include <QTextStream>
 #include <QRegularExpression>

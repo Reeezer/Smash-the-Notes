@@ -1,9 +1,5 @@
-#pragma once
-
-const int MAXLIFE = 300;
-const int MAXFEVER = 100;
-const int DAMAGE = 30;
-const int REGENERATION = 80;
+#ifndef CHARACTER_H
+#define CHARACTER_H
 
 #include <QGraphicsPixmapItem>
 
@@ -31,12 +27,12 @@ class Character : public QGraphicsPixmapItem
 {
 public:
     Character(QGraphicsItem *parent = nullptr);
-    void initialize();
+
+    void resetCharacter();
     void damage();
     void regenerate();
     void increaseFever();
     void feverModeDecrease();
-    void setJump(bool);
     void increaseCombo();
     void comboBreak();
     void increaseScore();
@@ -44,9 +40,8 @@ public:
     void increaseScorePerfect();
     void increaseMiss();
     void increasePass();
-    void setState(CharacterAction);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    /* getters */
     int getFever();
     int getLife();
     int getScore();
@@ -62,13 +57,31 @@ public:
     bool getAlive();
     bool getFevered();
 
+    /* setters */
+    void setJump(bool);
+    void setState(CharacterAction);
+
+protected:
+    /* méthodes Qt */
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
 private:
-    QElapsedTimer *timer;
-    int _life, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass, _framesNb, _lastElapsed;
+    QElapsedTimer *_timer;
+    int _life;
+    int _combo;
+    int _score;
+    int _nbPerfect, _nbGreat, _nbMiss, _nbPass;
+    int _framesNb, _lastElapsed;
     float _fever, _accuracy;
     bool _hasJumped, _isFevered, _alive;
     CharacterAction _state;
 
     Animatable _frames[CHARACTERACTION_ESIZE];
+
+    const int MAXLIFE = 300;
+    const int MAXFEVER = 100;
+    const int DAMAGE = 30;
+    const int REGENERATION = 80;
 };
 
+#endif // CHARACTER_H

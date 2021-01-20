@@ -9,8 +9,8 @@
 #include <QString>
 #include <QDebug>
 
-EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
-    : QWidget(parent), game(game), player(player)
+EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
+    : QWidget(parent), _game(game), _player(player)
 {
 //    setAutoFillBackground(true);
 //    setPalette(QPalette(Qt::black));
@@ -33,51 +33,51 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
 
     QLabel *title = new QLabel("Victory");
     titleLayout->addWidget(title);
-    title->setFont(game->fonts[FontType::NORMAL_50]);
+    title->setFont(game->_fonts[FontType::NORMAL_50]);
 
             //Results left
     QGridLayout *labelLayout = new QGridLayout;
     leftLayout->addStretch();
     leftLayout->addLayout(labelLayout);
 
-    scoreLabel = new QLabel();
-    highScoreLabel = new QLabel();
-    perfectLabel = new QLabel();
-    greatLabel = new QLabel();
-    missLabel = new QLabel();
-    passLabel = new QLabel();
+    _scoreLabel = new QLabel();
+    _highScoreLabel = new QLabel();
+    _perfectLabel = new QLabel();
+    _greatLabel = new QLabel();
+    _missLabel = new QLabel();
+    _passLabel = new QLabel();
 
-    highScoreLabel->setAlignment(Qt::AlignRight);
-    greatLabel->setAlignment(Qt::AlignRight);
-    passLabel->setAlignment(Qt::AlignRight);
+    _highScoreLabel->setAlignment(Qt::AlignRight);
+    _greatLabel->setAlignment(Qt::AlignRight);
+    _passLabel->setAlignment(Qt::AlignRight);
 
-    labelLayout->addWidget(scoreLabel, 0 , 0);
-    labelLayout->addWidget(highScoreLabel, 0, 1);
-    labelLayout->addWidget(perfectLabel, 1, 0);
-    labelLayout->addWidget(greatLabel, 1, 1);
-    labelLayout->addWidget(missLabel, 2, 0);
-    labelLayout->addWidget(passLabel, 2, 1);
+    labelLayout->addWidget(_scoreLabel, 0 , 0);
+    labelLayout->addWidget(_highScoreLabel, 0, 1);
+    labelLayout->addWidget(_perfectLabel, 1, 0);
+    labelLayout->addWidget(_greatLabel, 1, 1);
+    labelLayout->addWidget(_missLabel, 2, 0);
+    labelLayout->addWidget(_passLabel, 2, 1);
 
-    scoreLabel->setFont(game->fonts[FontType::NORMAL_18]);
-    highScoreLabel->setFont(game->fonts[FontType::NORMAL_18]);
-    perfectLabel->setFont(game->fonts[FontType::NORMAL_18]);
-    greatLabel->setFont(game->fonts[FontType::NORMAL_18]);
-    missLabel->setFont(game->fonts[FontType::NORMAL_18]);
-    passLabel->setFont(game->fonts[FontType::NORMAL_18]);
+    _scoreLabel->setFont(game->_fonts[FontType::NORMAL_18]);
+    _highScoreLabel->setFont(game->_fonts[FontType::NORMAL_18]);
+    _perfectLabel->setFont(game->_fonts[FontType::NORMAL_18]);
+    _greatLabel->setFont(game->_fonts[FontType::NORMAL_18]);
+    _missLabel->setFont(game->_fonts[FontType::NORMAL_18]);
+    _passLabel->setFont(game->_fonts[FontType::NORMAL_18]);
 
             //Accuracy Left
     QVBoxLayout *accuracyLayout = new QVBoxLayout;
     leftLayout->addLayout(accuracyLayout);
-    accuracyLabel = new QLabel();
-    noteLabel = new QLabel();
+    _accuracyLabel = new QLabel();
+    _noteLabel = new QLabel();
 
-    accuracyLabel->setFont(game->fonts[FontType::NORMAL_18]);
-    noteLabel->setFont(game->fonts[FontType::NORMAL_40]);
-    accuracyLabel->setAlignment(Qt::AlignCenter);
-    noteLabel->setAlignment(Qt::AlignCenter);
+    _accuracyLabel->setFont(game->_fonts[FontType::NORMAL_18]);
+    _noteLabel->setFont(game->_fonts[FontType::NORMAL_40]);
+    _accuracyLabel->setAlignment(Qt::AlignCenter);
+    _noteLabel->setAlignment(Qt::AlignCenter);
 
-    accuracyLayout->addWidget(accuracyLabel);
-    accuracyLayout->addWidget(noteLabel);
+    accuracyLayout->addWidget(_accuracyLabel);
+    accuracyLayout->addWidget(_noteLabel);
 
             //Button left
     QHBoxLayout *buttonLayout = new QHBoxLayout;
@@ -115,26 +115,26 @@ EndScreen::~EndScreen()
 
 void EndScreen::initialize()
 {
-    scoreLabel->setText("Score : " + QString::asprintf("%d", player->getScore()));
-    highScoreLabel->setText(QString::asprintf("%d", 0) + " : High score");
-    perfectLabel->setText("Perfect : " + QString::asprintf("%d", player->getPerfect()));
-    greatLabel->setText(QString::asprintf("%d", player->getGreat()) + " : Great");
-    missLabel->setText("Miss : " + QString::asprintf("%d", player->getMiss()));
-    passLabel->setText(QString::asprintf("%d", player->getPass()) + " : Pass");
-    accuracyLabel->setText("Accuracy : " + QString::asprintf("%.1f", player->getAccuracy()) + "%");
+    _scoreLabel->setText("Score : " + QString::asprintf("%d", _player->getScore()));
+    _highScoreLabel->setText(QString::asprintf("%d", 0) + " : High score");
+    _perfectLabel->setText("Perfect : " + QString::asprintf("%d", _player->getPerfect()));
+    _greatLabel->setText(QString::asprintf("%d", _player->getGreat()) + " : Great");
+    _missLabel->setText("Miss : " + QString::asprintf("%d", _player->getMiss()));
+    _passLabel->setText(QString::asprintf("%d", _player->getPass()) + " : Pass");
+    _accuracyLabel->setText("Accuracy : " + QString::asprintf("%.1f", _player->getAccuracy()) + "%");
 
-    if(player->getAccuracy() > 99)
-        noteLabel->setText("S++");
-    else if(player->getAccuracy() > 95)
-        noteLabel->setText("S+");
-    else if(player->getAccuracy() > 90)
-        noteLabel->setText("S");
-    else if(player->getAccuracy() > 80)
-        noteLabel->setText("A");
-    else if(player->getAccuracy() > 70)
-        noteLabel->setText("B");
-    else if(player->getAccuracy() > 50)
-        noteLabel->setText("C");
+    if(_player->getAccuracy() > 99)
+        _noteLabel->setText("S++");
+    else if(_player->getAccuracy() > 95)
+        _noteLabel->setText("S+");
+    else if(_player->getAccuracy() > 90)
+        _noteLabel->setText("S");
+    else if(_player->getAccuracy() > 80)
+        _noteLabel->setText("A");
+    else if(_player->getAccuracy() > 70)
+        _noteLabel->setText("B");
+    else if(_player->getAccuracy() > 50)
+        _noteLabel->setText("C");
     else
-        noteLabel->setText("D");
+        _noteLabel->setText("D");
 }

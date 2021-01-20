@@ -1,14 +1,8 @@
-#pragma once
+#ifndef GAMEVIEW_H
+#define GAMEVIEW_H
 
 #include <QGraphicsView>
 #include <QList>
-#include <QObject>
-
-const int PERFECT = 10;
-const int GREAT = 20;
-const int NOTPASSED = 140;
-const int PIXMAPHALF = 40;
-const int NBSMASHHIT = 20;
 
 class QGraphicsScene;
 class QMediaPlayer;
@@ -21,7 +15,7 @@ class QPushButton;
 class QSoundEffect;
 
 #include "gameitems/character.h"
-#include "game.h"
+#include "gamedata.h"
 #include "fileutils.h"
 #include "gameitems/note.h"
 #include "song.h"
@@ -31,7 +25,8 @@ class GameView : public QGraphicsView
     Q_OBJECT
 
 public:
-    GameView(Game *game, Character *player, QWidget *parent = nullptr);
+    GameView(GameData *game, Character *player, QWidget *parent = nullptr);
+
     void update();
     void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);
@@ -45,6 +40,8 @@ public:
     void rotateCrossHair();
     void gamePause();
     void hit();
+
+    /* getters */
     Note *getNextNote(QList<Note *> *);
     Song *getCurrentSong();
 
@@ -57,31 +54,56 @@ signals:
     void displayEndScreen();
     void displayMainMenu();
 
-private:
+protected:
+    /* methodes Qt */
     void keyPressEvent(QKeyEvent *);
     void timerEvent(QTimerEvent *);
-    Game *game;
 
-    QGraphicsScene *scene;
-    QMediaPlayer *music;
-    QSoundEffect *hitEffect;
-    Character *player;
-    QElapsedTimer *timer;
+private:
+    GameData *_game;
 
-    QPushButton *restartButton, *quitButton;
+    QGraphicsScene *_scene;
+    QMediaPlayer *_music;
+    QSoundEffect *_hitEffect;
+    Character *_player;
+    QElapsedTimer *_timer;
 
-    QGraphicsPixmapItem *pixUpCross, *pixDownCross, *backgroundFever, *backLayer;
+    QPushButton *_restartButton;
+    QPushButton *_quitButton;
 
-    QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel, *gameOverLabel, *pauseLabel;
-    QGraphicsRectItem *lifeRect, *feverRect, *durationRect;
+    QGraphicsPixmapItem *_pixUpCross;
+    QGraphicsPixmapItem *_pixDownCross;
+    QGraphicsPixmapItem *_backgroundFever;
+    QGraphicsPixmapItem *_backLayer;
 
-    QList<Note *> *upNotes, *downNotes;
-    QList<QGraphicsPixmapItem *> *backgroundList;
-    QList<QPixmap> *crosshairList;
+    QGraphicsSimpleTextItem *_score;
+    QGraphicsSimpleTextItem *_combo;
+    QGraphicsSimpleTextItem *_highScoreTextItem; // FIXME meilleurs nom
+    QGraphicsSimpleTextItem *_upLabel;
+    QGraphicsSimpleTextItem *_downLabel;
+    QGraphicsSimpleTextItem *_gameOverLabel;
+    QGraphicsSimpleTextItem *_pauseLabel;
+
+    QGraphicsRectItem *_lifeRect;
+    QGraphicsRectItem *_feverRect;
+    QGraphicsRectItem *_durationRect;
+
+    QList<Note *> *_upNotes, *_downNotes;
+    QList<QGraphicsPixmapItem *> *_backgroundList;
+    QList<QPixmap> *_crosshairList;
+    // FIXME noms de variables en majuscule sans être constants
     int XLINE, UPLINE, DOWNLINE, _highScore, _lastBackgroundElapsed, _rotationCrossHair, _countCross, _lastJumpElapsed, _lastSmashElapsed;
     float _ratio;
     bool _pause;
 
     Song *_currentSong;
+
+    /* constantes */
+    const int PERFECT = 10;
+    const int GREAT = 20;
+    const int NOTPASSED = 140;
+    const int PIXMAPHALF = 40;
+    const int NBSMASHHIT = 20;
 };
 
+#endif // GAMEVIEW_H

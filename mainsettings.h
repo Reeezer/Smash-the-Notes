@@ -1,42 +1,43 @@
-#pragma once
+#ifndef MAINSETTINGS_H
+#define MAINSETTINGS_H
 
 #include <QWidget>
-#include <QSpinBox>
-#include <QPushButton>
-#include <QSlider>
-#include <QLineEdit>
-#include <QFormLayout>
-#include <QObject>
-#include <QVBoxLayout>
+
+class QSpinBox;
+class QPushButton;
+class QSlider;
+class QLineEdit;
 
 #include "pathwidget.h"
-#include "game.h"
+#include "gamedata.h"
 
 class MainSettings : public QWidget
 {
     Q_OBJECT
 
 public:
-    MainSettings(Game *game, QWidget *parent = nullptr);
-
-private:
-    Game *game;
-
-    QSpinBox *delaySpinBox;
-    QPushButton *inputButton;
-    QPushButton *mapPathButton;
-    QSlider *volumeSlider;
-    PathWidget *pathWidget;
-    QPushButton *returnButton;
-
-public slots:
-    void setNewDelay();
-    void setNewVolume();
-    void validateAndSetNewDirectory();
-    void openModalFileExplorer();
+    MainSettings(GameData *game, QWidget *parent = nullptr);
 
 signals:
     void displayMainMenu();
     void displayControlSettings();
+
+protected:
+    void validateAndUpdateSongDirectory();
+    void openModalFileExplorer();
+
+    void updateDelay();
+    void updateVolume();
+
+private:
+    GameData *_game;
+
+    QSpinBox *_delaySpinBox;
+    QPushButton *_inputButton;
+    QPushButton *_mapPathButton;
+    QSlider *_volumeSlider;
+    PathWidget *_pathWidget;
+    QPushButton *_returnButton;
 };
 
+#endif // MAINSETTINGS_H

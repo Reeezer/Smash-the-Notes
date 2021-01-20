@@ -1,26 +1,15 @@
 #include "character.h"
-#include <QPixmap>
-#include <QStyleOptionGraphicsItem>
-#include <QPainter>
+
 #include <QDebug>
 #include <QElapsedTimer>
+#include <QPainter>
+#include <QPixmap>
+#include <QStyleOptionGraphicsItem>
+
 
 Character::Character(QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent)
 {
-    timer = new QElapsedTimer();
-    timer->start();
-    initialize();
-}
-
-void Character::initialize()
-{
-    _state = CharacterAction::RUN;
-    _life = MAXLIFE;
-    _fever = _score = _combo = _nbPerfect = _nbGreat = _framesNb = _lastElapsed = _accuracy = _nbPass = _nbMiss = 0;
-    _hasJumped = _isFevered = false;
-    _alive = true;
-
     _frames[RUN] = Animatable(":/img/Character/Run/run%d.png", 15, 30);
     _frames[DOWN] = Animatable(":/img/Character/Down/down%d.png", 1, 30);
     _frames[REGENERATE] = Animatable(":/img/Character/Regenerate/regenerate%d.png", 16, 30);
@@ -29,14 +18,27 @@ void Character::initialize()
     _frames[HIT] = Animatable(":/img/Character/Hit/hit%d.png", 15, 30);
     _frames[JUMP] = Animatable(":/img/Character/Jump/jump%d.png", 24, 30);
 
-    timer = new QElapsedTimer();
-    timer->restart();
+    _timer = new QElapsedTimer();
+    _timer->start();
+    resetCharacter();
+}
+
+void Character::resetCharacter()
+{
+    _state = CharacterAction::RUN;
+    _life = MAXLIFE;
+    _fever = _score = _combo = _nbPerfect = _nbGreat = _framesNb = _lastElapsed = _accuracy = _nbPass = _nbMiss = 0;
+    _hasJumped = _isFevered = false;
+    _alive = true;
+
+    _timer = new QElapsedTimer();
+    _timer->restart();
 }
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(-125, -140, 300, 300, _frames[_state].currentPixmap());
-    if(_frames[_state].update(timer->elapsed()))
+    painter->drawPixmap(-125, -140, 300, 300, _frames[_state].getCurrentPixmap());
+    if(_frames[_state].update(_timer->elapsed()))
     {
         if(_state != CharacterAction::DOWN)
             _state = CharacterAction::RUN;

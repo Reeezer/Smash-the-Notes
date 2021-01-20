@@ -1,4 +1,5 @@
 ﻿#include "note.h"
+
 #include <QPixmap>
 #include <QPainter>
 #include <QWidget>
@@ -17,19 +18,19 @@ Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
     switch (_noteType)
     {
     case NoteType::BONUS:
-        sprite = new QPixmap(":/img/Bonus(32x32).png");
+        _sprite = new QPixmap(":/img/Bonus(32x32).png");
         _frameWidth = 32;
         _frameHeight = 32;
         _maxFrame = 17;
         break;
     case NoteType::TRAP:
-        sprite = new QPixmap(":/img/Trap(38x38).png");
+        _sprite = new QPixmap(":/img/Trap(38x38).png");
         _frameWidth = 38;
         _frameHeight = 38;
         _maxFrame = 8;
         break;
     case NoteType::SMASH:
-        sprite = new QPixmap(":/img/Enemie/Smash/Rock(42x42).png");
+        _sprite = new QPixmap(":/img/Enemie/Smash/Rock(42x42).png");
         _frameWidth = 42;
         _frameHeight = 42;
         _maxFrame = 4;
@@ -38,19 +39,19 @@ Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
         switch (rand)
         {
         case 1:
-            sprite = new QPixmap(":/img/Enemie/Down/AngryPig(36x30).png");
+            _sprite = new QPixmap(":/img/Enemie/Down/AngryPig(36x30).png");
             _frameWidth = 36;
             _frameHeight = 30;
             _maxFrame = 12;
             break;
         case 2:
-            sprite = new QPixmap(":/img/Enemie/Down/Slime(44x30).png");
+            _sprite = new QPixmap(":/img/Enemie/Down/Slime(44x30).png");
             _frameWidth = 44;
             _frameHeight = 30;
             _maxFrame = 10;
             break;
         case 3:
-            sprite = new QPixmap(":/img/Enemie/Down/Turtle(44x26).png");
+            _sprite = new QPixmap(":/img/Enemie/Down/Turtle(44x26).png");
             _frameWidth = 44;
             _frameHeight = 26;
             _maxFrame = 8;
@@ -64,19 +65,19 @@ Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
         switch (rand)
         {
         case 1:
-            sprite = new QPixmap(":/img/Enemie/Up/Bat(46x30).png");
+            _sprite = new QPixmap(":/img/Enemie/Up/Bat(46x30).png");
             _frameWidth = 46;
             _frameHeight = 30;
             _maxFrame = 7;
             break;
         case 2:
-            sprite = new QPixmap(":/img/Enemie/Up/Bird(32x32).png");
+            _sprite = new QPixmap(":/img/Enemie/Up/Bird(32x32).png");
             _frameWidth = 32;
             _frameHeight = 32;
             _maxFrame = 9;
             break;
         case 3:
-            sprite = new QPixmap(":/img/Enemie/Up/Ghost(44x30).png");
+            _sprite = new QPixmap(":/img/Enemie/Up/Ghost(44x30).png");
             _frameWidth = 44;
             _frameHeight = 30;
             _maxFrame = 10;
@@ -91,8 +92,8 @@ Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
         break;
     }
 
-    timer = new QElapsedTimer();
-    timer->start();
+    _timer = new QElapsedTimer();
+    _timer->start();
 }
 
 int Note::getTimeStamp() {return _timeStamp;}
@@ -105,12 +106,12 @@ void Note::hit() {_hits++;}
 void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     if(_noteType == NoteType::SMASH)
-        painter->drawPixmap(10, -10, 150, 150, *sprite, _framesNb * _frameWidth, 0, _frameWidth, _frameHeight);
+        painter->drawPixmap(10, -10, 150, 150, *_sprite, _framesNb * _frameWidth, 0, _frameWidth, _frameHeight);
     else
-        painter->drawPixmap(10, 10, 80, 80, *sprite, _framesNb * _frameWidth, 0, _frameWidth, _frameHeight);
-    if(timer->elapsed() - _lastElapsed > 50)
+        painter->drawPixmap(10, 10, 80, 80, *_sprite, _framesNb * _frameWidth, 0, _frameWidth, _frameHeight);
+    if(_timer->elapsed() - _lastElapsed > 50)
     {
-        _lastElapsed = timer->elapsed();
+        _lastElapsed = _timer->elapsed();
         _framesNb++;
     }
     if(_framesNb >= _maxFrame)

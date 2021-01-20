@@ -1,49 +1,49 @@
-#pragma once
+#ifndef MAINMENU_H
+#define MAINMENU_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QListWidget>
-#include <QMediaPlayer>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+
+class QLabel;
+class QPushButton;
+class QListWidget;
+class QMediaPlayer;
 
 #include "gameview.h"
 #include "song.h"
-#include "game.h"
+#include "gamedata.h"
 
 class MainMenu : public QWidget
 {
     Q_OBJECT
 
 public:
-    MainMenu(Game *game, QWidget *parent = nullptr);
+    MainMenu(GameData *game, QWidget *parent = nullptr);
 
     Song * getSelectedSong();
 
 public slots:
     void adaptToSelectedSong();
-    void adaptToPreselection();
-
-private:
-    Game *game;
-
-    QLabel *songnameLabel;
-    QLabel *rankLabel;
-    QLabel *highscoreLabel;
-
-    QPushButton *startButton;
-    QPushButton *detailsButton;
-    QPushButton *settingsButton;
-
-    QListWidget *songsList;
-    QMediaPlayer *musicPreview;
-
-    static void initializeSongList(QListWidget*);
 
 signals:
     void displaySongDetails();
     void displayMainSettings();
     void displayGameView();
+
+private:
+    static void initializeSongList(QListWidget*);
+
+    GameData *_game;
+
+    QLabel *_songnameLabel;
+    QLabel *_rankLabel;
+    QLabel *_highscoreLabel;
+
+    QPushButton *_startButton;
+    QPushButton *_detailsButton;
+    QPushButton *_settingsButton;
+
+    QListWidget *_songsList;
+    QMediaPlayer *_musicPreview;
 };
 
+#endif // MAINMENU_H

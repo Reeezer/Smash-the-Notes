@@ -2,7 +2,6 @@
 #define SONGITEM_H
 
 #include <QListWidgetItem>
-#include <QLabel>
 
 class Song;
 
@@ -12,7 +11,9 @@ public:
     SongItem(QListWidget *parent = nullptr);
     SongItem(Song *, QListWidget *parent = nullptr);
 
+    /* getters */
     Song* getSong();
+
 private:
     Song* _song;
 };

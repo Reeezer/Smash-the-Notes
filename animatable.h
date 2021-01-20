@@ -16,7 +16,9 @@ public:
 
     bool update(int);
     void reset(int value = 0);
-    QPixmap currentPixmap();
+
+    /* getters */
+    QPixmap getCurrentPixmap();
 
 private:
     /* settings / data */

@@ -1,27 +1,30 @@
 #include "controlsettings.h"
 
-ControlSettings::ControlSettings(Game *game, QWidget *parent)
-    : QWidget(parent), game(game)
-{
-    topNote1 = new QPushButton("J", this);
-    topNote2 = new QPushButton(this);
-    bottomNote1 = new QPushButton("F", this);
-    bottomNote2 = new QPushButton(this);
-    pauseButton = new QPushButton("Esc", this);
-    resetButton = new QPushButton("Del", this);
-    validationButton = new QPushButton("Enter", this);
-    returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
+#include <QPushButton>
+#include <QFormLayout>
 
-    returnButton->setIconSize(QSize(40, 40));
+ControlSettings::ControlSettings(GameData *game, QWidget *parent)
+    : QWidget(parent), _game(game)
+{
+    _topNote1 = new QPushButton("J", this);
+    _topNote2 = new QPushButton(this);
+    _bottomNote1 = new QPushButton("F", this);
+    _bottomNote2 = new QPushButton(this);
+    _pauseButton = new QPushButton("Esc", this);
+    _resetButton = new QPushButton("Del", this);
+    _validationButton = new QPushButton("Enter", this);
+    _returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
+
+    _returnButton->setIconSize(QSize(40, 40));
 
     QFormLayout *layout = new QFormLayout();
-    layout->addRow(tr("top note 1"), topNote1);
-    layout->addRow(tr("top note 2"), topNote2);
-    layout->addRow(tr("bottom note 1"), bottomNote1);
-    layout->addRow(tr("bottom note 2"), bottomNote2);
-    layout->addRow(tr("pause button"), pauseButton);
-    layout->addRow(tr("reset button"), resetButton);
-    layout->addRow(tr("validation button"), validationButton);
+    layout->addRow(tr("top note 1"), _topNote1);
+    layout->addRow(tr("top note 2"), _topNote2);
+    layout->addRow(tr("bottom note 1"), _bottomNote1);
+    layout->addRow(tr("bottom note 2"), _bottomNote2);
+    layout->addRow(tr("pause button"), _pauseButton);
+    layout->addRow(tr("reset button"), _resetButton);
+    layout->addRow(tr("validation button"), _validationButton);
 
     QHBoxLayout *spacerFormLayout = new QHBoxLayout();
     spacerFormLayout->addStretch(2);
@@ -29,7 +32,7 @@ ControlSettings::ControlSettings(Game *game, QWidget *parent)
     spacerFormLayout->addStretch(2);
 
     QHBoxLayout *spacerButtonLayout = new QHBoxLayout();
-    spacerButtonLayout->addWidget(returnButton, 1);
+    spacerButtonLayout->addWidget(_returnButton, 1);
     spacerButtonLayout->addStretch(9);
 
     QVBoxLayout *mainLayout = new QVBoxLayout();
@@ -42,5 +45,5 @@ ControlSettings::ControlSettings(Game *game, QWidget *parent)
     setAttribute(Qt::WA_StyledBackground);
     setStyleSheet("ControlSettings { background-image: url(\":/img/Background2.png\"); }");
 
-    connect(returnButton, &QPushButton::clicked, this, &ControlSettings::displayMainSettings);
+    connect(_returnButton, &QPushButton::clicked, this, &ControlSettings::displayMainSettings);
 }

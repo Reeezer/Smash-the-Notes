@@ -1,20 +1,21 @@
-#pragma once
+#ifndef ENDSCREEN_H
+#define ENDSCREEN_H
 
 #include <QWidget>
-#include <QObject>
+
+#include "gamedata.h"
+#include "gameitems/character.h"
 
 class QLabel;
-
-#include "game.h"
-#include "gameitems/character.h"
 
 class EndScreen : public QWidget
 {
     Q_OBJECT
 
 public:
-    EndScreen(Game *game, Character *player, QWidget *parent = nullptr);
+    EndScreen(GameData *game, Character *player, QWidget *parent = nullptr);
     ~EndScreen();
+
     void initialize();
 
 signals:
@@ -22,9 +23,18 @@ signals:
     void displayMainMenu();
 
 private:
-    Game *game;
-    Character *player;
+    GameData *_game;
+    Character *_player;
 
-    QLabel *scoreLabel, *highScoreLabel, *perfectLabel, *greatLabel, *missLabel, *passLabel, *accuracyLabel, *noteLabel;
+    QLabel *_scoreLabel;
+    QLabel *_highScoreLabel;
+    QLabel *_perfectLabel;
+    QLabel *_greatLabel;
+    QLabel *_missLabel;
+    QLabel *_passLabel;
+    QLabel *_accuracyLabel;
+    QLabel *_noteLabel;
 };
+
+#endif // ENDSCREEN_H
 
