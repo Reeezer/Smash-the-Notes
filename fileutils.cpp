@@ -6,6 +6,9 @@
 #include <QFile>
 #include <QTextStream>
 #include <QRegularExpression>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 static NoteType columnToType[] = {
     NoteType::NORMALDOWN,
@@ -17,9 +20,9 @@ static NoteType columnToType[] = {
     NoteType::SMASH
 };
 
-static void tokenize(QTextStream &, QMap<QString, QString> *, QList<QString> *);
+static void tokenizeOsuFile(QTextStream &, QMap<QString, QString> *, QList<QString> *);
 
-void tokenize(QTextStream &instream, QMap<QString, QString> *info_tokens, QList<QString> *notes_tokens)
+void tokenizeOsuFile(QTextStream &instream, QMap<QString, QString> *info_tokens, QList<QString> *notes_tokens)
 {
     /* Regexes for the different contents */
     QRegularExpression sectionrx("\\[([^]]+)\\]");
@@ -44,6 +47,83 @@ void tokenize(QTextStream &instream, QMap<QString, QString> *info_tokens, QList<
     }
 }
 
+bool loadHighscoreFile(QString &path, Rank *rank, QList<int> *scores)
+{
+    qDebug() << "loading highscores from file: '" + path + "'";
+
+    /* Open the file */
+    QFile infile(path);
+    if (!infile.open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug() << "error opening file: " + infile.errorString();
+        return false;
+    }
+
+    QTextStream in(&infile);
+    QString jsonstring = in.readAll();
+    QJsonDocument jsondoc = QJsonDocument::fromJson(jsonstring.toUtf8());
+    QJsonObject root = jsondoc.object();
+
+    QJsonValue rankvalue = root["rank"];
+    if (!rankvalue.isDouble()) { /* pas de type int en json, on est obligés de valider avec un double */
+        qDebug() << "the file contains an invalid rank value and will be ignored: " << rankvalue;
+        return false;
+    }
+    *rank = (Rank) rankvalue.toInt();
+
+    QJsonValue scorevalue = root["scorelist"];
+    if (!scorevalue.isArray()) {
+        qDebug() << "the file does not contain a correct score list and will be ignored: " << scorevalue;
+        return false;
+    }
+
+    QJsonArray scoresarray = root["scorelist"].toArray();
+    for (QJsonValue val : scoresarray) {
+        if (val.isDouble())
+            scores->append(val.toInt());
+        else
+            qDebug() << "the file contains an invalid score value that is not an integer which will be ignored: " << val;
+    }
+
+    qDebug() << "highscore file loaded with rank value = " + QString::number(*rank) + " and " + QString::number(scores->size()) + " score entries";
+
+    return true;
+}
+
+bool writeHighscoreFile(QString &path, Rank rank, QList<int> *scores)
+{
+    qDebug() << "writing highscores to file: '" + path + "'";
+
+    /* Open the file */
+    QFile outfile(path);
+    if (!outfile.open(QFile::WriteOnly | QFile::Text))
+    {
+        qDebug() << "error opening file: " + outfile.errorString();
+        return false;
+    }
+
+    QJsonDocument jsondocument;
+    QJsonObject root;
+
+    root["rank"] = (int) rank;
+
+    QJsonArray scorearray;
+    for (int score : *scores) {
+        scorearray.append(score);
+    }
+
+    root["scorelist"] = scorearray;
+
+    jsondocument.setObject(root);
+
+    qDebug() << "highscores succesfully saved";
+
+    /* par défaut toJson écrit de l'UTF-8 et c'est aussi l'encodage qu'on utilise à la lecture (là explicitement par contre) */
+    outfile.write(jsondocument.toJson());
+
+    return true;
+}
+
 bool loadOsuFileMetadata(QString &path, QMap<QString, QString> *metadata)
 {
     qDebug() << "loading metadata from file: '" + path + "'";
@@ -58,7 +138,7 @@ bool loadOsuFileMetadata(QString &path, QMap<QString, QString> *metadata)
 
     QTextStream in(&infile);
 
-    tokenize(in, metadata, nullptr);
+    tokenizeOsuFile(in, metadata, nullptr);
 
     /* lire les metadonnées de la musique */
 
@@ -68,6 +148,8 @@ bool loadOsuFileMetadata(QString &path, QMap<QString, QString> *metadata)
 
     qDebug() << QString::asprintf("artist: '%s', title: '%s'", title.toStdString().c_str(), artist.toStdString().c_str());
     qDebug() << QString::asprintf("relative audio file path: '%s'", relative_music_path.toStdString().c_str());
+
+    return true;
 }
 
 bool loadOsuFile(QString &path, QList<Note *> *upNotes, QList<Note *> *downNotes)
@@ -86,7 +168,7 @@ bool loadOsuFile(QString &path, QList<Note *> *upNotes, QList<Note *> *downNotes
 
     QMap<QString, QString> info_tokens;
     QList<QString> notes_tokens;
-    tokenize(in, &info_tokens, &notes_tokens);
+    tokenizeOsuFile(in, &info_tokens, &notes_tokens);
 
     /* lire les metadonnées de la musique */
 

@@ -19,7 +19,7 @@ public:
 
 signals:
     void restartGame();
-    void returnToMenu();
+    void displayMainMenu();
 
 private:
     Game *game;

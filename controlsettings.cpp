@@ -10,7 +10,9 @@ ControlSettings::ControlSettings(Game *game, QWidget *parent)
     pauseButton = new QPushButton("Esc", this);
     resetButton = new QPushButton("Del", this);
     validationButton = new QPushButton("Enter", this);
-    returnButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/arrowLeft.png"), "", this);
+    returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
+
+    returnButton->setIconSize(QSize(40, 40));
 
     QFormLayout *layout = new QFormLayout();
     layout->addRow(tr("top note 1"), topNote1);

@@ -136,11 +136,13 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     scene->addItem(pauseLabel);
     pauseLabel->setPos(this->width() / 3, this->height() / 3);
 
-    restartButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/return.png"), "Restart");
+    restartButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/return.png"), "Restart");
+    restartButton->setIconSize(QSize(40, 40));
     scene->addWidget(restartButton);
 
     restartButton->setGeometry(this->width() / 4 + 80, this->height() / 2 + 30, 100, 50);
-    quitButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/home.png"), "Quit");
+    quitButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/home.png"), "Quit");
+    quitButton->setIconSize(QSize(40, 40));
     scene->addWidget(quitButton);
 
     quitButton->setGeometry(this->width() / 4 + 280, this->height() / 2 + 30, 100, 50);
@@ -152,9 +154,9 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     this->startTimer(1);
 
     //Connect
-    QObject::connect(restartButton, &QPushButton::clicked, this, &GameView::initialize);
+    QObject::connect(restartButton, &QPushButton::clicked, this, &GameView::restartGame);
     QObject::connect(music, &QMediaPlayer::stateChanged, this, &GameView::musicEnd);
-    QObject::connect(quitButton, &QPushButton::clicked, this, &GameView::returnToMenu);
+    QObject::connect(quitButton, &QPushButton::clicked, this, &GameView::displayMainMenu);
 }
 
 void GameView::newGame(Song *song)
@@ -171,13 +173,26 @@ void GameView::newGame(Song *song)
     }
     backgroundDisplay();
 
-    initialize();
+    restartGame();
+}
+
+void GameView::restartGame()
+{
+    _pause = false;
+    _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
+    _highScore = 0;
 
     //Notes
     for (Note *note : *upNotes)
+    {
+        Q_UNUSED(note)
         removeFirstNote(upNotes);
+    }
     for (Note *note : *downNotes)
+    {
+        Q_UNUSED(note)
         removeFirstNote(downNotes);
+    }
 
     QString path = _currentSong->getPath();
 
@@ -205,12 +220,6 @@ void GameView::newGame(Song *song)
     music->stop();
     music->setMedia(QUrl::fromLocalFile(_currentSong->getAudioFilePath()));
     music->play();
-}
-
-void GameView::initialize()
-{
-    _pause = false;
-    _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
 
     //Set up
     backgroundFever->setVisible(false);
@@ -258,6 +267,8 @@ void GameView::checkPass(QList<Note *> *Notes, bool high)
                     player->setState(CharacterAction::DOWN);
                     music->pause();
                     gameOverLabel->setVisible(true);
+                    restartButton->setVisible(true);
+                    quitButton->setVisible(true);
                 }
                 player->comboBreak();
             }
@@ -304,6 +315,9 @@ void GameView::gamePause()
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
+    if (event->key() == Qt::Key_Return)
+        music->stop();
+
     //The pause mode
     if (event->key() == Qt::Key_Escape && player->getAlive())
         gamePause();
@@ -388,7 +402,7 @@ void GameView::hitSmash(QList<Note *> *Notes)
     player->increaseScore();
     getNextNote(Notes)->hit();
 
-    //If we hit the smash a number of times, we wan't to erase it.
+    //If we hit the smash a number of times, we want to erase it.
     if (getNextNote(Notes)->getHit() == NBSMASHHIT)
         removeFirstNote(Notes);
 }
@@ -545,8 +559,21 @@ void GameView::applyParallax(float ratio, QList<QGraphicsPixmapItem *> *backgrou
 
 void GameView::musicEnd()
 {
-    if(music->state() == QMediaPlayer::StoppedState && timer->elapsed() > 100) //When we restart the game, we stop the music and we don't want to see the end screen at this moment
-        emit gameFinished();
+    if(music->state() == QMediaPlayer::StoppedState && timer->elapsed() > 100) {//When we restart the game, we stop the music and we don't want to see the end screen at this moment
+        Rank rank;
+
+        if(player->getAccuracy() > 99)      rank = Rank::SSS;
+        else if(player->getAccuracy() > 95) rank = Rank::SS;
+        else if(player->getAccuracy() > 90) rank = Rank::S;
+        else if(player->getAccuracy() > 80) rank = Rank::A;
+        else if(player->getAccuracy() > 70) rank = Rank::B;
+        else if(player->getAccuracy() > 50) rank = Rank::C;
+        else                                rank = Rank::D;
+
+        _currentSong->addHighscore(rank, player->getScore());
+
+        emit displayEndScreen();
+    }
 }
 
 //Update the display
@@ -617,4 +644,9 @@ void GameView::update()
 
         scene->update();
     }
+}
+
+Song * GameView::getCurrentSong()
+{
+    return _currentSong;
 }

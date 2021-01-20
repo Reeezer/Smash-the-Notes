@@ -29,7 +29,7 @@ private:
     Game *game;
 
     QLabel *songnameLabel;
-    QLabel *difficultyLabel;
+    QLabel *rankLabel;
     QLabel *highscoreLabel;
 
     QPushButton *startButton;
