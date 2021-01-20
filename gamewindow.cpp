@@ -39,7 +39,7 @@ GameWindow::GameWindow(QWidget *parent)
     addWidget(_endScreen);
     _endScreen->resize(this->width(), this->height());
 
-    _songDetails = new SongDetails(_game, this);
+    _songDetails = new SongDetails(this);
     addWidget(_songDetails);
     _songDetails->resize(this->width(), this->height());
 
@@ -55,6 +55,7 @@ GameWindow::GameWindow(QWidget *parent)
     QObject::connect(_mainMenu, &MainMenu::displayMainSettings, this, &GameWindow::displaySettings);
     QObject::connect(_splashScreen, &SplashScreen::displayMainMenu, this, &GameWindow::displayMainMenu);
     QObject::connect(_controlSettings, &ControlSettings::displayMainSettings, this, &GameWindow::displaySettings);
+    QObject::connect(_songDetails, &SongDetails::displayMainMenu, this, &GameWindow::displayMainMenu);
     
     setCurrentWidget(_splashScreen);
 }
@@ -92,7 +93,8 @@ void GameWindow::displayEndScreen()
 void GameWindow::displayMainMenu()
 {
     /* mettre à jour le score en réaffichant le song actuel (pour quand on est sortis du jeu) */
-    _mainMenu->adaptToSelectedSong();
+    if (_mainMenu->getSelectedSong())
+        _mainMenu->adaptToSelectedSong();
     setCurrentWidget(_mainMenu);
 }
 
@@ -108,5 +110,6 @@ void GameWindow::displaySettings()
 
 void GameWindow::displaySongDetails()
 {
+    _songDetails->setSongDetails(_mainMenu->getSelectedSong());
     setCurrentWidget(_songDetails);
 }
