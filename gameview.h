@@ -46,6 +46,7 @@ public:
     void gamePause();
     void hit();
     Note *getNextNote(QList<Note *> *);
+    Song *getCurrentSong();
 
 public slots:
     void newGame(Song *);

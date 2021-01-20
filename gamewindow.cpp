@@ -91,6 +91,8 @@ void GameWindow::displayEndScreen()
 
 void GameWindow::displayMainMenu()
 {
+    /* mettre à jour le score en réaffichant le song actuel (pour quand on est sortis du jeu) */
+    _mainMenu->adaptToSelectedSong();
     setCurrentWidget(_mainMenu);
 }
 

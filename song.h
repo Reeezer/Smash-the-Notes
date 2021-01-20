@@ -4,35 +4,34 @@
 #include <QList>
 #include <QString>
 
-enum Rank
-{
-    D,
-    C,
-    B,
-    A,
-    S,
-    SS,
-    SSS
-};
+#include "rank.h"
 
 class Song
 {
 public:
     Song();
-    Song(QString, QString, QString, QString);
+    Song(QString, QString);
 
     Rank getRank();
     QString getPath();
     QString getAudioFilePath();
     QString getArtist();
     QString getTitle();
+    QString getHighscoreFilePath();
+    int getPlayCount();
+    int getHighscore();
+    QStringList getHighscoreList();
+
+    void addHighscore(Rank, int);
 
 private:
     Rank _rank;
     QString _title;
     QString _artist;
-    QString _path;
+    QString _osuFilePath;
     QString _audioFilePath;
+    QString _highscoreFilePath;
+    QList<int> _highscores;
 };
 
 #endif // SONG_H
