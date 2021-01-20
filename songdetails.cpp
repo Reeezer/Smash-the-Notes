@@ -30,6 +30,9 @@ SongDetails::SongDetails(QWidget *parent)
     mainLayout->addLayout(spacerLayout);
     mainLayout->addLayout(bottomLayout);
 
+    setAttribute(Qt::WA_StyledBackground);
+    setStyleSheet("SongDetails { background-image: url(\":/img/Background2.png\"); } QListWidget { background-color: rgba(0, 0, 0, 0.2); }");
+
     connect(returnButton, &QPushButton::clicked, this, &SongDetails::displayMainMenu);
 }
 
