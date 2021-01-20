@@ -5,12 +5,6 @@
 #include <QList>
 #include <QObject>
 
-const int PERFECT = 10;
-const int GREAT = 20;
-const int NOTPASSED = 140;
-const int PIXMAPHALF = 40;
-const int NBSMASHHIT = 20;
-
 class QGraphicsScene;
 class QMediaPlayer;
 class QGraphicsItem;
@@ -104,6 +98,13 @@ private:
     bool _pause;
 
     Song *_currentSong;
+
+    /* constantes */
+    const int PERFECT = 10;
+    const int GREAT = 20;
+    const int NOTPASSED = 140;
+    const int PIXMAPHALF = 40;
+    const int NBSMASHHIT = 20;
 };
 
 #endif // GAMEVIEW_H
