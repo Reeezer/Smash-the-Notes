@@ -21,10 +21,10 @@ signals:
     void displayMainMenu();
 
 private:
-    QLabel *titleLabel;
-    QLabel *highscoreLabel;
-    QLabel *rankLabel;
-    QPushButton *returnButton;
+    QLabel *_titleLabel;
+    QLabel *_highscoreLabel;
+    QLabel *_rankLabel;
+    QPushButton *_returnButton;
 
-    QListWidget *highscoreList;
+    QListWidget *_highscoreList;
 };

@@ -32,9 +32,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
-    QElapsedTimer *timer;
+    QElapsedTimer *_timer;
     NoteType _noteType;
     int _timeStamp, _timeOut, _hits, _frameHeight, _maxFrame, _framesNb, _frameWidth, _lastElapsed;
-    QPixmap *sprite;
+    QPixmap *_sprite;
 };
 

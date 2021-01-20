@@ -15,16 +15,16 @@ public:
     ControlSettings(Game *game, QWidget *parent = nullptr);
 
 private:
-    Game *game;
+    Game *_game;
 
-    QPushButton *topNote1;
-    QPushButton *topNote2;
-    QPushButton *bottomNote1;
-    QPushButton *bottomNote2;
-    QPushButton *pauseButton;
-    QPushButton *resetButton;
-    QPushButton *validationButton;
-    QPushButton *returnButton;
+    QPushButton *_topNote1;
+    QPushButton *_topNote2;
+    QPushButton *_bottomNote1;
+    QPushButton *_bottomNote2;
+    QPushButton *_pauseButton;
+    QPushButton *_resetButton;
+    QPushButton *_validationButton;
+    QPushButton *_returnButton;
 
 signals:
     void displayMainSettings();

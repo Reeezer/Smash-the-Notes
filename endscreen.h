@@ -22,9 +22,16 @@ signals:
     void displayMainMenu();
 
 private:
-    Game *game;
-    Character *player;
+    Game *_game;
+    Character *_player;
 
-    QLabel *scoreLabel, *highScoreLabel, *perfectLabel, *greatLabel, *missLabel, *passLabel, *accuracyLabel, *noteLabel;
+    QLabel *_scoreLabel;
+    QLabel *_highScoreLabel;
+    QLabel *_perfectLabel;
+    QLabel *_greatLabel;
+    QLabel *_missLabel;
+    QLabel *_passLabel;
+    QLabel *_accuracyLabel;
+    QLabel *_noteLabel;
 };
 

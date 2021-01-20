@@ -20,14 +20,14 @@ public:
     MainSettings(Game *game, QWidget *parent = nullptr);
 
 private:
-    Game *game;
+    Game *_game;
 
-    QSpinBox *delaySpinBox;
-    QPushButton *inputButton;
-    QPushButton *mapPathButton;
-    QSlider *volumeSlider;
-    PathWidget *pathWidget;
-    QPushButton *returnButton;
+    QSpinBox *_delaySpinBox;
+    QPushButton *_inputButton;
+    QPushButton *_mapPathButton;
+    QSlider *_volumeSlider;
+    PathWidget *_pathWidget;
+    QPushButton *_returnButton;
 
 public slots:
     void setNewDelay();

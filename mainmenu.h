@@ -26,18 +26,18 @@ public slots:
     void adaptToPreselection();
 
 private:
-    Game *game;
+    Game *_game;
 
-    QLabel *songnameLabel;
-    QLabel *rankLabel;
-    QLabel *highscoreLabel;
+    QLabel *_songnameLabel;
+    QLabel *_rankLabel;
+    QLabel *_highscoreLabel;
 
-    QPushButton *startButton;
-    QPushButton *detailsButton;
-    QPushButton *settingsButton;
+    QPushButton *_startButton;
+    QPushButton *_detailsButton;
+    QPushButton *_settingsButton;
 
-    QListWidget *songsList;
-    QMediaPlayer *musicPreview;
+    QListWidget *_songsList;
+    QMediaPlayer *_musicPreview;
 
     static void initializeSongList(QListWidget*);
 

@@ -5,25 +5,25 @@
 SongDetails::SongDetails(QWidget *parent)
     : QWidget(parent)
 {
-    titleLabel = new QLabel;
-    highscoreLabel = new QLabel;
-    rankLabel = new QLabel;
-    highscoreList = new QListWidget;
-    returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
+    _titleLabel = new QLabel;
+    _highscoreLabel = new QLabel;
+    _rankLabel = new QLabel;
+    _highscoreList = new QListWidget;
+    _returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
 
-    returnButton->setIconSize(QSize(40, 40));
+    _returnButton->setIconSize(QSize(40, 40));
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
-    leftLayout->addWidget(titleLabel);
-    leftLayout->addWidget(highscoreLabel);
-    leftLayout->addWidget(rankLabel);
+    leftLayout->addWidget(_titleLabel);
+    leftLayout->addWidget(_highscoreLabel);
+    leftLayout->addWidget(_rankLabel);
 
     QHBoxLayout *bottomLayout = new QHBoxLayout;
     bottomLayout->addLayout(leftLayout);
-    bottomLayout->addWidget(highscoreList);
+    bottomLayout->addWidget(_highscoreList);
 
     QHBoxLayout *spacerLayout = new QHBoxLayout;
-    spacerLayout->addWidget(returnButton, 1);
+    spacerLayout->addWidget(_returnButton, 1);
     spacerLayout->addStretch(9);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
@@ -33,37 +33,37 @@ SongDetails::SongDetails(QWidget *parent)
     setAttribute(Qt::WA_StyledBackground);
     setStyleSheet("SongDetails { background-image: url(\":/img/Background2.png\"); } QListWidget { background-color: rgba(0, 0, 0, 0.2); }");
 
-    connect(returnButton, &QPushButton::clicked, this, &SongDetails::displayMainMenu);
+    connect(_returnButton, &QPushButton::clicked, this, &SongDetails::displayMainMenu);
 }
 
 void SongDetails::setSongDetails(Song *song)
 {
-    highscoreList->clear();
-    titleLabel->setText(song->getArtist() + " - " + song->getTitle());
-    highscoreLabel->setText("Highscore : " + QString::number(song->getHighscore()));
-    highscoreList->addItems(song->getHighscoreList());
+    _highscoreList->clear();
+    _titleLabel->setText(song->getArtist() + " - " + song->getTitle());
+    _highscoreLabel->setText("Highscore : " + QString::number(song->getHighscore()));
+    _highscoreList->addItems(song->getHighscoreList());
 
     switch(song->getRank()) {
     case SSS:
-        rankLabel->setText("Rank: S++");
+        _rankLabel->setText("Rank: S++");
         break;
     case SS:
-        rankLabel->setText("Rank: S+");
+        _rankLabel->setText("Rank: S+");
         break;
     case S:
-        rankLabel->setText("Rank: S");
+        _rankLabel->setText("Rank: S");
         break;
     case A:
-        rankLabel->setText("Rank: A");
+        _rankLabel->setText("Rank: A");
         break;
     case B:
-        rankLabel->setText("Rank: B");
+        _rankLabel->setText("Rank: B");
         break;
     case C:
-        rankLabel->setText("Rank: C");
+        _rankLabel->setText("Rank: C");
         break;
     case D:
-        rankLabel->setText("Rank: D");
+        _rankLabel->setText("Rank: D");
         break;
     }
 }

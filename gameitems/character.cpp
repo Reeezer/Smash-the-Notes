@@ -8,8 +8,8 @@
 Character::Character(QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent)
 {
-    timer = new QElapsedTimer();
-    timer->start();
+    _timer = new QElapsedTimer();
+    _timer->start();
     initialize();
 }
 
@@ -29,14 +29,14 @@ void Character::initialize()
     _frames[HIT] = Animatable(":/img/Character/Hit/hit%d.png", 15, 30);
     _frames[JUMP] = Animatable(":/img/Character/Jump/jump%d.png", 24, 30);
 
-    timer = new QElapsedTimer();
-    timer->restart();
+    _timer = new QElapsedTimer();
+    _timer->restart();
 }
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->drawPixmap(-125, -140, 300, 300, _frames[_state].currentPixmap());
-    if(_frames[_state].update(timer->elapsed()))
+    if(_frames[_state].update(_timer->elapsed()))
     {
         if(_state != CharacterAction::DOWN)
             _state = CharacterAction::RUN;

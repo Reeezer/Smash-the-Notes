@@ -28,10 +28,10 @@ enum FontType {
 
 struct Game
 {
-    int delay;
-    int volume;
+    int _delay;
+    int _volume;
 
-    QFont fonts[FONT_ESIZE];
+    QFont _fonts[FONT_ESIZE];
 };
 
 bool loadRessources(Game *);

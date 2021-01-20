@@ -60,24 +60,39 @@ signals:
 private:
     void keyPressEvent(QKeyEvent *);
     void timerEvent(QTimerEvent *);
-    Game *game;
 
-    QGraphicsScene *scene;
-    QMediaPlayer *music;
-    QSoundEffect *hitEffect;
-    Character *player;
-    QElapsedTimer *timer;
+    Game *_game;
 
-    QPushButton *restartButton, *quitButton;
+    QGraphicsScene *_scene;
+    QMediaPlayer *_music;
+    QSoundEffect *_hitEffect;
+    Character *_player;
+    QElapsedTimer *_timer;
 
-    QGraphicsPixmapItem *pixUpCross, *pixDownCross, *backgroundFever, *backLayer;
+    QPushButton *_restartButton;
+    QPushButton *_quitButton;
 
-    QGraphicsSimpleTextItem *score, *combo, *highScore, *upLabel, *downLabel, *gameOverLabel, *pauseLabel;
-    QGraphicsRectItem *lifeRect, *feverRect, *durationRect;
+    QGraphicsPixmapItem *_pixUpCross;
+    QGraphicsPixmapItem *_pixDownCross;
+    QGraphicsPixmapItem *_backgroundFever;
+    QGraphicsPixmapItem *_backLayer;
 
-    QList<Note *> *upNotes, *downNotes;
-    QList<QGraphicsPixmapItem *> *backgroundList;
-    QList<QPixmap> *crosshairList;
+    QGraphicsSimpleTextItem *_score;
+    QGraphicsSimpleTextItem *_combo;
+    QGraphicsSimpleTextItem *_highScoreTextItem; // FIXME meilleurs nom
+    QGraphicsSimpleTextItem *_upLabel;
+    QGraphicsSimpleTextItem *_downLabel;
+    QGraphicsSimpleTextItem *_gameOverLabel;
+    QGraphicsSimpleTextItem *_pauseLabel;
+
+    QGraphicsRectItem *_lifeRect;
+    QGraphicsRectItem *_feverRect;
+    QGraphicsRectItem *_durationRect;
+
+    QList<Note *> *_upNotes, *_downNotes;
+    QList<QGraphicsPixmapItem *> *_backgroundList;
+    QList<QPixmap> *_crosshairList;
+    // FIXME noms de variables en majuscule sans être constants
     int XLINE, UPLINE, DOWNLINE, _highScore, _lastBackgroundElapsed, _rotationCrossHair, _countCross, _lastJumpElapsed, _lastSmashElapsed;
     float _ratio;
     bool _pause;

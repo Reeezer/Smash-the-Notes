@@ -63,8 +63,12 @@ public:
     bool getFevered();
 
 private:
-    QElapsedTimer *timer;
-    int _life, _combo, _score, _nbPerfect, _nbGreat, _nbMiss, _nbPass, _framesNb, _lastElapsed;
+    QElapsedTimer *_timer;
+    int _life;
+    int _combo;
+    int _score;
+    int _nbPerfect, _nbGreat, _nbMiss, _nbPass;
+    int _framesNb, _lastElapsed;
     float _fever, _accuracy;
     bool _hasJumped, _isFevered, _alive;
     CharacterAction _state;

@@ -1,22 +1,22 @@
 #include "mainsettings.h"
 
 MainSettings::MainSettings(Game *game, QWidget *parent)
-    : QWidget(parent), game(game)
+    : QWidget(parent), _game(game)
 {
-    delaySpinBox = new QSpinBox(this);
-    inputButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/plus.png"), "", this);
-    volumeSlider = new QSlider(Qt::Horizontal, this);
-    pathWidget = new PathWidget(this);
-    returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
+    _delaySpinBox = new QSpinBox(this);
+    _inputButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/plus.png"), "", this);
+    _volumeSlider = new QSlider(Qt::Horizontal, this);
+    _pathWidget = new PathWidget(this);
+    _returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
 
-    inputButton->setIconSize(QSize(40, 40));
-    returnButton->setIconSize(QSize(40, 40));
+    _inputButton->setIconSize(QSize(40, 40));
+    _returnButton->setIconSize(QSize(40, 40));
 
     QFormLayout *layout = new QFormLayout();
-    layout->addRow(tr("delay"), delaySpinBox);
-    layout->addRow(tr("controls"), inputButton);
-    layout->addRow(tr("volume"), volumeSlider);
-    layout->addRow(tr("musics directory"), pathWidget);
+    layout->addRow(tr("delay"), _delaySpinBox);
+    layout->addRow(tr("controls"), _inputButton);
+    layout->addRow(tr("volume"), _volumeSlider);
+    layout->addRow(tr("musics directory"), _pathWidget);
 
     QHBoxLayout *spacerFormLayout = new QHBoxLayout();
     spacerFormLayout->addStretch(2);
@@ -24,7 +24,7 @@ MainSettings::MainSettings(Game *game, QWidget *parent)
     spacerFormLayout->addStretch(2);
 
     QHBoxLayout *spacerButtonLayout = new QHBoxLayout();
-    spacerButtonLayout->addWidget(returnButton, 1);
+    spacerButtonLayout->addWidget(_returnButton, 1);
     spacerButtonLayout->addStretch(9);
 
     QVBoxLayout *mainLayout = new QVBoxLayout();
@@ -37,12 +37,12 @@ MainSettings::MainSettings(Game *game, QWidget *parent)
     setAttribute(Qt::WA_StyledBackground);
     setStyleSheet("MainSettings { background-image: url(\":/img/Background2.png\"); }");
 
-    connect(delaySpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainSettings::setNewDelay);
-    connect(inputButton, &QPushButton::clicked, this, &MainSettings::displayControlSettings);
-    connect(volumeSlider, &QSlider::valueChanged, this, &MainSettings::setNewVolume);
-    connect(pathWidget->mapPathText, &QLineEdit::textChanged, this, &MainSettings::validateAndSetNewDirectory);
-    connect(pathWidget->mapPathButton, &QPushButton::clicked, this, &MainSettings::openModalFileExplorer);
-    connect(returnButton, &QPushButton::clicked, this, &MainSettings::displayMainMenu);
+    connect(_delaySpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainSettings::setNewDelay);
+    connect(_inputButton, &QPushButton::clicked, this, &MainSettings::displayControlSettings);
+    connect(_volumeSlider, &QSlider::valueChanged, this, &MainSettings::setNewVolume);
+    connect(_pathWidget->_mapPathText, &QLineEdit::textChanged, this, &MainSettings::validateAndSetNewDirectory);
+    connect(_pathWidget->_mapPathButton, &QPushButton::clicked, this, &MainSettings::openModalFileExplorer);
+    connect(_returnButton, &QPushButton::clicked, this, &MainSettings::displayMainMenu);
 }
 
 void MainSettings::setNewDelay()
