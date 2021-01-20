@@ -15,7 +15,7 @@ class QPushButton;
 class QSoundEffect;
 
 #include "gameitems/character.h"
-#include "game.h"
+#include "gamedata.h"
 #include "fileutils.h"
 #include "gameitems/note.h"
 #include "song.h"
@@ -25,7 +25,7 @@ class GameView : public QGraphicsView
     Q_OBJECT
 
 public:
-    GameView(Game *game, Character *player, QWidget *parent = nullptr);
+    GameView(GameData *game, Character *player, QWidget *parent = nullptr);
 
     void update();
     void hitNormal(QList<Note *> *);
@@ -60,7 +60,7 @@ protected:
     void timerEvent(QTimerEvent *);
 
 private:
-    Game *_game;
+    GameData *_game;
 
     QGraphicsScene *_scene;
     QMediaPlayer *_music;

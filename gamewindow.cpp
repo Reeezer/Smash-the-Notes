@@ -10,7 +10,7 @@ GameWindow::GameWindow(QWidget *parent)
     setWindowTitle("Smash The Notes");
     setWindowIcon(QIcon(":/img/Icons/PNG/Black/1x/musicOn.png"));
 
-    _game = new Game();
+    _game = new GameData();
     _player = new Character();
 
     if (!loadRessources(_game))

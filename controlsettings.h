@@ -5,7 +5,7 @@
 
 class QPushButton;
 
-#include "game.h"
+#include "gamedata.h"
 
 //TODO : VALEURS PAR DEFAUT
 class ControlSettings : public QWidget
@@ -13,13 +13,13 @@ class ControlSettings : public QWidget
     Q_OBJECT
 
 public:
-    ControlSettings(Game *game, QWidget *parent = nullptr);
+    ControlSettings(GameData *game, QWidget *parent = nullptr);
 
 signals:
     void displayMainSettings();
 
 private:
-    Game *_game;
+    GameData *_game;
 
     QPushButton *_topNote1;
     QPushButton *_topNote2;

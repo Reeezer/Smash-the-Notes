@@ -14,7 +14,7 @@
 #include <QRandomGenerator>
 #include <QPushButton>
 
-GameView::GameView(Game *game, Character *player, QWidget *parent)
+GameView::GameView(GameData *game, Character *player, QWidget *parent)
     : QGraphicsView(parent), _game(game), _player(player)
 {
     //QGraphicsView & QGraphicsScene

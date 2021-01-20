@@ -9,14 +9,14 @@ class QSlider;
 class QLineEdit;
 
 #include "pathwidget.h"
-#include "game.h"
+#include "gamedata.h"
 
 class MainSettings : public QWidget
 {
     Q_OBJECT
 
 public:
-    MainSettings(Game *game, QWidget *parent = nullptr);
+    MainSettings(GameData *game, QWidget *parent = nullptr);
 
 signals:
     void displayMainMenu();
@@ -30,7 +30,7 @@ protected:
     void updateVolume();
 
 private:
-    Game *_game;
+    GameData *_game;
 
     QSpinBox *_delaySpinBox;
     QPushButton *_inputButton;

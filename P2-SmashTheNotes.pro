@@ -12,6 +12,7 @@ CONFIG += console
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    gamedata.cpp \
     gameitems/note.cpp \
     gameitems/character.cpp\
     controlsettings.cpp \
@@ -19,7 +20,6 @@ SOURCES += \
     dirutils.cpp \
     endscreen.cpp \
     fileutils.cpp \
-    game.cpp \
     gameview.cpp \
     gamewindow.cpp \
     main.cpp \
@@ -33,13 +33,13 @@ SOURCES += \
 
 HEADERS += \
     controlsettings.h \
+    gamedata.h \
     gameitems/note.h \
     gameitems/character.h\
     animatable.h \
     dirutils.h \
     endscreen.h \
     fileutils.h \
-    game.h \
     gameview.h \
     gamewindow.h \
     mainmenu.h \

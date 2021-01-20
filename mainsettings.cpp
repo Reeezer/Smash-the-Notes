@@ -7,7 +7,7 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-MainSettings::MainSettings(Game *game, QWidget *parent)
+MainSettings::MainSettings(GameData *game, QWidget *parent)
     : QWidget(parent), _game(game)
 {
     _delaySpinBox = new QSpinBox(this);

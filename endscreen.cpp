@@ -9,7 +9,7 @@
 #include <QString>
 #include <QDebug>
 
-EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
+EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
     : QWidget(parent), _game(game), _player(player)
 {
 //    setAutoFillBackground(true);

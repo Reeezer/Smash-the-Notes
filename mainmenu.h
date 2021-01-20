@@ -10,14 +10,14 @@ class QMediaPlayer;
 
 #include "gameview.h"
 #include "song.h"
-#include "game.h"
+#include "gamedata.h"
 
 class MainMenu : public QWidget
 {
     Q_OBJECT
 
 public:
-    MainMenu(Game *game, QWidget *parent = nullptr);
+    MainMenu(GameData *game, QWidget *parent = nullptr);
 
     Song * getSelectedSong();
 
@@ -32,7 +32,7 @@ signals:
 private:
     static void initializeSongList(QListWidget*);
 
-    Game *_game;
+    GameData *_game;
 
     QLabel *_songnameLabel;
     QLabel *_rankLabel;

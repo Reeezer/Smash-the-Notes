@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "game.h"
+#include "gamedata.h"
 #include "gameitems/character.h"
 
 class QLabel;
@@ -13,7 +13,7 @@ class EndScreen : public QWidget
     Q_OBJECT
 
 public:
-    EndScreen(Game *game, Character *player, QWidget *parent = nullptr);
+    EndScreen(GameData *game, Character *player, QWidget *parent = nullptr);
     ~EndScreen();
 
     void initialize();
@@ -23,7 +23,7 @@ signals:
     void displayMainMenu();
 
 private:
-    Game *_game;
+    GameData *_game;
     Character *_player;
 
     QLabel *_scoreLabel;

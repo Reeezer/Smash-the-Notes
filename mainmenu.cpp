@@ -10,7 +10,7 @@
 #include <QMediaPlayer>
 
 
-MainMenu::MainMenu(Game *game, QWidget *parent)
+MainMenu::MainMenu(GameData *game, QWidget *parent)
     : QWidget(parent), _game(game)
 {
     //Widgets

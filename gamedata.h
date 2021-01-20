@@ -1,8 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
-
-#include "animatable.h"
-#include "gameitems/character.h"
+#ifndef GAMEDATA_H
+#define GAMEDATA_H
 
 #include <QFont>
 
@@ -19,7 +16,8 @@ enum FontType {
     FONT_ESIZE
 };
 
-struct Game
+/* structure contenant les données communes à plusieurs parties du jeu comme les paramètres ou certaines ressources */
+struct GameData
 {
     int _delay;
     int _volume;
@@ -27,6 +25,6 @@ struct Game
     QFont _fonts[FONT_ESIZE];
 };
 
-bool loadRessources(Game *);
+bool loadRessources(GameData *);
 
-#endif // GAME_H
+#endif // GAMEDATA_H

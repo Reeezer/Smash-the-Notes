@@ -30,7 +30,7 @@ public slots:
     void displayControlSettings();
 
 private:
-    Game *_game;
+    GameData *_game;
     Character *_player;
     GameView *_gameView;
     EndScreen *_endScreen;

@@ -3,7 +3,7 @@
 #include <QPushButton>
 #include <QFormLayout>
 
-ControlSettings::ControlSettings(Game *game, QWidget *parent)
+ControlSettings::ControlSettings(GameData *game, QWidget *parent)
     : QWidget(parent), _game(game)
 {
     _topNote1 = new QPushButton("J", this);

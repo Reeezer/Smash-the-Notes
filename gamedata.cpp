@@ -1,8 +1,8 @@
-#include "game.h"
+#include "gamedata.h"
 
 #include <QFontDatabase>
 
-bool loadRessources(Game *game)
+bool loadRessources(GameData *game)
 {
     /* Fonts */
     QFontDatabase::addApplicationFont(":/font/foo.ttf");
