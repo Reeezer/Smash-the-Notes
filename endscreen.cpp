@@ -12,9 +12,10 @@
 EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     : QWidget(parent), game(game), player(player)
 {
-    setAutoFillBackground(true);
-    setPalette(QPalette(Qt::black));
-    setStyleSheet("QLabel { color: white; }");
+//    setAutoFillBackground(true);
+//    setPalette(QPalette(Qt::black));
+    setAttribute(Qt::WA_StyledBackground, true);
+    setStyleSheet("EndScreen { background-color: black; } QLabel { background-color: black; color: white; }");
 
     //Main layout
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
