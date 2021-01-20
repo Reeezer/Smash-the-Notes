@@ -1,5 +1,12 @@
 #include "mainsettings.h"
 
+#include <QSpinBox>
+#include <QPushButton>
+#include <QSlider>
+#include <QLineEdit>
+#include <QFormLayout>
+#include <QVBoxLayout>
+
 MainSettings::MainSettings(Game *game, QWidget *parent)
     : QWidget(parent), _game(game)
 {

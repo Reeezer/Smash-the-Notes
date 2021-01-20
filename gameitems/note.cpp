@@ -1,4 +1,5 @@
 ﻿#include "note.h"
+
 #include <QPixmap>
 #include <QPainter>
 #include <QWidget>

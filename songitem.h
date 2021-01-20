@@ -2,7 +2,6 @@
 #define SONGITEM_H
 
 #include <QListWidgetItem>
-#include <QLabel>
 
 class Song;
 

@@ -2,6 +2,9 @@
 #include "fileutils.h"
 #include "song.h"
 
+#include <QDebug>
+#include <QDir>
+
 void getSongList (QString path, QList<Song *> *songlist)
 {
     qDebug() << "reading songs directory at '" + path + "'";

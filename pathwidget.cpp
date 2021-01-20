@@ -1,5 +1,9 @@
 #include "pathwidget.h"
 
+#include <QLineEdit>
+#include <QPushButton>
+#include <QHBoxLayout>
+
 PathWidget::PathWidget(QWidget *parent) : QWidget(parent)
 {
     _mapPathText = new QLineEdit(this);

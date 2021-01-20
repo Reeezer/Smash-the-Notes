@@ -2,12 +2,11 @@
 #define ENDSCREEN_H
 
 #include <QWidget>
-#include <QObject>
-
-class QLabel;
 
 #include "game.h"
 #include "gameitems/character.h"
+
+class QLabel;
 
 class EndScreen : public QWidget
 {

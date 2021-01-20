@@ -2,9 +2,10 @@
 #define SONGDETAILS_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QListWidget>
-#include <QPushButton>
+
+class QLabel;
+class QPushButton;
+class QListWidget;
 
 #include "song.h"
 

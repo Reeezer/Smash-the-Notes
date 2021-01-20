@@ -1,5 +1,8 @@
 #include "controlsettings.h"
 
+#include <QPushButton>
+#include <QFormLayout>
+
 ControlSettings::ControlSettings(Game *game, QWidget *parent)
     : QWidget(parent), _game(game)
 {

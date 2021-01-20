@@ -2,8 +2,8 @@
 #define CONTROLSETTINGS_H
 
 #include <QWidget>
-#include <QPushButton>
-#include <QFormLayout>
+
+class QPushButton;
 
 #include "game.h"
 

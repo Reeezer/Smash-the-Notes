@@ -2,13 +2,11 @@
 #define MAINSETTINGS_H
 
 #include <QWidget>
-#include <QSpinBox>
-#include <QPushButton>
-#include <QSlider>
-#include <QLineEdit>
-#include <QFormLayout>
-#include <QObject>
-#include <QVBoxLayout>
+
+class QSpinBox;
+class QPushButton;
+class QSlider;
+class QLineEdit;
 
 #include "pathwidget.h"
 #include "game.h"

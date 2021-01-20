@@ -1,11 +1,10 @@
 #ifndef DIRUTILS_H
 #define DIRUTILS_H
 
-#include "song.h"
-
 #include <QList>
-#include <QDir>
-#include <QDebug>
+#include <QString>
+
+class Song;
 
 void getSongList(QString, QList<Song *> *);
 

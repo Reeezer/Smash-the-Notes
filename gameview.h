@@ -3,7 +3,6 @@
 
 #include <QGraphicsView>
 #include <QList>
-#include <QObject>
 
 class QGraphicsScene;
 class QMediaPlayer;

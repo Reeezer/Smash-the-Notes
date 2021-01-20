@@ -1,6 +1,10 @@
 #include "songdetails.h"
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QLabel>
+#include <QListWidget>
+#include <QPushButton>
 
 SongDetails::SongDetails(QWidget *parent)
     : QWidget(parent)

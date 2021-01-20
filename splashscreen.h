@@ -2,9 +2,6 @@
 #define SPLASHSCREEN_H
 
 #include <QPushButton>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QKeyEvent>
 
 class SplashScreen : public QPushButton
 {

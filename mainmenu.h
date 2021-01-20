@@ -2,12 +2,11 @@
 #define MAINMENU_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QListWidget>
-#include <QMediaPlayer>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+
+class QLabel;
+class QPushButton;
+class QListWidget;
+class QMediaPlayer;
 
 #include "gameview.h"
 #include "song.h"

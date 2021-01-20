@@ -2,9 +2,9 @@
 #define PATHWIDGET_H
 
 #include <QWidget>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QHBoxLayout>
+
+class QLineEdit;
+class QPushButton;
 
 class PathWidget : public QWidget
 {

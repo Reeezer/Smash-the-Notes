@@ -2,6 +2,14 @@
 #include "dirutils.h"
 #include "songitem.h"
 
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QListWidget>
+#include <QMediaPlayer>
+
+
 MainMenu::MainMenu(Game *game, QWidget *parent)
     : QWidget(parent), _game(game)
 {
