@@ -12,7 +12,9 @@ public:
     SongItem(QListWidget *parent = nullptr);
     SongItem(Song *, QListWidget *parent = nullptr);
 
+    /* getters */
     Song* getSong();
+
 private:
     Song* _song;
 };

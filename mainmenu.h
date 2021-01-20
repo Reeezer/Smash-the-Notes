@@ -25,7 +25,14 @@ public slots:
     void adaptToSelectedSong();
     void adaptToPreselection();
 
+signals:
+    void displaySongDetails();
+    void displayMainSettings();
+    void displayGameView();
+
 private:
+    static void initializeSongList(QListWidget*);
+
     Game *_game;
 
     QLabel *_songnameLabel;
@@ -38,12 +45,5 @@ private:
 
     QListWidget *_songsList;
     QMediaPlayer *_musicPreview;
-
-    static void initializeSongList(QListWidget*);
-
-signals:
-    void displaySongDetails();
-    void displayMainSettings();
-    void displayGameView();
 };
 

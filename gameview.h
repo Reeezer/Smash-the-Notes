@@ -32,6 +32,7 @@ class GameView : public QGraphicsView
 
 public:
     GameView(Game *game, Character *player, QWidget *parent = nullptr);
+
     void update();
     void hitNormal(QList<Note *> *);
     void checkPass(QList<Note *> *, bool);
@@ -45,6 +46,8 @@ public:
     void rotateCrossHair();
     void gamePause();
     void hit();
+
+    /* getters */
     Note *getNextNote(QList<Note *> *);
     Song *getCurrentSong();
 
@@ -57,10 +60,12 @@ signals:
     void displayEndScreen();
     void displayMainMenu();
 
-private:
+protected:
+    /* methodes Qt */
     void keyPressEvent(QKeyEvent *);
     void timerEvent(QTimerEvent *);
 
+private:
     Game *_game;
 
     QGraphicsScene *_scene;

@@ -24,11 +24,17 @@ class Note : public QGraphicsPixmapItem
 public:
     Note(NoteType , int,QGraphicsItem *parent = nullptr);
 
+    void hit();
+
+    /* getters */
+
     int getTimeStamp();
     NoteType getNoteType();
     int getTimeOut();
     int getHit();
-    void hit();
+
+protected:
+    /* méthodes Qt */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:

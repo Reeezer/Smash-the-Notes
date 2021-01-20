@@ -8,10 +8,14 @@
 
 class Song
 {
+
 public:
     Song();
     Song(QString, QString);
 
+    void addHighscore(Rank, int);
+
+    /* getters */
     Rank getRank();
     QString getPath();
     QString getAudioFilePath();
@@ -21,8 +25,6 @@ public:
     int getPlayCount();
     int getHighscore();
     QStringList getHighscoreList();
-
-    void addHighscore(Rank, int);
 
 private:
     Rank _rank;

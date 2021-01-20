@@ -31,12 +31,12 @@ class Character : public QGraphicsPixmapItem
 {
 public:
     Character(QGraphicsItem *parent = nullptr);
+
     void initialize();
     void damage();
     void regenerate();
     void increaseFever();
     void feverModeDecrease();
-    void setJump(bool);
     void increaseCombo();
     void comboBreak();
     void increaseScore();
@@ -44,9 +44,8 @@ public:
     void increaseScorePerfect();
     void increaseMiss();
     void increasePass();
-    void setState(CharacterAction);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    /* getters */
     int getFever();
     int getLife();
     int getScore();
@@ -61,6 +60,14 @@ public:
     bool getJump();
     bool getAlive();
     bool getFevered();
+
+    /* setters */
+    void setJump(bool);
+    void setState(CharacterAction);
+
+protected:
+    /* méthodes Qt */
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
     QElapsedTimer *_timer;

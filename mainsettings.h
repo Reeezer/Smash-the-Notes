@@ -19,6 +19,17 @@ class MainSettings : public QWidget
 public:
     MainSettings(Game *game, QWidget *parent = nullptr);
 
+signals:
+    void displayMainMenu();
+    void displayControlSettings();
+
+protected:
+    void validateAndUpdateSongDirectory();
+    void openModalFileExplorer();
+
+    void updateDelay();
+    void updateVolume();
+
 private:
     Game *_game;
 
@@ -28,15 +39,5 @@ private:
     QSlider *_volumeSlider;
     PathWidget *_pathWidget;
     QPushButton *_returnButton;
-
-public slots:
-    void setNewDelay();
-    void setNewVolume();
-    void validateAndSetNewDirectory();
-    void openModalFileExplorer();
-
-signals:
-    void displayMainMenu();
-    void displayControlSettings();
 };
 

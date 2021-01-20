@@ -25,7 +25,7 @@ bool Animatable::update(int elapsed)
     return (_currentFrame + 1) >= _frameCount;
 }
 
-QPixmap Animatable::currentPixmap()
+QPixmap Animatable::getCurrentPixmap()
 {
     return _frames[_currentFrame % _frameCount];
 }

@@ -9,14 +9,6 @@ class QPixmap;
 class QString;
 class QSoundEffect;
 
-enum SoundEffectIndex {
-
-};
-
-enum SpriteIndex {
-
-};
-
 enum FontType {
     NORMAL_18,
     NORMAL_70,

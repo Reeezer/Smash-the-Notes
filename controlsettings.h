@@ -11,8 +11,12 @@
 class ControlSettings : public QWidget
 {
     Q_OBJECT
+
 public:
     ControlSettings(Game *game, QWidget *parent = nullptr);
+
+signals:
+    void displayMainSettings();
 
 private:
     Game *_game;
@@ -25,9 +29,6 @@ private:
     QPushButton *_resetButton;
     QPushButton *_validationButton;
     QPushButton *_returnButton;
-
-signals:
-    void displayMainSettings();
 };
 
 #endif // CONTROLSETTINGS_H

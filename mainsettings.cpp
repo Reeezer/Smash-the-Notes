@@ -37,25 +37,25 @@ MainSettings::MainSettings(Game *game, QWidget *parent)
     setAttribute(Qt::WA_StyledBackground);
     setStyleSheet("MainSettings { background-image: url(\":/img/Background2.png\"); }");
 
-    connect(_delaySpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainSettings::setNewDelay);
+    connect(_delaySpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainSettings::updateDelay);
     connect(_inputButton, &QPushButton::clicked, this, &MainSettings::displayControlSettings);
-    connect(_volumeSlider, &QSlider::valueChanged, this, &MainSettings::setNewVolume);
-    connect(_pathWidget->_mapPathText, &QLineEdit::textChanged, this, &MainSettings::validateAndSetNewDirectory);
+    connect(_volumeSlider, &QSlider::valueChanged, this, &MainSettings::updateVolume);
+    connect(_pathWidget->_mapPathText, &QLineEdit::textChanged, this, &MainSettings::validateAndUpdateSongDirectory);
     connect(_pathWidget->_mapPathButton, &QPushButton::clicked, this, &MainSettings::openModalFileExplorer);
     connect(_returnButton, &QPushButton::clicked, this, &MainSettings::displayMainMenu);
 }
 
-void MainSettings::setNewDelay()
+void MainSettings::updateDelay()
 {
 
 }
 
-void MainSettings::setNewVolume()
+void MainSettings::updateVolume()
 {
 
 }
 
-void MainSettings::validateAndSetNewDirectory()
+void MainSettings::validateAndUpdateSongDirectory()
 {
 
 }

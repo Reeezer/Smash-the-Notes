@@ -26,7 +26,6 @@ public slots:
     void displayMainMenu();
     void displaySongDetails();
     void displaySettings();
-//    void displaySplashScreen();
     void displayControlSettings();
 
 private:

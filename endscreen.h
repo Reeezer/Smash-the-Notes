@@ -15,6 +15,7 @@ class EndScreen : public QWidget
 public:
     EndScreen(Game *game, Character *player, QWidget *parent = nullptr);
     ~EndScreen();
+
     void initialize();
 
 signals:

@@ -12,10 +12,10 @@ class SplashScreen : public QPushButton
 public:
     SplashScreen(QWidget *parent = nullptr);
 
-private:
-    void keyPressEvent(QKeyEvent *);
-
 signals:
     void displayMainMenu();
+
+protected:
+    void keyPressEvent(QKeyEvent *);
 };
 

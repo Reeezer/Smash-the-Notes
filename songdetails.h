@@ -15,7 +15,7 @@ public:
     SongDetails(QWidget *parent = nullptr);
 
 public slots:
-    void setSongDetails(Song*);
+    void setSongDetails(Song *);
 
 signals:
     void displayMainMenu();

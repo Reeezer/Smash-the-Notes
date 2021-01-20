@@ -35,7 +35,7 @@ void Character::initialize()
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(-125, -140, 300, 300, _frames[_state].currentPixmap());
+    painter->drawPixmap(-125, -140, 300, 300, _frames[_state].getCurrentPixmap());
     if(_frames[_state].update(_timer->elapsed()))
     {
         if(_state != CharacterAction::DOWN)

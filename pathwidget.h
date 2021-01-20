@@ -9,8 +9,10 @@
 class PathWidget : public QWidget
 {
     Q_OBJECT
+
 public:
     PathWidget(QWidget *parent = nullptr);
+
     QLineEdit *_mapPathText;
     QPushButton *_mapPathButton;
 };
