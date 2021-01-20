@@ -136,11 +136,11 @@ GameView::GameView(Game *game, Character *player, QWidget *parent)
     scene->addItem(pauseLabel);
     pauseLabel->setPos(this->width() / 3, this->height() / 3);
 
-    restartButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/return.png"), "Restart");
+    restartButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/return.png"), "Restart");
     scene->addWidget(restartButton);
 
     restartButton->setGeometry(this->width() / 4 + 80, this->height() / 2 + 30, 100, 50);
-    quitButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/home.png"), "Quit");
+    quitButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/home.png"), "Quit");
     scene->addWidget(quitButton);
 
     quitButton->setGeometry(this->width() / 4 + 280, this->height() / 2 + 30, 100, 50);

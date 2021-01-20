@@ -10,9 +10,9 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     difficultyLabel = new QLabel(tr("Difficulty: "), this);
     highscoreLabel = new QLabel(tr("Highscore: "), this);
 
-    startButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/forward.png"), tr("Play"), this);
-    detailsButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/barsHorizontal.png"), tr("Details"), this);
-    settingsButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/wrench.png"), tr("Settings"), this);
+    startButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/right.png"), tr("Play"), this);
+    detailsButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/barsHorizontal.png"), tr("Details"), this);
+    settingsButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/wrench.png"), tr("Settings"), this);
 
     songsList = new QListWidget(this);
     musicPreview = new QMediaPlayer(this);
@@ -52,7 +52,7 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
 void MainMenu::initializeSongList(QListWidget* songsList)
 {
     QList<Song*> list;
-    getSongList("C:\\songdir", &list);
+    getSongList("C:\\Users\\ethan.millet\\Desktop\\Niveau 2\\P2\\git\\songdir", &list);
     for(Song *song : list)
     {
         songsList->addItem(new SongItem(song));
