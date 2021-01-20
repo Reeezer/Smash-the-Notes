@@ -18,14 +18,21 @@ MainSettings::MainSettings(Game *game, QWidget *parent)
     layout->addRow(tr("volume"), volumeSlider);
     layout->addRow(tr("musics directory"), pathWidget);
 
-    QHBoxLayout *spacerLayout = new QHBoxLayout();
-    spacerLayout->addWidget(returnButton, 1);
-    spacerLayout->addStretch(9);
+    QHBoxLayout *spacerFormLayout = new QHBoxLayout();
+    spacerFormLayout->addStretch(2);
+    spacerFormLayout->addLayout(layout, 8);
+    spacerFormLayout->addStretch(2);
 
-    QVBoxLayout *returnButtonLayout = new QVBoxLayout();
-    returnButtonLayout->addLayout(spacerLayout);
-    returnButtonLayout->addLayout(layout);
-    this->setLayout(returnButtonLayout);
+    QHBoxLayout *spacerButtonLayout = new QHBoxLayout();
+    spacerButtonLayout->addWidget(returnButton, 1);
+    spacerButtonLayout->addStretch(9);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout();
+    mainLayout->addLayout(spacerButtonLayout, 1);
+    mainLayout->addStretch(1);
+    mainLayout->addLayout(spacerFormLayout, 1);
+    mainLayout->addStretch(3);
+    this->setLayout(mainLayout);
 
     connect(delaySpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainSettings::setNewDelay);
     connect(inputButton, &QPushButton::clicked, this, &MainSettings::displayControlSettings);

@@ -35,5 +35,32 @@ SongDetails::SongDetails(QWidget *parent)
 
 void SongDetails::setSongDetails(Song *song)
 {
+    highscoreList->clear();
     titleLabel->setText(song->getArtist() + " - " + song->getTitle());
+    highscoreLabel->setText("Highscore : " + QString::number(song->getHighscore()));
+    highscoreList->addItems(song->getHighscoreList());
+
+    switch(song->getRank()) {
+    case SSS:
+        rankLabel->setText("Rank: S++");
+        break;
+    case SS:
+        rankLabel->setText("Rank: S+");
+        break;
+    case S:
+        rankLabel->setText("Rank: S");
+        break;
+    case A:
+        rankLabel->setText("Rank: A");
+        break;
+    case B:
+        rankLabel->setText("Rank: B");
+        break;
+    case C:
+        rankLabel->setText("Rank: C");
+        break;
+    case D:
+        rankLabel->setText("Rank: D");
+        break;
+    }
 }
