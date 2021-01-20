@@ -228,7 +228,7 @@ void GameView::restartGame()
     _quitButton->setVisible(false);
     _restartButton->setVisible(false);
 
-    _player->initialize();
+    _player->resetCharacter();
     _player->setY(DOWNLINE);
     _player->setZValue(300);
 
