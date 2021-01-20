@@ -353,5 +353,6 @@
         <file>img/Icons/PNG/White/2x/zoomDefault.png</file>
         <file>img/Icons/PNG/White/2x/zoomIn.png</file>
         <file>img/Icons/PNG/White/2x/zoomOut.png</file>
+        <file>img/Background2.png</file>
     </qresource>
 </RCC>
