@@ -39,7 +39,7 @@ GameWindow::GameWindow(QWidget *parent)
     addWidget(_endScreen);
     _endScreen->resize(this->width(), this->height());
 
-    _songDetails = new SongDetails(_game, this);
+    _songDetails = new SongDetails(this);
     addWidget(_songDetails);
     _songDetails->resize(this->width(), this->height());
 
@@ -106,5 +106,6 @@ void GameWindow::displaySettings()
 
 void GameWindow::displaySongDetails()
 {
+    _songDetails->setSongDetails(_mainMenu->getSelectedSong());
     setCurrentWidget(_songDetails);
 }

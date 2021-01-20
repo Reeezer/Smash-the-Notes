@@ -1,25 +1,23 @@
 #pragma once
 
 #include <QWidget>
+#include <QLabel>
+#include <QListWidget>
 
-class QLabel;
-class QPixmap;
-class QListWidget;
-
-#include "game.h"
+#include "song.h"
 
 class SongDetails : public QWidget
 {
 public:
-    SongDetails(Game *game, QWidget *parent = nullptr);
+    SongDetails(QWidget *parent = nullptr);
+
+public slots:
+    void setSongDetails(Song*);
 
 private:
-    Game *game;
-
     QLabel *titleLabel;
     QLabel *highscoreLabel;
     QLabel *rankLabel;
-    QPixmap *rankIcon;
 
     QListWidget *highscoreList;
 };
