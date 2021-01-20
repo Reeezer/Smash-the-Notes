@@ -44,7 +44,6 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     this->setLayout(main);
 
     setAttribute(Qt::WA_StyledBackground);
-    songsList->setAttribute(Qt::WA_StyledBackground);
     setStyleSheet("MainMenu { background-image: url(\":/img/Background2.png\"); } QListWidget { background-color: rgba(0, 0, 0, 0.2); }");
 
     //Connections

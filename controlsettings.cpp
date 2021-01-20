@@ -39,5 +39,8 @@ ControlSettings::ControlSettings(Game *game, QWidget *parent)
     mainLayout->addStretch(3);
     this->setLayout(mainLayout);
 
+    setAttribute(Qt::WA_StyledBackground);
+    setStyleSheet("ControlSettings { background-image: url(\":/img/Background2.png\"); }");
+
     connect(returnButton, &QPushButton::clicked, this, &ControlSettings::displayMainSettings);
 }

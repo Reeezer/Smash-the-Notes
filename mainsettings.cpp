@@ -34,6 +34,9 @@ MainSettings::MainSettings(Game *game, QWidget *parent)
     mainLayout->addStretch(3);
     this->setLayout(mainLayout);
 
+    setAttribute(Qt::WA_StyledBackground);
+    setStyleSheet("MainSettings { background-image: url(\":/img/Background2.png\"); }");
+
     connect(delaySpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainSettings::setNewDelay);
     connect(inputButton, &QPushButton::clicked, this, &MainSettings::displayControlSettings);
     connect(volumeSlider, &QSlider::valueChanged, this, &MainSettings::setNewVolume);
