@@ -12,9 +12,10 @@
 EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     : QWidget(parent), game(game), player(player)
 {
-    setAutoFillBackground(true);
-    setPalette(QPalette(Qt::black));
-    setStyleSheet("QPushButton { color: white; background-color: gray } QLabel {color : white}");
+//    setAutoFillBackground(true);
+//    setPalette(QPalette(Qt::black));
+    setAttribute(Qt::WA_StyledBackground, true);
+    setStyleSheet("EndScreen { background-color: black; } QLabel { background-color: black; color: white; }");
 
     //Main layout
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -84,8 +85,10 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     leftLayout->addLayout(buttonLayout);
     leftLayout->addStretch();
 
-    QPushButton *menuButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/home.png"), "Menu");
-    QPushButton *restartButton = new QPushButton(QIcon(":/img/Icons/PNG/Black/1x/return.png"), "Restart");
+    QPushButton *menuButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/home.png"), "Menu");
+    menuButton->setIconSize(QSize(40, 40));
+    QPushButton *restartButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/return.png"), "Restart");
+    restartButton->setIconSize(QSize(40, 40));
     buttonLayout->addStretch();
     buttonLayout->addWidget(menuButton);
     buttonLayout->addStretch();
