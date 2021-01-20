@@ -59,7 +59,7 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
 void MainMenu::initializeSongList(QListWidget* songsList)
 {
     QList<Song*> list;
-    getSongList("C:\\Users\\lucadavi.meyer\\Desktop\\songdir", &list);
+    getSongList("C:\\Users\\ethan.millet\\Desktop\\Niveau 2\\P2\\git\\songdir", &list);
     for(Song *song : list)
     {
         songsList->addItem(new SongItem(song));
