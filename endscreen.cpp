@@ -99,7 +99,7 @@ EndScreen::EndScreen(Game *game, Character *player, QWidget *parent)
     QPixmap pix(":/img/Background/EndScreen.png");
 
     QLabel *pixmap = new QLabel;
-    pixmap->setPixmap(pix.scaled(450, 600));
+    pixmap->setPixmap(pix.scaled(450, 450));
 
     mainLayout->addWidget(pixmap);
 
