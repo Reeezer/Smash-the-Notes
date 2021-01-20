@@ -111,6 +111,10 @@ void GameWindow::displaySettings()
 
 void GameWindow::displaySongDetails()
 {
-    _songDetails->setSongDetails(_mainMenu->getSelectedSong());
+    Song *song = _mainMenu->getSelectedSong();
+    if (song)
+        _songDetails->setSongDetails(song);
+    else
+        qDebug() << "uh oh, displaySongDetails() got called without a song selected, this shouldn't happen";
     setCurrentWidget(_songDetails);
 }
