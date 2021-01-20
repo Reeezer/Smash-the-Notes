@@ -9,6 +9,9 @@ MainSettings::MainSettings(Game *game, QWidget *parent)
     pathWidget = new PathWidget(this);
     returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
 
+    inputButton->setIconSize(QSize(40, 40));
+    returnButton->setIconSize(QSize(40, 40));
+
     QFormLayout *layout = new QFormLayout();
     layout->addRow(tr("delay"), delaySpinBox);
     layout->addRow(tr("controls"), inputButton);

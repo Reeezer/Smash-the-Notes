@@ -21,6 +21,9 @@ MainMenu::MainMenu(Game *game, QWidget *parent)
     startButton->setDisabled(true);
     detailsButton->setDisabled(true);
     initializeSongList(songsList);
+    startButton->setIconSize(QSize(40, 40));
+    detailsButton->setIconSize(QSize(40, 40));
+    settingsButton->setIconSize(QSize(40, 40));
 
     //Layouts
     QHBoxLayout *buttons = new QHBoxLayout;
