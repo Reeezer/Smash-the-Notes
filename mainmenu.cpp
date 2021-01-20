@@ -81,6 +81,8 @@ void MainMenu::adaptToSelectedSong()
     /* normalement il devrait toujours y avoir un Song * associé, mais plutôt que de crash à cause d'une segfault on
      * on affiche un message d'erreur via qDebug(). De son côté l'utilisateur ne verra aucune différence */
     if (Song *song = getSelectedSong()) {
+        qDebug() << "displaying details for map at '" + song->getPath() + "'";
+
         _songnameLabel->setText("Music: " + song->getArtist() + " - " + song->getTitle());
 
         if (song->getPlayCount() > 0) {
