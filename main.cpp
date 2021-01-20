@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
 
     a.setStyleSheet("* { font-family: \"Foo\"; font-size: 32px; }\
                     QWidget { background-color : DarkOliveGreen; }\
+                    QLabel { background-color: rgba(0,0,0,0); } \
                     QPushButton { color: white; background-color: DarkGreen; border-radius: 4px; border: 2px solid black; }\
                     QListWidget { background-color : OliveDrab; }\
                     QPushButton:hover { border: 3px solid lightBlue; }\
