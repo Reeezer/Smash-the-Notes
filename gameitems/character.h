@@ -1,11 +1,6 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-const int MAXLIFE = 300;
-const int MAXFEVER = 100;
-const int DAMAGE = 30;
-const int REGENERATION = 80;
-
 #include <QGraphicsPixmapItem>
 
 #include "animatable.h"
@@ -82,6 +77,11 @@ private:
     CharacterAction _state;
 
     Animatable _frames[CHARACTERACTION_ESIZE];
+
+    const int MAXLIFE = 300;
+    const int MAXFEVER = 100;
+    const int DAMAGE = 30;
+    const int REGENERATION = 80;
 };
 
 #endif // CHARACTER_H

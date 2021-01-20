@@ -1,9 +1,11 @@
 #include "character.h"
-#include <QPixmap>
-#include <QStyleOptionGraphicsItem>
-#include <QPainter>
+
 #include <QDebug>
 #include <QElapsedTimer>
+#include <QPainter>
+#include <QPixmap>
+#include <QStyleOptionGraphicsItem>
+
 
 Character::Character(QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent)
