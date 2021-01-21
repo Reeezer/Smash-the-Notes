@@ -30,6 +30,8 @@ struct GameData
     int _bottomNote2Key = Qt::Key_K;
     int _pauseButtonKey = Qt::Key_Escape;
     int _resetButtonKey = Qt::Key_R;
+
+    int _validateKey = Qt::Key_Return;
 };
 
 bool loadRessources(GameData *);

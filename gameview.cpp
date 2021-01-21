@@ -315,17 +315,21 @@ void GameView::gamePause()
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Return)
+    int key = event->key();
+
+    qDebug() << _game->_validateKey << key;
+
+    if (key == _game->_validateKey)
         _music->stop();
 
     //The pause mode
-    if (event->key() == Qt::Key_Escape && _player->getAlive())
+    if (key == _game->_pauseButtonKey && _player->getAlive())
         gamePause();
 
     if (_player->getAlive() && !_pause)
     {
         //Use the time of the music to know when to hit
-        if (event->key() == Qt::Key_F || event->key() == Qt::Key_J)
+        if (key == _game->_bottomNote1Key ||  key == _game->_bottomNote2Key || key == _game->_topNote1Key || key == _game->_topNote2Key)
         {
             _hitEffect->play();
 
@@ -338,7 +342,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
                     hitSmash(_upNotes);
             }
             //If it's not, we have to check which kind of note it is
-            else if (event->key() == Qt::Key_F)
+            else if (key == _game->_topNote1Key || key == _game->_topNote2Key)
             {
                 _lastJumpElapsed = _timer->elapsed();
                 if (!_player->getJump())
@@ -350,7 +354,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
                 if (!_upNotes->isEmpty() && getNextNote(_upNotes)->getNoteType() != NoteType::SMASH)
                     hitNormal(_upNotes);
             }
-            else if (event->key() == Qt::Key_J)
+            else if (key == _game->_bottomNote1Key ||  key == _game->_bottomNote2Key)
             {
                 if (_player->getJump())
                 {
