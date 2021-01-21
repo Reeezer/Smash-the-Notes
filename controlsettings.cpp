@@ -1,6 +1,7 @@
 #include "controlsettings.h"
 #include "keydialog.h"
 #include "keybindbutton.h"
+#include "fileutils.h"
 
 #include <QDebug>
 #include <QKeyEvent>
@@ -60,5 +61,9 @@ void ControlSettings::changeKeyBinding()
     int key = KeyDialog::getKey();
     qDebug() << "reading key from dialog: " << key;
     button->setKey(key);
+
+    // FIXME corriger le chemin d'accès
+    QString path("C:\\Users\\lucadavi.meyer\\Desktop\\songdir\\settings.json");
+    writeSettingsFile(path, _game);
 }
 

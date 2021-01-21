@@ -14,7 +14,12 @@ GameWindow::GameWindow(QWidget *parent)
     _player = new Character();
 
     if (!loadRessources(_game))
-        qDebug() << "Failed to load ressources";
+        qDebug() << "failed to load ressources";
+
+    // FIXME corriger le chemin d'accès
+    QString path("C:\\Users\\lucadavi.meyer\\Desktop\\songdir\\settings.json");
+    if (!loadSettingsFile(path, _game))
+        qDebug() << "failed to read settings";
 
     _gameView = new GameView(_game, _player, this);
     addWidget(_gameView);
