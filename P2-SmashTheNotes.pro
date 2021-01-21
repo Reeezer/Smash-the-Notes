@@ -22,6 +22,8 @@ SOURCES += \
     fileutils.cpp \
     gameview.cpp \
     gamewindow.cpp \
+    keybindbutton.cpp \
+    keydialog.cpp \
     main.cpp \
     mainmenu.cpp \
     mainsettings.cpp \
@@ -42,6 +44,8 @@ HEADERS += \
     fileutils.h \
     gameview.h \
     gamewindow.h \
+    keybindbutton.h \
+    keydialog.h \
     mainmenu.h \
     mainsettings.h \
     pathwidget.h \

@@ -23,6 +23,13 @@ struct GameData
     int _volume;
 
     QFont _fonts[FONT_ESIZE];
+
+    int _topNote1Key = Qt::Key_F;
+    int _topNote2Key = Qt::Key_D;
+    int _bottomNote1Key = Qt::Key_J;
+    int _bottomNote2Key = Qt::Key_K;
+    int _pauseButtonKey = Qt::Key_Escape;
+    int _resetButtonKey = Qt::Key_R;
 };
 
 bool loadRessources(GameData *);

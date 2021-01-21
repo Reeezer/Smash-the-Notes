@@ -4,6 +4,7 @@
 #include <QWidget>
 
 class QPushButton;
+class KeyBindButton;
 
 #include "gamedata.h"
 
@@ -18,16 +19,18 @@ public:
 signals:
     void displayMainSettings();
 
+protected:
+    void changeKeyBinding();
+
 private:
     GameData *_game;
 
-    QPushButton *_topNote1;
-    QPushButton *_topNote2;
-    QPushButton *_bottomNote1;
-    QPushButton *_bottomNote2;
-    QPushButton *_pauseButton;
-    QPushButton *_resetButton;
-    QPushButton *_validationButton;
+    KeyBindButton *_topNote1;
+    KeyBindButton *_topNote2;
+    KeyBindButton *_bottomNote1;
+    KeyBindButton *_bottomNote2;
+    KeyBindButton *_pauseButton;
+    KeyBindButton *_resetButton;
     QPushButton *_returnButton;
 };
 
