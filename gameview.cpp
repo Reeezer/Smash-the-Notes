@@ -15,7 +15,7 @@
 #include <QPushButton>
 
 GameView::GameView(GameData *game, Character *player, QMediaPlayer *mediaPlayer, QWidget *parent)
-    : QGraphicsView(parent), _game(game), _player(player), _music(mediaPlayer)
+    : QGraphicsView(parent), _game(game), _player(player), _music(mediaPlayer), _gameRunning(false)
 {
     //QGraphicsView & QGraphicsScene
     resize(1000, 600);
@@ -222,6 +222,7 @@ void GameView::restartGame()
     _music->stop();
     _music->setMedia(QUrl::fromLocalFile(_currentSong->getAudioFilePath()));
     _music->play();
+    _gameRunning = true;
 
     //Set up
     _backgroundFever->setVisible(false);
@@ -565,7 +566,8 @@ void GameView::applyParallax(float ratio, QList<QGraphicsPixmapItem *> *backgrou
 
 void GameView::musicEnd()
 {
-    if(_music->state() == QMediaPlayer::StoppedState && _timer->elapsed() > 100) {//When we restart the game, we stop the music and we don't want to see the end screen at this moment
+    if(_gameRunning && _music->state() == QMediaPlayer::StoppedState && _timer->elapsed() > 100) {//When we restart the game, we stop the music and we don't want to see the end screen at this moment
+        _gameRunning = false;
         Rank rank;
 
         if(_player->getAccuracy() > 99)      rank = Rank::SSS;
@@ -584,7 +586,7 @@ void GameView::musicEnd()
 
 //Update the display
 void GameView::update()
-{  
+{
     if (!_pause)
     {
         //Update of note position

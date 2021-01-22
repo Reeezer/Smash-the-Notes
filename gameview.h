@@ -97,6 +97,7 @@ private:
     bool _pause;
 
     Song *_currentSong;
+    bool _gameRunning; /* pour éviter que le signal du media player ne trigger un ajout aux highscores il faut qu'on sachge si on était en train de jouer*/
 
     /* constantes */
     const int PERFECT = 10;

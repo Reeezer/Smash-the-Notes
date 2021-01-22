@@ -82,8 +82,11 @@ void MainMenu::adaptToSelectedSong()
     if (Song *song = getSelectedSong()) {
         qDebug() << "displaying details for map at '" + song->getPath() + "'";
 
-        _musicPreview->setMedia(QUrl::fromLocalFile(song->getAudioFilePath()));
-        _musicPreview->play();
+        QMediaContent media = QUrl::fromLocalFile(song->getAudioFilePath());
+        if (_musicPreview->media() != media) {
+            _musicPreview->setMedia(media);
+            _musicPreview->play();
+        }
 
         _songnameLabel->setText("Music: " + song->getArtist() + " - " + song->getTitle());
 
