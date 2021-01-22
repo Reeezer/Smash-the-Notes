@@ -22,10 +22,11 @@ SOURCES += \
     fileutils.cpp \
     gameview.cpp \
     gamewindow.cpp \
+    keybindbutton.cpp \
+    keydialog.cpp \
     main.cpp \
     mainmenu.cpp \
     mainsettings.cpp \
-    pathwidget.cpp \
     song.cpp \
     songdetails.cpp \
     songitem.cpp \
@@ -42,9 +43,10 @@ HEADERS += \
     fileutils.h \
     gameview.h \
     gamewindow.h \
+    keybindbutton.h \
+    keydialog.h \
     mainmenu.h \
     mainsettings.h \
-    pathwidget.h \
     rank.h \
     song.h \
     songdetails.h \

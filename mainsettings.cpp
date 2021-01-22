@@ -1,4 +1,5 @@
 #include "mainsettings.h"
+#include "fileutils.h"
 
 #include <QSpinBox>
 #include <QPushButton>
@@ -6,24 +7,29 @@
 #include <QLineEdit>
 #include <QFormLayout>
 #include <QVBoxLayout>
+#include <QMediaPlayer>
 
-MainSettings::MainSettings(GameData *game, QWidget *parent)
-    : QWidget(parent), _game(game)
+MainSettings::MainSettings(GameData *game, QMediaPlayer *mediaPlayer, QWidget *parent)
+    : QWidget(parent), _game(game), _mediaPlayer(mediaPlayer)
 {
     _delaySpinBox = new QSpinBox(this);
     _inputButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/plus.png"), "", this);
     _volumeSlider = new QSlider(Qt::Horizontal, this);
-    _pathWidget = new PathWidget(this);
     _returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
 
     _inputButton->setIconSize(QSize(40, 40));
     _returnButton->setIconSize(QSize(40, 40));
 
+    _volumeSlider->setRange(0, 100);
+    _volumeSlider->setValue(_game->_volume);
+
+    _delaySpinBox->setRange(-100, 100);
+    _delaySpinBox->setValue(_game->_delay);
+
     QFormLayout *layout = new QFormLayout();
     layout->addRow(tr("delay"), _delaySpinBox);
-    layout->addRow(tr("controls"), _inputButton);
     layout->addRow(tr("volume"), _volumeSlider);
-    layout->addRow(tr("musics directory"), _pathWidget);
+    layout->addRow(tr("controls"), _inputButton);
 
     QHBoxLayout *spacerFormLayout = new QHBoxLayout();
     spacerFormLayout->addStretch(2);
@@ -47,27 +53,27 @@ MainSettings::MainSettings(GameData *game, QWidget *parent)
     connect(_delaySpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainSettings::updateDelay);
     connect(_inputButton, &QPushButton::clicked, this, &MainSettings::displayControlSettings);
     connect(_volumeSlider, &QSlider::valueChanged, this, &MainSettings::updateVolume);
-    connect(_pathWidget->_mapPathText, &QLineEdit::textChanged, this, &MainSettings::validateAndUpdateSongDirectory);
-    connect(_pathWidget->_mapPathButton, &QPushButton::clicked, this, &MainSettings::openModalFileExplorer);
     connect(_returnButton, &QPushButton::clicked, this, &MainSettings::displayMainMenu);
 }
 
 void MainSettings::updateDelay()
 {
-
+    _game->_delay = _delaySpinBox->value();
+    qDebug() << "setting delay to " << _game->_delay;
+    saveSettings();
 }
 
 void MainSettings::updateVolume()
 {
-
+    _mediaPlayer->setVolume(_volumeSlider->value());
+    _game->_volume = _volumeSlider->value(); /* pour pouvoir les enregistrer dans les paramètres */
+    qDebug() << "setting volume to " << _game->_volume;
+    saveSettings();
 }
 
-void MainSettings::validateAndUpdateSongDirectory()
+void MainSettings::saveSettings(void)
 {
-
-}
-
-void MainSettings::openModalFileExplorer()
-{
-
+    // FIXME corriger le chemin d'accès
+    QString path("C:\\Users\\lucadavi.meyer\\Desktop\\songdir\\settings.json");
+    writeSettingsFile(path, _game);
 }

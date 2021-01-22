@@ -1,5 +1,7 @@
 #include "gameitems/note.h"
 #include "fileutils.h"
+#include "gamedata.h"
+#include "gameitems/note.h"
 
 #include <QDebug>
 #include <QFile>
@@ -202,5 +204,82 @@ bool loadOsuFile(QString &path, QList<Note *> *upNotes, QList<Note *> *downNotes
     qDebug() << QString::asprintf("read %d notes (%d up, %d down)", notes_tokens.size(), upNotes->size(), downNotes->size());
 
     infile.close();
+    return true;
+}
+
+bool loadSettingsFile(QString &path, GameData *gamedata)
+{
+    qDebug() << "loading settings file: '" + path + "'";
+
+    /* Open the file */
+    QFile infile(path);
+    if (!infile.open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug() << "error opening file: " + infile.errorString();
+        return false;
+    }
+
+    QTextStream in(&infile);
+    QString jsonstring = in.readAll();
+    QJsonDocument jsondoc = QJsonDocument::fromJson(jsonstring.toUtf8());
+    QJsonObject root = jsondoc.object();
+
+    QJsonValue topkey1Value = root["topkey1"];
+    QJsonValue topkey2Value = root["topkey2"];
+    QJsonValue bottomkey1Value = root["bottomkey1"];
+    QJsonValue bottomkey2Value = root["bottomkey2"];
+    QJsonValue pausekeyValue = root["pausekey"];
+    QJsonValue resetkeyValue = root["resetkey"];
+    QJsonValue volumeValue = root["volume"];
+    QJsonValue delayValue = root["delay"];
+
+    if (topkey1Value.isDouble() && topkey1Value != QJsonValue::Null)
+        gamedata->_topNote1Key = topkey1Value.toInt();
+    if (topkey2Value.isDouble() && topkey2Value != QJsonValue::Null)
+        gamedata->_topNote2Key = topkey2Value.toInt();
+    if (bottomkey1Value.isDouble() && bottomkey1Value != QJsonValue::Null)
+        gamedata->_bottomNote1Key = bottomkey1Value.toInt();
+    if (bottomkey2Value.isDouble() && bottomkey2Value != QJsonValue::Null)
+        gamedata->_bottomNote2Key = bottomkey2Value.toInt();
+    if (pausekeyValue.isDouble() && pausekeyValue != QJsonValue::Null)
+        gamedata->_pauseButtonKey = pausekeyValue.toInt();
+    if (resetkeyValue.isDouble() && resetkeyValue != QJsonValue::Null)
+        gamedata->_resetButtonKey = resetkeyValue.toInt();
+    if (volumeValue.isDouble() && volumeValue != QJsonValue::Null)
+        gamedata->_volume = volumeValue.toInt();
+    if (delayValue.isDouble() && delayValue != QJsonValue::Null)
+        gamedata->_delay = delayValue.toInt();
+
+    return true;
+}
+
+bool writeSettingsFile(QString &path, GameData *gamedata)
+{
+    qDebug() << "writing settings file: '" + path + "'";
+
+    /* Open the file */
+    QFile outfile(path);
+    if (!outfile.open(QFile::WriteOnly | QFile::Text))
+    {
+        qDebug() << "error opening file: " + outfile.errorString();
+        return false;
+    }
+
+    QJsonDocument jsondocument;
+    QJsonObject root = jsondocument.object();
+
+    root["topkey1"] = gamedata->_topNote1Key;
+    root["topkey2"] = gamedata->_topNote2Key;
+    root["bottomkey1"] = gamedata->_bottomNote1Key;
+    root["bottomkey2"] = gamedata->_bottomNote2Key;
+    root["pausekey"] = gamedata->_pauseButtonKey;
+    root["resetkey"] = gamedata->_resetButtonKey;
+    root["volume"] = gamedata->_volume;
+    root["delay"] = gamedata->_delay;
+
+    jsondocument.setObject(root);
+
+    outfile.write(jsondocument.toJson());
+
     return true;
 }

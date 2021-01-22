@@ -14,8 +14,8 @@
 #include <QRandomGenerator>
 #include <QPushButton>
 
-GameView::GameView(GameData *game, Character *player, QWidget *parent)
-    : QGraphicsView(parent), _game(game), _player(player)
+GameView::GameView(GameData *game, Character *player, QMediaPlayer *mediaPlayer, QWidget *parent)
+    : QGraphicsView(parent), _game(game), _player(player), _music(mediaPlayer)
 {
     //QGraphicsView & QGraphicsScene
     resize(1000, 600);
@@ -28,9 +28,6 @@ GameView::GameView(GameData *game, Character *player, QWidget *parent)
     _scene = new QGraphicsScene();
     setScene(_scene);
     _scene->setSceneRect(0, 0, this->width(), this->height());
-
-    //Set up the music & sound effect
-    _music = new QMediaPlayer(this);
 
     _timer = new QElapsedTimer();
 
@@ -182,6 +179,11 @@ void GameView::restartGame()
     _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
     _highScore = 0;
 
+    /* puisque les effets sonores ne sont utilisés que dans la gameview, on peut récupérer le volume depuis le media player qui
+     * lui est aussi utilisé ailleurs et est toujours à jours vis-à-vis du slider dans mainSettings. Attention contrairement à
+     * QMediaPlayer le volume va de 0 à 1 et non pas 0 à 100 */
+    _hitEffect->setVolume((double) _music->volume() / 100.0);
+
     //Notes
     for (Note *note : *_upNotes)
     {
@@ -315,17 +317,21 @@ void GameView::gamePause()
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Return)
+    int key = event->key();
+
+    qDebug() << _game->_validateKey << key;
+
+    if (key == _game->_validateKey)
         _music->stop();
 
     //The pause mode
-    if (event->key() == Qt::Key_Escape && _player->getAlive())
+    if (key == _game->_pauseButtonKey && _player->getAlive())
         gamePause();
 
     if (_player->getAlive() && !_pause)
     {
         //Use the time of the music to know when to hit
-        if (event->key() == Qt::Key_F || event->key() == Qt::Key_J)
+        if (key == _game->_bottomNote1Key ||  key == _game->_bottomNote2Key || key == _game->_topNote1Key || key == _game->_topNote2Key)
         {
             _hitEffect->play();
 
@@ -338,7 +344,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
                     hitSmash(_upNotes);
             }
             //If it's not, we have to check which kind of note it is
-            else if (event->key() == Qt::Key_F)
+            else if (key == _game->_topNote1Key || key == _game->_topNote2Key)
             {
                 _lastJumpElapsed = _timer->elapsed();
                 if (!_player->getJump())
@@ -350,7 +356,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
                 if (!_upNotes->isEmpty() && getNextNote(_upNotes)->getNoteType() != NoteType::SMASH)
                     hitNormal(_upNotes);
             }
-            else if (event->key() == Qt::Key_J)
+            else if (key == _game->_bottomNote1Key ||  key == _game->_bottomNote2Key)
             {
                 if (_player->getJump())
                 {

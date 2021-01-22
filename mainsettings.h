@@ -7,6 +7,7 @@ class QSpinBox;
 class QPushButton;
 class QSlider;
 class QLineEdit;
+class QMediaPlayer;
 
 #include "pathwidget.h"
 #include "gamedata.h"
@@ -16,7 +17,10 @@ class MainSettings : public QWidget
     Q_OBJECT
 
 public:
-    MainSettings(GameData *game, QWidget *parent = nullptr);
+    MainSettings(GameData *game, QMediaPlayer *, QWidget *parent = nullptr);
+
+public slots:
+    void saveSettings(void);
 
 signals:
     void displayMainMenu();
@@ -32,11 +36,12 @@ protected:
 private:
     GameData *_game;
 
+    QMediaPlayer *_mediaPlayer;
+
     QSpinBox *_delaySpinBox;
     QPushButton *_inputButton;
     QPushButton *_mapPathButton;
     QSlider *_volumeSlider;
-    PathWidget *_pathWidget;
     QPushButton *_returnButton;
 };
 

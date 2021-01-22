@@ -3,6 +3,8 @@
 
 #include <QStackedWidget>
 
+class QMediaPlayer;
+
 #include "gameitems/character.h"
 #include "gameview.h"
 #include "mainsettings.h"
@@ -40,6 +42,7 @@ private:
     SplashScreen *_splashScreen;
     SongDetails *_songDetails;
 
+    QMediaPlayer *_mediaPlayer;
 };
 
 #endif // GAMEWINDOW_H

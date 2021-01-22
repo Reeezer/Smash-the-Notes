@@ -1,18 +1,20 @@
 #include "controlsettings.h"
+#include "keydialog.h"
+#include "keybindbutton.h"
 
-#include <QPushButton>
+#include <QDebug>
+#include <QKeyEvent>
 #include <QFormLayout>
 
 ControlSettings::ControlSettings(GameData *game, QWidget *parent)
     : QWidget(parent), _game(game)
 {
-    _topNote1 = new QPushButton("J", this);
-    _topNote2 = new QPushButton(this);
-    _bottomNote1 = new QPushButton("F", this);
-    _bottomNote2 = new QPushButton(this);
-    _pauseButton = new QPushButton("Esc", this);
-    _resetButton = new QPushButton("Del", this);
-    _validationButton = new QPushButton("Enter", this);
+    _topNote1 = new KeyBindButton(&game->_topNote1Key, this);
+    _topNote2 = new KeyBindButton(&game->_topNote2Key, this);
+    _bottomNote1 = new KeyBindButton(&game->_bottomNote1Key, this);
+    _bottomNote2 = new KeyBindButton(&game->_bottomNote2Key, this);
+    _pauseButton = new KeyBindButton(&game->_pauseButtonKey, this);
+    _resetButton = new KeyBindButton(&game->_resetButtonKey, this);
     _returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
 
     _returnButton->setIconSize(QSize(40, 40));
@@ -24,7 +26,6 @@ ControlSettings::ControlSettings(GameData *game, QWidget *parent)
     layout->addRow(tr("bottom note 2"), _bottomNote2);
     layout->addRow(tr("pause button"), _pauseButton);
     layout->addRow(tr("reset button"), _resetButton);
-    layout->addRow(tr("validation button"), _validationButton);
 
     QHBoxLayout *spacerFormLayout = new QHBoxLayout();
     spacerFormLayout->addStretch(2);
@@ -46,4 +47,20 @@ ControlSettings::ControlSettings(GameData *game, QWidget *parent)
     setStyleSheet("ControlSettings { background-image: url(\":/img/Background2.png\"); }");
 
     connect(_returnButton, &QPushButton::clicked, this, &ControlSettings::displayMainSettings);
+    connect(_topNote1, &KeyBindButton::clicked, this, &ControlSettings::changeKeyBinding);
+    connect(_topNote2, &KeyBindButton::clicked, this, &ControlSettings::changeKeyBinding);
+    connect(_bottomNote1, &KeyBindButton::clicked, this, &ControlSettings::changeKeyBinding);
+    connect(_bottomNote2, &KeyBindButton::clicked, this, &ControlSettings::changeKeyBinding);
+    connect(_pauseButton, &KeyBindButton::clicked, this, &ControlSettings::changeKeyBinding);
+    connect(_resetButton, &KeyBindButton::clicked, this, &ControlSettings::changeKeyBinding);
 }
+void ControlSettings::changeKeyBinding()
+{
+    KeyBindButton *button = (KeyBindButton *) QObject::sender();
+    int key = KeyDialog::getKey();
+    qDebug() << "reading key from dialog: " << key;
+    button->setKey(key);
+
+    emit keyBindingsUpdated();
+}
+

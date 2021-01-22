@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QFontDatabase>
+#include <QMediaPlayer>
 
 GameWindow::GameWindow(QWidget *parent)
     : QStackedWidget(parent)
@@ -12,11 +13,19 @@ GameWindow::GameWindow(QWidget *parent)
 
     _game = new GameData();
     _player = new Character();
+    _mediaPlayer = new QMediaPlayer(this);
 
     if (!loadRessources(_game))
-        qDebug() << "Failed to load ressources";
+        qDebug() << "failed to load ressources";
 
-    _gameView = new GameView(_game, _player, this);
+    // FIXME corriger le chemin d'accès
+    QString path("C:\\Users\\lucadavi.meyer\\Desktop\\songdir\\settings.json");
+    if (!loadSettingsFile(path, _game))
+        qDebug() << "failed to read settings";
+
+    _mediaPlayer->setVolume(_game->_volume);
+
+    _gameView = new GameView(_game, _player, _mediaPlayer, this);
     addWidget(_gameView);
     _gameView->resize(this->width(), this->height());
 
@@ -24,7 +33,7 @@ GameWindow::GameWindow(QWidget *parent)
     addWidget(_mainMenu);
     _mainMenu->resize(this->width(), this->height());
 
-    _mainSettings = new MainSettings(_game, this);
+    _mainSettings = new MainSettings(_game, _mediaPlayer, this);
     addWidget(_mainSettings);
     _mainSettings->resize(this->width(), this->height());
 
@@ -56,6 +65,7 @@ GameWindow::GameWindow(QWidget *parent)
     QObject::connect(_mainMenu, &MainMenu::displayMainSettings, this, &GameWindow::displaySettings);
     QObject::connect(_splashScreen, &SplashScreen::displayMainMenu, this, &GameWindow::displayMainMenu);
     QObject::connect(_controlSettings, &ControlSettings::displayMainSettings, this, &GameWindow::displaySettings);
+    connect(_controlSettings, &ControlSettings::keyBindingsUpdated, _mainSettings, &MainSettings::saveSettings);
     QObject::connect(_songDetails, &SongDetails::displayMainMenu, this, &GameWindow::displayMainMenu);
     
     setCurrentWidget(_splashScreen);
