@@ -9,7 +9,6 @@ class QSlider;
 class QLineEdit;
 class QMediaPlayer;
 
-#include "pathwidget.h"
 #include "gamedata.h"
 
 class MainSettings : public QWidget
