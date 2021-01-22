@@ -5,7 +5,6 @@
 #include <QList>
 
 class QGraphicsScene;
-class QMediaPlayer;
 class QGraphicsItem;
 class QLabel;
 class QTime;
@@ -13,6 +12,7 @@ class QElapsedTimer;
 class QGraphicsItem;
 class QPushButton;
 class QSoundEffect;
+class QMediaPlayer;
 
 #include "gameitems/character.h"
 #include "gamedata.h"
@@ -25,7 +25,7 @@ class GameView : public QGraphicsView
     Q_OBJECT
 
 public:
-    GameView(GameData *game, Character *player, QWidget *parent = nullptr);
+    GameView(GameData *game, Character *player, QMediaPlayer *, QWidget *parent = nullptr);
 
     void update();
     void hitNormal(QList<Note *> *);
@@ -63,10 +63,10 @@ private:
     GameData *_game;
 
     QGraphicsScene *_scene;
-    QMediaPlayer *_music;
     QSoundEffect *_hitEffect;
     Character *_player;
     QElapsedTimer *_timer;
+    QMediaPlayer *_music;
 
     QPushButton *_restartButton;
     QPushButton *_quitButton;

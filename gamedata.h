@@ -19,10 +19,10 @@ enum FontType {
 /* structure contenant les données communes à plusieurs parties du jeu comme les paramètres ou certaines ressources */
 struct GameData
 {
-    int _delay;
-    int _volume;
-
     QFont _fonts[FONT_ESIZE];
+
+    int _delay = 0;
+    int _volume = 100;
 
     int _topNote1Key = Qt::Key_F;
     int _topNote2Key = Qt::Key_D;

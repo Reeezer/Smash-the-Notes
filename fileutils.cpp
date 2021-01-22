@@ -230,6 +230,8 @@ bool loadSettingsFile(QString &path, GameData *gamedata)
     QJsonValue bottomkey2Value = root["bottomkey2"];
     QJsonValue pausekeyValue = root["pausekey"];
     QJsonValue resetkeyValue = root["resetkey"];
+    QJsonValue volumeValue = root["volume"];
+    QJsonValue delayValue = root["delay"];
 
     if (topkey1Value.isDouble() && topkey1Value != QJsonValue::Null)
         gamedata->_topNote1Key = topkey1Value.toInt();
@@ -243,6 +245,10 @@ bool loadSettingsFile(QString &path, GameData *gamedata)
         gamedata->_pauseButtonKey = pausekeyValue.toInt();
     if (resetkeyValue.isDouble() && resetkeyValue != QJsonValue::Null)
         gamedata->_resetButtonKey = resetkeyValue.toInt();
+    if (volumeValue.isDouble() && volumeValue != QJsonValue::Null)
+        gamedata->_volume = volumeValue.toInt();
+    if (delayValue.isDouble() && delayValue != QJsonValue::Null)
+        gamedata->_delay = delayValue.toInt();
 
     return true;
 }
@@ -268,6 +274,8 @@ bool writeSettingsFile(QString &path, GameData *gamedata)
     root["bottomkey2"] = gamedata->_bottomNote2Key;
     root["pausekey"] = gamedata->_pauseButtonKey;
     root["resetkey"] = gamedata->_resetButtonKey;
+    root["volume"] = gamedata->_volume;
+    root["delay"] = gamedata->_delay;
 
     jsondocument.setObject(root);
 

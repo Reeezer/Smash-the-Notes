@@ -18,6 +18,7 @@ public:
 
 signals:
     void displayMainSettings();
+    void keyBindingsUpdated(void);
 
 protected:
     void changeKeyBinding();

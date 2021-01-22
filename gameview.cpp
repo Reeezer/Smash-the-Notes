@@ -14,8 +14,8 @@
 #include <QRandomGenerator>
 #include <QPushButton>
 
-GameView::GameView(GameData *game, Character *player, QWidget *parent)
-    : QGraphicsView(parent), _game(game), _player(player)
+GameView::GameView(GameData *game, Character *player, QMediaPlayer *mediaPlayer, QWidget *parent)
+    : QGraphicsView(parent), _game(game), _player(player), _music(mediaPlayer)
 {
     //QGraphicsView & QGraphicsScene
     resize(1000, 600);
@@ -28,9 +28,6 @@ GameView::GameView(GameData *game, Character *player, QWidget *parent)
     _scene = new QGraphicsScene();
     setScene(_scene);
     _scene->setSceneRect(0, 0, this->width(), this->height());
-
-    //Set up the music & sound effect
-    _music = new QMediaPlayer(this);
 
     _timer = new QElapsedTimer();
 
@@ -181,6 +178,11 @@ void GameView::restartGame()
     _pause = false;
     _lastBackgroundElapsed = _lastSmashElapsed = _lastJumpElapsed = 0;
     _highScore = 0;
+
+    /* puisque les effets sonores ne sont utilisés que dans la gameview, on peut récupérer le volume depuis le media player qui
+     * lui est aussi utilisé ailleurs et est toujours à jours vis-à-vis du slider dans mainSettings. Attention contrairement à
+     * QMediaPlayer le volume va de 0 à 1 et non pas 0 à 100 */
+    _hitEffect->setVolume((double) _music->volume() / 100.0);
 
     //Notes
     for (Note *note : *_upNotes)
