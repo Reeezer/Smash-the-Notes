@@ -29,7 +29,7 @@ GameWindow::GameWindow(QWidget *parent)
     addWidget(_gameView);
     _gameView->resize(this->width(), this->height());
 
-    _mainMenu = new MainMenu(_game, this);
+    _mainMenu = new MainMenu(_game, _mediaPlayer, this);
     addWidget(_mainMenu);
     _mainMenu->resize(this->width(), this->height());
 

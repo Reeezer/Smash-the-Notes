@@ -10,8 +10,8 @@
 #include <QMediaPlayer>
 
 
-MainMenu::MainMenu(GameData *game, QWidget *parent)
-    : QWidget(parent), _game(game)
+MainMenu::MainMenu(GameData *game, QMediaPlayer *mediaPlayer, QWidget *parent)
+    : QWidget(parent), _game(game), _musicPreview(mediaPlayer)
 {
     //Widgets
     _songnameLabel = new QLabel(tr("Music: "), this);
@@ -23,7 +23,6 @@ MainMenu::MainMenu(GameData *game, QWidget *parent)
     _settingsButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/wrench.png"), tr("Settings"), this);
 
     _songsList = new QListWidget(this);
-    _musicPreview = new QMediaPlayer(this);
 
     //Widgets configuration
     _startButton->setDisabled(true);

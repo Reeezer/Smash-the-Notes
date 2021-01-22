@@ -17,7 +17,7 @@ class MainMenu : public QWidget
     Q_OBJECT
 
 public:
-    MainMenu(GameData *game, QWidget *parent = nullptr);
+    MainMenu(GameData *game, QMediaPlayer *, QWidget *parent = nullptr);
 
     Song * getSelectedSong();
 
