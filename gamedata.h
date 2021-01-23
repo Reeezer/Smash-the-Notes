@@ -2,9 +2,9 @@
 #define GAMEDATA_H
 
 #include <QFont>
+#include <QString>
 
 class QPixmap;
-class QString;
 class QSoundEffect;
 
 enum FontType {
@@ -20,6 +20,10 @@ enum FontType {
 struct GameData
 {
     QFont _fonts[FONT_ESIZE];
+
+    QString _dataBasePath;
+    QString _settingsPath;
+    QString _songdirPath;
 
     int _delay = 0;
     int _volume = 50;

@@ -30,7 +30,7 @@ signals:
     void displayGameView();
 
 private:
-    static void initializeSongList(QListWidget*);
+    void initializeSongList(QListWidget*);
 
     GameData *_game;
 

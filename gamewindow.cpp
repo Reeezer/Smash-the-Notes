@@ -1,9 +1,10 @@
 #include "gamewindow.h"
-#include "common.h"
 
 #include <QDebug>
 #include <QFontDatabase>
 #include <QMediaPlayer>
+#include <QStandardPaths>
+#include <QDir>
 
 GameWindow::GameWindow(QWidget *parent)
     : QStackedWidget(parent)
@@ -13,14 +14,18 @@ GameWindow::GameWindow(QWidget *parent)
     setWindowIcon(QIcon(":/img/Icons/PNG/Black/1x/musicOn.png"));
 
     _game = new GameData();
+    _game->_dataBasePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    _game->_settingsPath = _game->_dataBasePath + "/settings.json";
+    _game->_songdirPath = _game->_dataBasePath + "/songdir";
+
+    qDebug() << "setting base path for maps and data to " << _game->_dataBasePath;
     _player = new Character();
     _mediaPlayer = new QMediaPlayer(this);
 
     if (!loadRessources(_game))
         qDebug() << "failed to load ressources";
 
-    QString path(BASE_PATH "\\settings.json");
-    if (!loadSettingsFile(path, _game))
+    if (!loadSettingsFile(_game->_settingsPath, _game))
         qDebug() << "failed to read settings";
 
     _mediaPlayer->setVolume(_game->_volume);

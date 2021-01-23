@@ -1,7 +1,6 @@
 #include "mainmenu.h"
 #include "dirutils.h"
 #include "songitem.h"
-#include "common.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -65,7 +64,7 @@ MainMenu::MainMenu(GameData *game, QMediaPlayer *mediaPlayer, QWidget *parent)
 void MainMenu::initializeSongList(QListWidget* songsList)
 {
     QList<Song*> list;
-    getSongList(BASE_PATH "\\songdir", &list);
+    getSongList(_game->_songdirPath, &list);
     for(Song *song : list)
     {
         songsList->addItem(new SongItem(song));
