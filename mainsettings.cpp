@@ -1,5 +1,6 @@
 #include "mainsettings.h"
 #include "fileutils.h"
+#include "common.h"
 
 #include <QSpinBox>
 #include <QPushButton>
@@ -73,7 +74,6 @@ void MainSettings::updateVolume()
 
 void MainSettings::saveSettings(void)
 {
-    // FIXME corriger le chemin d'accès
-    QString path("C:\\Users\\lucadavi.meyer\\Desktop\\songdir\\settings.json");
+    QString path(BASE_PATH "\\settings.json");
     writeSettingsFile(path, _game);
 }

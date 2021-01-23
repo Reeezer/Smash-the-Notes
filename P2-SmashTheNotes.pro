@@ -33,6 +33,7 @@ SOURCES += \
     splashscreen.cpp \
 
 HEADERS += \
+    common.h \
     controlsettings.h \
     gamedata.h \
     gameitems/note.h \
