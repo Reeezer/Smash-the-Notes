@@ -31,6 +31,9 @@ void Character::resetCharacter()
     _hasJumped = _isFevered = false;
     _alive = true;
 
+    for (int i = 0; i < CHARACTERACTION_ESIZE; i++)
+        _frames->reset();
+
     _timer = new QElapsedTimer();
     _timer->restart();
 }
