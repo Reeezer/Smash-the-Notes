@@ -1,4 +1,5 @@
 #include "gamewindow.h"
+#include "common.h"
 
 #include <QDebug>
 #include <QFontDatabase>
@@ -18,8 +19,7 @@ GameWindow::GameWindow(QWidget *parent)
     if (!loadRessources(_game))
         qDebug() << "failed to load ressources";
 
-    // FIXME corriger le chemin d'accès
-    QString path("C:\\Users\\lucadavi.meyer\\Desktop\\songdir\\settings.json");
+    QString path(BASE_PATH "\\settings.json");
     if (!loadSettingsFile(path, _game))
         qDebug() << "failed to read settings";
 
