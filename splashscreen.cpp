@@ -6,8 +6,9 @@
 SplashScreen::SplashScreen(QWidget *parent)
     : QPushButton(parent)
 {
+    _text = "Click here or press return to start";
     setStyleSheet("SplashScreen {background-image: url(\":/img/smashthenotes.png\"); border: 0px; color: black;} SplashScreen:hover {border: 0px; }");
-    setText("Click here or press return to start");
+    setText(_text);
     _textIsVisible = false;
 
     connect(this, &QPushButton::clicked, this, &SplashScreen::displayMainMenu);
@@ -28,7 +29,7 @@ void SplashScreen::flash()
 {
     _textIsVisible = !_textIsVisible;
     if(_textIsVisible)
-        setText("Click here or press return to start");
+        setText(_text);
     else
         setText("");
 }
