@@ -22,7 +22,7 @@ struct GameData
     QFont _fonts[FONT_ESIZE];
 
     int _delay = 0;
-    int _volume = 100;
+    int _volume = 50;
 
     int _topNote1Key = Qt::Key_F;
     int _topNote2Key = Qt::Key_D;
