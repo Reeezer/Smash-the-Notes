@@ -7,9 +7,10 @@
 SplashScreen::SplashScreen(QWidget *parent)
     : QPushButton(parent)
 {
-    setText(tr("Click here or press Enter"));
-    connect(this, &QPushButton::clicked, this, &SplashScreen::displayMainMenu);
     setStyleSheet("SplashScreen {background-image: url(\":/img/smashthenotes.png\"); border: 0px;} SplashScreen:hover {border: 0px; }");
+    setText("");
+
+    connect(this, &QPushButton::clicked, this, &SplashScreen::displayMainMenu);
 }
 
 void SplashScreen::keyPressEvent(QKeyEvent *event)
