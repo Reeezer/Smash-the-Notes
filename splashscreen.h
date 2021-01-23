@@ -10,11 +10,17 @@ class SplashScreen : public QPushButton
 public:
     SplashScreen(QWidget *parent = nullptr);
 
+public slots:
+    void flash();
+
 signals:
     void displayMainMenu();
 
 protected:
     void keyPressEvent(QKeyEvent *);
+
+private:
+    bool _textIsVisible;
 };
 
 #endif // SPLASHSCREEN_H
