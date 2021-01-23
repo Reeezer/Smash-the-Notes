@@ -41,11 +41,11 @@ GameView::GameView(GameData *game, Character *player, QMediaPlayer *mediaPlayer,
 
     //Display
     //Texts
-    QGraphicsSimpleTextItem *comboLabel = new QGraphicsSimpleTextItem("Combo");
+    QGraphicsSimpleTextItem *comboLabel = new QGraphicsSimpleTextItem(tr("Combo"));
     _combo = new QGraphicsSimpleTextItem();
-    QGraphicsSimpleTextItem *scoreLabel = new QGraphicsSimpleTextItem("Score");
+    QGraphicsSimpleTextItem *scoreLabel = new QGraphicsSimpleTextItem(tr("Score"));
     _score = new QGraphicsSimpleTextItem();
-    QGraphicsSimpleTextItem *highScoreLabel = new QGraphicsSimpleTextItem("HighScore");
+    QGraphicsSimpleTextItem *highScoreLabel = new QGraphicsSimpleTextItem(tr("HighScore"));
     _highScoreTextItem = new QGraphicsSimpleTextItem();
     _upLabel = new QGraphicsSimpleTextItem();
     _downLabel = new QGraphicsSimpleTextItem();
@@ -120,28 +120,27 @@ GameView::GameView(GameData *game, Character *player, QMediaPlayer *mediaPlayer,
     _downNotes = new QList<Note *>();
 
     //Game Over label & Pause label with buttons (at first invisible)
-    _gameOverLabel = new QGraphicsSimpleTextItem("Game Over");
+    _gameOverLabel = new QGraphicsSimpleTextItem(tr("Game Over"));
     _gameOverLabel->setFont(game->_fonts[NORMAL_70]);
     _gameOverLabel->setZValue(1000);
     _scene->addItem(_gameOverLabel);
     _gameOverLabel->setPos(this->width() / 4, this->height() / 3);
 
-    _pauseLabel = new QGraphicsSimpleTextItem("Pause");
+    _pauseLabel = new QGraphicsSimpleTextItem(tr("Pause"));
     _pauseLabel->setFont(game->_fonts[NORMAL_70]);
     _pauseLabel->setZValue(1000);
     _scene->addItem(_pauseLabel);
     _pauseLabel->setPos(this->width() / 3, this->height() / 3);
 
-    _restartButton = new QPushButton(QIcon(":/img/Icons/return.png"), "Restart");
+    _restartButton = new QPushButton(QIcon(":/img/Icons/return.png"), tr("Restart"), this);
     _restartButton->setIconSize(QSize(40, 40));
     _scene->addWidget(_restartButton);
+    _restartButton->setGeometry(this->width() / 4, this->height() / 2 + 30, 180, 50);
 
-    _restartButton->setGeometry(this->width() / 4 + 80, this->height() / 2 + 30, 100, 50);
-    _quitButton = new QPushButton(QIcon(":/img/Icons/home.png"), "Quit");
+    _quitButton = new QPushButton(QIcon(":/img/Icons/home.png"), tr("Quit"), this);
     _quitButton->setIconSize(QSize(40, 40));
     _scene->addWidget(_quitButton);
-
-    _quitButton->setGeometry(this->width() / 4 + 280, this->height() / 2 + 30, 100, 50);
+    _quitButton->setGeometry(this->width() / 4 + 280, this->height() / 2 + 30, 180, 50);
 
     //Start
     _scene->addItem(player);

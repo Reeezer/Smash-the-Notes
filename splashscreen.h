@@ -21,6 +21,7 @@ protected:
 
 private:
     bool _textIsVisible;
+    QString _text;
 };
 
 #endif // SPLASHSCREEN_H
