@@ -354,5 +354,6 @@
         <file>img/Icons/PNG/White/2x/zoomIn.png</file>
         <file>img/Icons/PNG/White/2x/zoomOut.png</file>
         <file>img/Background2.png</file>
+        <file>img/smashthenotes.png</file>
     </qresource>
 </RCC>
