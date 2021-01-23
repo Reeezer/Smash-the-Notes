@@ -35,4 +35,5 @@ QPixmap Animatable::getCurrentPixmap()
 void Animatable::reset(int value)
 {
     _currentFrame = value;
+    _lastElapsed = 0;
 }
