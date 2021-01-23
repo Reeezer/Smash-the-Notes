@@ -379,12 +379,12 @@ void GameView::hitNormal(QList<Note *> *Notes)
     {
         if (getNextNote(Notes)->getNoteType() == NoteType::NORMALUP || getNextNote(Notes)->getNoteType() == NoteType::NORMALDOWN)
         {
-            if (XLINE - PERFECT <= getNextNote(Notes)->x() && XLINE + PERFECT >= getNextNote(Notes)->x())
+            if (XLINE - PERFECT + _game->_delay * ((double)(this->width() - XLINE) / (double)3000) <= getNextNote(Notes)->x() && XLINE + PERFECT + _game->_delay * ((double)(this->width() - XLINE) / (double)3000) >= getNextNote(Notes)->x())
             {
                 changeLabel("PERFECT", true);
                 _player->increaseScorePerfect();
             }
-            else if (XLINE - GREAT <= getNextNote(Notes)->x() && XLINE + GREAT >= getNextNote(Notes)->x())
+            else if (XLINE - GREAT + _game->_delay * ((double)(this->width() - XLINE) / (double)3000)<= getNextNote(Notes)->x() && XLINE + GREAT + _game->_delay * ((double)(this->width() - XLINE) / (double)3000) >= getNextNote(Notes)->x())
             {
                 changeLabel("GREAT", true);
                 _player->increaseScoreGreat();
