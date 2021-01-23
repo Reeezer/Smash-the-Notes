@@ -100,7 +100,6 @@ GameView::GameView(GameData *game, Character *player, QMediaPlayer *mediaPlayer,
     _pixDownCross->setPos(XLINE + 16, DOWNLINE + 25);
     _pixDownCross->setZValue(250);
 
-    //CHANGER PAR DES QPROGRESSBAR MAIS VOIR COMMENT MARCHE LES STYLESSHEETS
     //Rect : life, fever, progress
     QGraphicsRectItem *rect1 = _scene->addRect(this->width() / 10, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
     QGraphicsRectItem *rect2 = _scene->addRect(this->width() / 2, this->height() * 57 / 60, this->width() / 2 - this->width() / 10, this->height() * 2 / 60, QPen(Qt::white), QBrush(QColor(46, 64, 83)));
@@ -133,12 +132,12 @@ GameView::GameView(GameData *game, Character *player, QMediaPlayer *mediaPlayer,
     _scene->addItem(_pauseLabel);
     _pauseLabel->setPos(this->width() / 3, this->height() / 3);
 
-    _restartButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/return.png"), "Restart");
+    _restartButton = new QPushButton(QIcon(":/img/Icons/return.png"), "Restart");
     _restartButton->setIconSize(QSize(40, 40));
     _scene->addWidget(_restartButton);
 
     _restartButton->setGeometry(this->width() / 4 + 80, this->height() / 2 + 30, 100, 50);
-    _quitButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/home.png"), "Quit");
+    _quitButton = new QPushButton(QIcon(":/img/Icons/home.png"), "Quit");
     _quitButton->setIconSize(QSize(40, 40));
     _scene->addWidget(_quitButton);
 

@@ -19,9 +19,9 @@ MainMenu::MainMenu(GameData *game, QMediaPlayer *mediaPlayer, QWidget *parent)
     _rankLabel = new QLabel(tr("Rank: "), this);
     _highscoreLabel = new QLabel(tr("Highscore: "), this);
 
-    _startButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/right.png"), tr("Play"), this);
-    _detailsButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/barsHorizontal.png"), tr("Details"), this);
-    _settingsButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/wrench.png"), tr("Settings"), this);
+    _startButton = new QPushButton(QIcon(":/img/Icons/right.png"), tr("Play"), this);
+    _detailsButton = new QPushButton(QIcon(":/img/Icons/barsHorizontal.png"), tr("Details"), this);
+    _settingsButton = new QPushButton(QIcon(":/img/Icons/wrench.png"), tr("Settings"), this);
 
     _songsList = new QListWidget(this);
 

@@ -14,9 +14,9 @@ MainSettings::MainSettings(GameData *game, QMediaPlayer *mediaPlayer, QWidget *p
     : QWidget(parent), _game(game), _mediaPlayer(mediaPlayer)
 {
     _delaySpinBox = new QSpinBox(this);
-    _inputButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/plus.png"), "", this);
+    _inputButton = new QPushButton(QIcon(":/img/Icons/plus.png"), "", this);
     _volumeSlider = new QSlider(Qt::Horizontal, this);
-    _returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
+    _returnButton = new QPushButton(QIcon(":/img/Icons/arrowLeft.png"), "", this);
 
     _inputButton->setIconSize(QSize(40, 40));
     _returnButton->setIconSize(QSize(40, 40));

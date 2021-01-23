@@ -15,7 +15,7 @@ ControlSettings::ControlSettings(GameData *game, QWidget *parent)
     _bottomNote2 = new KeyBindButton(&game->_bottomNote2Key, this);
     _pauseButton = new KeyBindButton(&game->_pauseButtonKey, this);
     _resetButton = new KeyBindButton(&game->_resetButtonKey, this);
-    _returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
+    _returnButton = new QPushButton(QIcon(":/img/Icons/arrowLeft.png"), "", this);
 
     _returnButton->setIconSize(QSize(40, 40));
 

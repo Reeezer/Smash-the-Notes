@@ -13,7 +13,7 @@ SongDetails::SongDetails(QWidget *parent)
     _highscoreLabel = new QLabel;
     _rankLabel = new QLabel;
     _highscoreList = new QListWidget;
-    _returnButton = new QPushButton(QIcon(":/img/Icons/PNG/White/2x/arrowLeft.png"), "", this);
+    _returnButton = new QPushButton(QIcon(":/img/Icons/arrowLeft.png"), "", this);
 
     _returnButton->setIconSize(QSize(40, 40));
 
