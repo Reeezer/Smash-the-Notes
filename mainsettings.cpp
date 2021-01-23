@@ -1,6 +1,5 @@
 #include "mainsettings.h"
 #include "fileutils.h"
-#include "common.h"
 
 #include <QSpinBox>
 #include <QPushButton>
@@ -74,6 +73,5 @@ void MainSettings::updateVolume()
 
 void MainSettings::saveSettings(void)
 {
-    QString path(BASE_PATH "\\settings.json");
-    writeSettingsFile(path, _game);
+    writeSettingsFile(_game->_settingsPath, _game);
 }

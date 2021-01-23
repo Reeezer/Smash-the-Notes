@@ -1,7 +1,5 @@
 #include "splashscreen.h"
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QKeyEvent>
 
 SplashScreen::SplashScreen(QWidget *parent)
@@ -9,7 +7,6 @@ SplashScreen::SplashScreen(QWidget *parent)
 {
     setStyleSheet("SplashScreen {background-image: url(\":/img/smashthenotes.png\"); border: 0px;} SplashScreen:hover {border: 0px; }");
     setText("");
-
     connect(this, &QPushButton::clicked, this, &SplashScreen::displayMainMenu);
 }
 
