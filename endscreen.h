@@ -7,6 +7,7 @@
 #include "gameitems/character.h"
 
 class QLabel;
+class QPushButton;
 
 class EndScreen : public QWidget
 {
@@ -17,6 +18,9 @@ public:
     ~EndScreen();
 
     void initialize();
+
+protected:
+    void keyPressEvent(QKeyEvent *);
 
 signals:
     void restartGame();
@@ -34,6 +38,8 @@ private:
     QLabel *_passLabel;
     QLabel *_accuracyLabel;
     QLabel *_noteLabel;
+
+    QPushButton *_restartButton;
 };
 
 #endif // ENDSCREEN_H

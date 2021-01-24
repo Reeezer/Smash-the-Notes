@@ -7,6 +7,8 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QString>
+#include <QKeyEvent>
+#include <QSizePolicy>
 #include <QDebug>
 
 EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
@@ -85,13 +87,13 @@ EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
 
     QPushButton *menuButton = new QPushButton(QIcon(":/img/Icons/home.png"), "Menu");
     menuButton->setIconSize(QSize(40, 40));
-    QPushButton *restartButton = new QPushButton(QIcon(":/img/Icons/return.png"), "Restart");
-    restartButton->setIconSize(QSize(40, 40));
-    buttonLayout->addStretch();
+    menuButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    _restartButton = new QPushButton(QIcon(":/img/Icons/return.png"), "Restart");
+    _restartButton->setIconSize(QSize(40, 40));
+    _restartButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     buttonLayout->addWidget(menuButton);
     buttonLayout->addStretch();
-    buttonLayout->addWidget(restartButton);
-    buttonLayout->addStretch();
+    buttonLayout->addWidget(_restartButton);
 
         //Right
     QPixmap pix(":/img/Background/EndScreen.png");
@@ -102,7 +104,7 @@ EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
     mainLayout->addWidget(pixmap);
 
     //Connect
-    QObject::connect(restartButton, &QPushButton::clicked, this, &EndScreen::restartGame);
+    QObject::connect(_restartButton, &QPushButton::clicked, this, &EndScreen::restartGame);
     QObject::connect(menuButton, &QPushButton::clicked, this, &EndScreen::displayMainMenu);
 }
 
@@ -110,6 +112,11 @@ EndScreen::~EndScreen()
 {
 }
 
+void EndScreen::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == _game->_resetButtonKey)
+        emit _restartButton->clicked();
+}
 
 void EndScreen::initialize()
 {

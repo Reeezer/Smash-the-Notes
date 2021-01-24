@@ -320,7 +320,10 @@ void GameView::keyPressEvent(QKeyEvent *event)
 
     qDebug() << _game->_validateKey << key;
 
-    if (key == _game->_validateKey)
+    if (key == _game->_resetButtonKey)
+        emit _restartButton->clicked();
+
+    if (key == Qt::Key_F12)
         _music->stop();
 
     //The pause mode
