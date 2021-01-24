@@ -47,7 +47,8 @@ void SongDetails::setSongDetails(Song *song)
     _highscoreLabel->setText("Highscore : " + QString::number(song->getHighscore()));
     _highscoreList->addItems(song->getHighscoreList());
 
-    switch(song->getRank()) {
+    switch (song->getRank())
+    {
     case SSS:
         _rankLabel->setText("Rank: S++");
         break;

@@ -19,7 +19,7 @@ class MainMenu : public QWidget
 public:
     MainMenu(GameData *game, QMediaPlayer *, QWidget *parent = nullptr);
 
-    Song * getSelectedSong();
+    Song *getSelectedSong();
 
 public slots:
     void adaptToSelectedSong();
@@ -30,7 +30,7 @@ signals:
     void displayGameView();
 
 private:
-    void initializeSongList(QListWidget*);
+    void initializeSongList(QListWidget *);
 
     GameData *_game;
 

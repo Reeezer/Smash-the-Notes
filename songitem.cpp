@@ -2,8 +2,9 @@
 #include "song.h"
 
 SongItem::SongItem(QListWidget *parent)
-    :QListWidgetItem(parent)
-{}
+    : QListWidgetItem(parent)
+{
+}
 
 SongItem::SongItem(Song *song, QListWidget *parent)
     : QListWidgetItem(parent), _song(song)
@@ -14,7 +15,7 @@ SongItem::SongItem(Song *song, QListWidget *parent)
     setText("  " + song->getArtist() + " - " + song->getTitle());
 }
 
-Song* SongItem::getSong()
+Song *SongItem::getSong()
 {
     return _song;
 }

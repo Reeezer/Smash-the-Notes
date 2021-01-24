@@ -20,12 +20,12 @@ EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
     //Main layout
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
 
-        //Left
+    //Left
     QVBoxLayout *leftLayout = new QVBoxLayout;
     mainLayout->addLayout(leftLayout);
     leftLayout->setAlignment(Qt::AlignCenter);
 
-            //Title left
+    //Title left
     QHBoxLayout *titleLayout = new QHBoxLayout;
     titleLayout->setAlignment(Qt::AlignCenter);
     leftLayout->addLayout(titleLayout);
@@ -35,7 +35,7 @@ EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
     title->setStyleSheet("font-size: 70px;");
     titleLayout->addWidget(title);
 
-            //Results left
+    //Results left
     QGridLayout *labelLayout = new QGridLayout;
     leftLayout->addStretch();
     leftLayout->addLayout(labelLayout);
@@ -51,14 +51,14 @@ EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
     _greatLabel->setAlignment(Qt::AlignRight);
     _passLabel->setAlignment(Qt::AlignRight);
 
-    labelLayout->addWidget(_scoreLabel, 0 , 0);
+    labelLayout->addWidget(_scoreLabel, 0, 0);
     labelLayout->addWidget(_highScoreLabel, 0, 1);
     labelLayout->addWidget(_perfectLabel, 1, 0);
     labelLayout->addWidget(_greatLabel, 1, 1);
     labelLayout->addWidget(_missLabel, 2, 0);
     labelLayout->addWidget(_passLabel, 2, 1);
 
-            //Accuracy Left
+    //Accuracy Left
     QVBoxLayout *accuracyLayout = new QVBoxLayout;
     leftLayout->addLayout(accuracyLayout);
     _accuracyLabel = new QLabel();
@@ -70,7 +70,7 @@ EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
     accuracyLayout->addWidget(_accuracyLabel);
     accuracyLayout->addWidget(_noteLabel);
 
-            //Button left
+    //Button left
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     leftLayout->addStretch();
     leftLayout->addLayout(buttonLayout);
@@ -86,7 +86,7 @@ EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
     buttonLayout->addStretch();
     buttonLayout->addWidget(_restartButton);
 
-        //Right
+    //Right
     QPixmap pix(":/img/Background/EndScreen.png");
 
     QLabel *pixmap = new QLabel;
@@ -105,7 +105,7 @@ EndScreen::~EndScreen()
 
 void EndScreen::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == _game->_resetButtonKey)
+    if (event->key() == _game->_resetButtonKey)
         emit _restartButton->clicked();
 }
 
@@ -119,17 +119,17 @@ void EndScreen::initialize()
     _passLabel->setText(QString::asprintf("%d", _player->getPass()) + " : Pass");
     _accuracyLabel->setText("Accuracy : " + QString::asprintf("%.1f", _player->getAccuracy()) + "%");
 
-    if(_player->getAccuracy() > 99)
+    if (_player->getAccuracy() > 99)
         _noteLabel->setText("S++");
-    else if(_player->getAccuracy() > 95)
+    else if (_player->getAccuracy() > 95)
         _noteLabel->setText("S+");
-    else if(_player->getAccuracy() > 90)
+    else if (_player->getAccuracy() > 90)
         _noteLabel->setText("S");
-    else if(_player->getAccuracy() > 80)
+    else if (_player->getAccuracy() > 80)
         _noteLabel->setText("A");
-    else if(_player->getAccuracy() > 70)
+    else if (_player->getAccuracy() > 70)
         _noteLabel->setText("B");
-    else if(_player->getAccuracy() > 50)
+    else if (_player->getAccuracy() > 50)
         _noteLabel->setText("C");
     else
         _noteLabel->setText("D");

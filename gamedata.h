@@ -7,7 +7,8 @@
 class QPixmap;
 class QSoundEffect;
 
-enum FontType {
+enum FontType
+{
     NORMAL_18,
     NORMAL_70,
     NORMAL_40,

@@ -55,7 +55,7 @@ Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
             _frameWidth = 44;
             _frameHeight = 26;
             _maxFrame = 8;
-        break;
+            break;
         default:
             qDebug() << "Not in range";
             break;
@@ -96,25 +96,25 @@ Note::Note(NoteType type, int timestamp, QGraphicsItem *parent)
     _timer->start();
 }
 
-int Note::getTimeStamp() {return _timeStamp;}
-NoteType Note::getNoteType() {return _noteType;}
-int Note::getTimeOut() {return _timeOut;}
-int Note::getHit() {return _hits;}
+int Note::getTimeStamp() { return _timeStamp; }
+NoteType Note::getNoteType() { return _noteType; }
+int Note::getTimeOut() { return _timeOut; }
+int Note::getHit() { return _hits; }
 
-void Note::hit() {_hits++;}
+void Note::hit() { _hits++; }
 
 void Note::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    if(_noteType == NoteType::SMASH)
+    if (_noteType == NoteType::SMASH)
         painter->drawPixmap(10, -10, 150, 150, *_sprite, _framesNb * _frameWidth, 0, _frameWidth, _frameHeight);
     else
         painter->drawPixmap(10, 10, 80, 80, *_sprite, _framesNb * _frameWidth, 0, _frameWidth, _frameHeight);
-    if(_timer->elapsed() - _lastElapsed > 50)
+
+    if (_timer->elapsed() - _lastElapsed > 50)
     {
         _lastElapsed = _timer->elapsed();
         _framesNb++;
     }
-    if(_framesNb >= _maxFrame)
+    if (_framesNb >= _maxFrame)
         _framesNb = 0;
 }
-

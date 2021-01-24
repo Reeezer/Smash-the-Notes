@@ -19,7 +19,7 @@ static NoteType columnToType[] = {
     NoteType::BONUS,
     NoteType::TRAP,
     NoteType::SMASH
-};
+    };
 
 static void tokenizeOsuFile(QTextStream &, QMap<QString, QString> *, QList<QString> *);
 
@@ -66,20 +66,23 @@ bool loadHighscoreFile(QString &path, Rank *rank, QList<int> *scores)
     QJsonObject root = jsondoc.object();
 
     QJsonValue rankvalue = root["rank"];
-    if (!rankvalue.isDouble()) { /* pas de type int en json, on est obligés de valider avec un double */
+    if (!rankvalue.isDouble())
+    { /* pas de type int en json, on est obligés de valider avec un double */
         qDebug() << "the file contains an invalid rank value and will be ignored: " << rankvalue;
         return false;
     }
-    *rank = (Rank) rankvalue.toInt();
+    *rank = (Rank)rankvalue.toInt();
 
     QJsonValue scorevalue = root["scorelist"];
-    if (!scorevalue.isArray()) {
+    if (!scorevalue.isArray())
+    {
         qDebug() << "the file does not contain a correct score list and will be ignored: " << scorevalue;
         return false;
     }
 
     QJsonArray scoresarray = root["scorelist"].toArray();
-    for (QJsonValue val : scoresarray) {
+    for (QJsonValue val : scoresarray)
+    {
         if (val.isDouble())
             scores->append(val.toInt());
         else
@@ -106,12 +109,11 @@ bool writeHighscoreFile(QString &path, Rank rank, QList<int> *scores)
     QJsonDocument jsondocument;
     QJsonObject root;
 
-    root["rank"] = (int) rank;
+    root["rank"] = (int)rank;
 
     QJsonArray scorearray;
-    for (int score : *scores) {
+    for (int score : *scores)
         scorearray.append(score);
-    }
 
     root["scorelist"] = scorearray;
 

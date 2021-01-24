@@ -21,7 +21,7 @@ enum NoteType
 class Note : public QGraphicsPixmapItem
 {
 public:
-    Note(NoteType , int,QGraphicsItem *parent = nullptr);
+    Note(NoteType, int, QGraphicsItem *parent = nullptr);
 
     void hit();
 

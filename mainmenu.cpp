@@ -10,7 +10,6 @@
 #include <QMediaPlayer>
 #include <QSizePolicy>
 
-
 MainMenu::MainMenu(GameData *game, QMediaPlayer *mediaPlayer, QWidget *parent)
     : QWidget(parent), _game(game), _musicPreview(mediaPlayer)
 {
@@ -71,14 +70,12 @@ MainMenu::MainMenu(GameData *game, QMediaPlayer *mediaPlayer, QWidget *parent)
     connect(_songsList, &QListWidget::itemClicked, this, &MainMenu::adaptToSelectedSong);
 }
 
-void MainMenu::initializeSongList(QListWidget* songsList)
+void MainMenu::initializeSongList(QListWidget *songsList)
 {
-    QList<Song*> list;
+    QList<Song *> list;
     getSongList(_game->_songdirPath, &list);
-    for(Song *song : list)
-    {
+    for (Song *song : list)
         songsList->addItem(new SongItem(song));
-    }
 }
 
 void MainMenu::adaptToSelectedSong()
@@ -89,19 +86,23 @@ void MainMenu::adaptToSelectedSong()
 
     /* normalement il devrait toujours y avoir un Song * associé, mais plutôt que de crash à cause d'une segfault on
      * on affiche un message d'erreur via qDebug(). De son côté l'utilisateur ne verra aucune différence */
-    if (Song *song = getSelectedSong()) {
+    if (Song *song = getSelectedSong())
+    {
         qDebug() << "displaying details for map at '" + song->getPath() + "'";
 
         QMediaContent media = QUrl::fromLocalFile(song->getAudioFilePath());
-        if (_musicPreview->media() != media) {
+        if (_musicPreview->media() != media)
+        {
             _musicPreview->setMedia(media);
             _musicPreview->play();
         }
 
         _songnameLabel->setText("Music:\n" + song->getArtist() + " - " + song->getTitle());
 
-        if (song->getPlayCount() > 0) {
-            switch(song->getRank()) {
+        if (song->getPlayCount() > 0)
+        {
+            switch (song->getRank())
+            {
             case SSS:
                 _rankLabel->setText("Rank: S++");
                 break;
@@ -129,18 +130,20 @@ void MainMenu::adaptToSelectedSong()
                 _highscoreLabel->setText("Highscore: " + QString::number(song->getHighscore()));
             else
                 _highscoreLabel->setText(("Highscore: map not yet played"));
-        } else {
+        }
+        else
+        {
             _rankLabel->setText("Rank: unplayed");
             _highscoreLabel->setText("Highscore: map not yet played");
         }
-    } else {
-        qDebug() << "uh oh, somehow adaptToSelectedSong() in'" __FILE__ "' got called, but didn't have a valid song associated, that should not happen";
     }
+    else
+        qDebug() << "uh oh, somehow adaptToSelectedSong() in'" __FILE__ "' got called, but didn't have a valid song associated, that should not happen";
 }
 
-Song * MainMenu::getSelectedSong()
+Song *MainMenu::getSelectedSong()
 {
-    SongItem *selectedItem = (SongItem*) _songsList->currentItem();
+    SongItem *selectedItem = (SongItem *)_songsList->currentItem();
 
     if (selectedItem)
         return selectedItem->getSong();

@@ -90,7 +90,7 @@ GameView::GameView(GameData *game, Character *player, QMediaPlayer *mediaPlayer,
     _rotationCrossHair = _countCross = 0;
 
     _crosshairList = new QList<QPixmap>();
-    for(int i = 1; i <= 3; i++)
+    for (int i = 1; i <= 3; i++)
         _crosshairList->push_back(QPixmap(":/img/Crosshair/Crosshair" + QString::asprintf("%d", i) + ".png").scaled(QSize(50, 50)));
 
     _pixUpCross = _scene->addPixmap(_crosshairList->first());
@@ -159,9 +159,9 @@ void GameView::newGame(Song *song)
     _currentSong = song;
 
     //Background
-    if(_backgroundList->size() > 0)
+    if (_backgroundList->size() > 0)
     {
-        for(QGraphicsPixmapItem *element : *_backgroundList)
+        for (QGraphicsPixmapItem *element : *_backgroundList)
             _scene->removeItem(element);
         _scene->removeItem(_backLayer);
         _backgroundList->clear();
@@ -180,7 +180,7 @@ void GameView::restartGame()
     /* puisque les effets sonores ne sont utilisés que dans la gameview, on peut récupérer le volume depuis le media player qui
      * lui est aussi utilisé ailleurs et est toujours à jours vis-à-vis du slider dans mainSettings. Attention contrairement à
      * QMediaPlayer le volume va de 0 à 1 et non pas 0 à 100 */
-    _hitEffect->setVolume((double) _music->volume() / 100.0);
+    _hitEffect->setVolume((double)_music->volume() / 100.0);
 
     //Notes
     for (Note *note : *_upNotes)
@@ -333,7 +333,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
     if (_player->getAlive() && !_pause)
     {
         //Use the time of the music to know when to hit
-        if (key == _game->_bottomNote1Key ||  key == _game->_bottomNote2Key || key == _game->_topNote1Key || key == _game->_topNote2Key)
+        if (key == _game->_bottomNote1Key || key == _game->_bottomNote2Key || key == _game->_topNote1Key || key == _game->_topNote2Key)
         {
             _hitEffect->play();
 
@@ -358,7 +358,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
                 if (!_upNotes->isEmpty() && getNextNote(_upNotes)->getNoteType() != NoteType::SMASH)
                     hitNormal(_upNotes);
             }
-            else if (key == _game->_bottomNote1Key ||  key == _game->_bottomNote2Key)
+            else if (key == _game->_bottomNote1Key || key == _game->_bottomNote2Key)
             {
                 if (_player->getJump())
                 {
@@ -385,7 +385,7 @@ void GameView::hitNormal(QList<Note *> *Notes)
                 changeLabel("PERFECT", true);
                 _player->increaseScorePerfect();
             }
-            else if (XLINE - GREAT + _game->_delay * ((double)(this->width() - XLINE) / (double)3000)<= getNextNote(Notes)->x() && XLINE + GREAT + _game->_delay * ((double)(this->width() - XLINE) / (double)3000) >= getNextNote(Notes)->x())
+            else if (XLINE - GREAT + _game->_delay * ((double)(this->width() - XLINE) / (double)3000) <= getNextNote(Notes)->x() && XLINE + GREAT + _game->_delay * ((double)(this->width() - XLINE) / (double)3000) >= getNextNote(Notes)->x())
             {
                 changeLabel("GREAT", true);
                 _player->increaseScoreGreat();
@@ -448,7 +448,7 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
 {
     if (!Notes->isEmpty())
     {
-        if(Notes->first()->getNoteType() == NoteType::SMASH && Notes->first()->getTimeOut() < _music->position())
+        if (Notes->first()->getNoteType() == NoteType::SMASH && Notes->first()->getTimeOut() < _music->position())
             removeFirstNote(Notes);
 
         for (int i = 0; i < Notes->count(); i++)
@@ -458,9 +458,9 @@ void GameView::changeNotePosition(QList<Note *> *Notes)
                 Notes->at(i)->setX(x);
             if (Notes->at(i)->x() <= 0)
             {
-                if(Notes->first()->getNoteType() == NoteType::TRAP)
+                if (Notes->first()->getNoteType() == NoteType::TRAP)
                     _player->increasePass();
-                else if(Notes->first()->getNoteType() != NoteType::TRAP && Notes->first()->getNoteType() != NoteType::BONUS)
+                else if (Notes->first()->getNoteType() != NoteType::TRAP && Notes->first()->getNoteType() != NoteType::BONUS)
                     _player->increaseMiss();
                 removeFirstNote(Notes);
             }
@@ -531,7 +531,7 @@ void GameView::backgroundDisplay()
         _backgroundList->push_front(pix2);
     }
 
-    for(int i = 0; i < _backgroundList->size(); i++)
+    for (int i = 0; i < _backgroundList->size(); i++)
         _backgroundList->at(i)->setZValue(-10 * (i + 1));
 }
 
@@ -567,17 +567,25 @@ void GameView::applyParallax(float ratio, QList<QGraphicsPixmapItem *> *backgrou
 
 void GameView::musicEnd()
 {
-    if(_gameRunning && _music->state() == QMediaPlayer::StoppedState && _timer->elapsed() > 100) {//When we restart the game, we stop the music and we don't want to see the end screen at this moment
+    if (_gameRunning && _music->state() == QMediaPlayer::StoppedState && _timer->elapsed() > 100)
+    { //When we restart the game, we stop the music and we don't want to see the end screen at this moment
         _gameRunning = false;
         Rank rank;
 
-        if(_player->getAccuracy() > 99)      rank = Rank::SSS;
-        else if(_player->getAccuracy() > 95) rank = Rank::SS;
-        else if(_player->getAccuracy() > 90) rank = Rank::S;
-        else if(_player->getAccuracy() > 80) rank = Rank::A;
-        else if(_player->getAccuracy() > 70) rank = Rank::B;
-        else if(_player->getAccuracy() > 50) rank = Rank::C;
-        else                                rank = Rank::D;
+        if (_player->getAccuracy() > 99)
+            rank = Rank::SSS;
+        else if (_player->getAccuracy() > 95)
+            rank = Rank::SS;
+        else if (_player->getAccuracy() > 90)
+            rank = Rank::S;
+        else if (_player->getAccuracy() > 80)
+            rank = Rank::A;
+        else if (_player->getAccuracy() > 70)
+            rank = Rank::B;
+        else if (_player->getAccuracy() > 50)
+            rank = Rank::C;
+        else
+            rank = Rank::D;
 
         _currentSong->addHighscore(rank, _player->getScore());
 
@@ -655,7 +663,7 @@ void GameView::update()
     }
 }
 
-Song * GameView::getCurrentSong()
+Song *GameView::getCurrentSong()
 {
     return _currentSong;
 }

@@ -5,17 +5,19 @@
 #include <QDebug>
 #include <QDir>
 
-void getSongList (QString path, QList<Song *> *songlist)
+void getSongList(QString path, QList<Song *> *songlist)
 {
     qDebug() << "reading songs directory at '" + path + "'";
 
     QDir songdir(path);
-    for (QString dirpath : songdir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+    for (QString dirpath : songdir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
+    {
         qDebug() << "dir found: " << dirpath;
         QDir dir(path + QDir::separator() + dirpath);
 
         QStringList foundFiles = dir.entryList(QStringList("*.osu"), QDir::Files);
-        if(foundFiles.size() > 0) {
+        if (foundFiles.size() > 0)
+        {
             QString osufilename = foundFiles[0];
             qDebug() << "found osu file: " << osufilename;
 

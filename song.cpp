@@ -6,7 +6,8 @@
 #include <QDebug>
 
 Song::Song()
-{}
+{
+}
 
 Song::Song(QString absoluteBasePath, QString osuFileName)
 {
@@ -21,7 +22,8 @@ Song::Song(QString absoluteBasePath, QString osuFileName)
     _audioFilePath = absoluteBasePath + QDir::separator() + songMetadata["General/AudioFilename"];
 
     QFileInfo highscoreFileInfo(_highscoreFilePath);
-    if (highscoreFileInfo.exists() && highscoreFileInfo.isFile()) {
+    if (highscoreFileInfo.exists() && highscoreFileInfo.isFile())
+    {
         qDebug() << "found highscore file at " << _highscoreFilePath;
         loadHighscoreFile(_highscoreFilePath, &_rank, &_highscores);
     }
@@ -30,47 +32,21 @@ Song::Song(QString absoluteBasePath, QString osuFileName)
 void Song::addHighscore(Rank rank, int score)
 {
     /* n'effectuer l'ajout que si le score est plus haut */
-    if (getHighscore() < score) {
+    if (getHighscore() < score)
+    {
         _highscores.insert(0, score);
         _rank = rank;
         writeHighscoreFile(_highscoreFilePath, _rank, &_highscores);
     }
 }
 
-Rank Song::getRank()
-{
-    return _rank;
-}
-
-QString Song::getPath()
-{
-    return _osuFilePath;
-}
-
-QString Song::getAudioFilePath()
-{
-    return _audioFilePath;
-}
-
-QString Song::getHighscoreFilePath()
-{
-    return _highscoreFilePath;
-}
-
-QString Song::getArtist()
-{
-    return _artist;
-}
-
-QString Song::getTitle()
-{
-    return _title;
-}
-
-int Song::getPlayCount()
-{
-    return _highscores.size();
-}
+Rank Song::getRank() { return _rank; }
+QString Song::getPath() { return _osuFilePath; }
+QString Song::getAudioFilePath() { return _audioFilePath; }
+QString Song::getHighscoreFilePath() { return _highscoreFilePath; }
+QString Song::getArtist() { return _artist; }
+QString Song::getTitle() { return _title; }
+int Song::getPlayCount() { return _highscores.size(); }
 
 int Song::getHighscore()
 {

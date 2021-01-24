@@ -56,11 +56,10 @@ ControlSettings::ControlSettings(GameData *game, QWidget *parent)
 }
 void ControlSettings::changeKeyBinding()
 {
-    KeyBindButton *button = (KeyBindButton *) QObject::sender();
+    KeyBindButton *button = (KeyBindButton *)QObject::sender();
     int key = KeyDialog::getKey();
     qDebug() << "reading key from dialog: " << key;
     button->setKey(key);
 
     emit keyBindingsUpdated();
 }
-

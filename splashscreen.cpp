@@ -21,14 +21,14 @@ SplashScreen::SplashScreen(QWidget *parent)
 
 void SplashScreen::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return || event->key() == Qt::Key_Space)
+    if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return || event->key() == Qt::Key_Space)
         emit displayMainMenu();
 }
 
 void SplashScreen::flash()
 {
     _textIsVisible = !_textIsVisible;
-    if(_textIsVisible)
+    if (_textIsVisible)
         setText(_text);
     else
         setText("");

@@ -9,7 +9,7 @@
 GameWindow::GameWindow(QWidget *parent)
     : QStackedWidget(parent)
 {
-    setFixedSize(1000,600);
+    setFixedSize(1000, 600);
     setWindowTitle("Smash The Notes");
     setWindowIcon(QIcon(":/img/Icons/musicOn.png"));
 
@@ -72,7 +72,7 @@ GameWindow::GameWindow(QWidget *parent)
     connect(_controlSettings, &ControlSettings::displayMainSettings, this, &GameWindow::displaySettings);
     connect(_controlSettings, &ControlSettings::keyBindingsUpdated, _mainSettings, &MainSettings::saveSettings);
     connect(_songDetails, &SongDetails::displayMainMenu, this, &GameWindow::displayMainMenu);
-    
+
     setCurrentWidget(_splashScreen);
 }
 
@@ -91,17 +91,18 @@ void GameWindow::restartGame()
 }
 
 void GameWindow::displayGame()
-{   
+{
     Song *song = _mainMenu->getSelectedSong();
     qDebug() << "starting game with the map at '" + song->getPath() + "' and switching to the game view";
 
-    if (song) {
+    if (song)
+    {
         _gameView->newGame(song);
         setCurrentWidget(_gameView);
         _gameView->setFocus();
-    } else {
-        qDebug() << "uh oh, somehow displayGame() got called in '" __FILE__ "' without any song selected in the main menu, that shouldn't happen, not starting the game";
     }
+    else
+        qDebug() << "uh oh, somehow displayGame() got called in '" __FILE__ "' without any song selected in the main menu, that shouldn't happen, not starting the game";
 }
 
 void GameWindow::displayEndScreen()
@@ -136,12 +137,12 @@ void GameWindow::displaySettings()
 void GameWindow::displaySongDetails()
 {
     Song *song = _mainMenu->getSelectedSong();
-    if (song) {
+    if (song)
+    {
         qDebug() << "displaying the song details for the map '" + song->getPath() + "'";
         _songDetails->setSongDetails(song);
         setCurrentWidget(_songDetails);
     }
-    else {
+    else
         qDebug() << "uh oh, displaySongDetails() got called without a song selected, this shouldn't happen, not switching view";
-    }
 }

@@ -12,10 +12,10 @@ public:
     SongItem(Song *, QListWidget *parent = nullptr);
 
     /* getters */
-    Song* getSong();
+    Song *getSong();
 
 private:
-    Song* _song;
+    Song *_song;
 };
 
 #endif // SONGITEM_H
