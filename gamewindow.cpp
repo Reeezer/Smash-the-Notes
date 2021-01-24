@@ -87,6 +87,7 @@ void GameWindow::restartGame()
     qDebug() << "restarting game and switching to the game view";
     _gameView->restartGame();
     setCurrentWidget(_gameView);
+    _gameView->setFocus();
 }
 
 void GameWindow::displayGame()
@@ -97,6 +98,7 @@ void GameWindow::displayGame()
     if (song) {
         _gameView->newGame(song);
         setCurrentWidget(_gameView);
+        _gameView->setFocus();
     } else {
         qDebug() << "uh oh, somehow displayGame() got called in '" __FILE__ "' without any song selected in the main menu, that shouldn't happen, not starting the game";
     }
