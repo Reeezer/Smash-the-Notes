@@ -58,21 +58,12 @@ EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
     labelLayout->addWidget(_missLabel, 2, 0);
     labelLayout->addWidget(_passLabel, 2, 1);
 
-    _scoreLabel->setFont(game->_fonts[FontType::NORMAL_18]);
-    _highScoreLabel->setFont(game->_fonts[FontType::NORMAL_18]);
-    _perfectLabel->setFont(game->_fonts[FontType::NORMAL_18]);
-    _greatLabel->setFont(game->_fonts[FontType::NORMAL_18]);
-    _missLabel->setFont(game->_fonts[FontType::NORMAL_18]);
-    _passLabel->setFont(game->_fonts[FontType::NORMAL_18]);
-
             //Accuracy Left
     QVBoxLayout *accuracyLayout = new QVBoxLayout;
     leftLayout->addLayout(accuracyLayout);
     _accuracyLabel = new QLabel();
     _noteLabel = new QLabel();
 
-    _accuracyLabel->setFont(game->_fonts[FontType::NORMAL_18]);
-    _noteLabel->setFont(game->_fonts[FontType::NORMAL_40]);
     _accuracyLabel->setAlignment(Qt::AlignCenter);
     _noteLabel->setAlignment(Qt::AlignCenter);
 
