@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QListWidget>
 #include <QMediaPlayer>
+#include <QSizePolicy>
 
 
 MainMenu::MainMenu(GameData *game, QMediaPlayer *mediaPlayer, QWidget *parent)
@@ -18,11 +19,20 @@ MainMenu::MainMenu(GameData *game, QMediaPlayer *mediaPlayer, QWidget *parent)
     _rankLabel = new QLabel(tr("Rank: "), this);
     _highscoreLabel = new QLabel(tr("Highscore: "), this);
 
+    _songnameLabel->setWordWrap(true);
+    _songnameLabel->setMaximumWidth(300);
+    _rankLabel->setWordWrap(true);
+    _rankLabel->setMaximumWidth(300);
+    _highscoreLabel->setWordWrap(true);
+    _highscoreLabel->setMaximumWidth(300);
+
     _startButton = new QPushButton(QIcon(":/img/Icons/right.png"), tr("Play"), this);
     _detailsButton = new QPushButton(QIcon(":/img/Icons/barsHorizontal.png"), tr("Details"), this);
     _settingsButton = new QPushButton(QIcon(":/img/Icons/wrench.png"), tr("Settings"), this);
 
     _songsList = new QListWidget(this);
+    _songsList->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred));
+    _songsList->setMinimumWidth(600);
 
     //Widgets configuration
     _startButton->setDisabled(true);
@@ -88,7 +98,7 @@ void MainMenu::adaptToSelectedSong()
             _musicPreview->play();
         }
 
-        _songnameLabel->setText("Music: " + song->getArtist() + " - " + song->getTitle());
+        _songnameLabel->setText("Music:\n" + song->getArtist() + " - " + song->getTitle());
 
         if (song->getPlayCount() > 0) {
             switch(song->getRank()) {
