@@ -15,7 +15,7 @@ EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
     : QWidget(parent), _game(game), _player(player)
 {
     setAttribute(Qt::WA_StyledBackground, true);
-    setStyleSheet("EndScreen { background-color: black; } QLabel { background-color: black; color: white; }");
+    setStyleSheet("EndScreen { background-image: url(\":/img/Background2.png\"); }");
 
     //Main layout
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -32,8 +32,8 @@ EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
     leftLayout->addStretch();
 
     QLabel *title = new QLabel("Victory");
+    title->setStyleSheet("font-size: 70px;");
     titleLayout->addWidget(title);
-    title->setFont(game->_fonts[FontType::NORMAL_50]);
 
             //Results left
     QGridLayout *labelLayout = new QGridLayout;
