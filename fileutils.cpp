@@ -180,6 +180,7 @@ bool loadOsuFile(QString &path, QList<Note *> *upNotes, QList<Note *> *downNotes
 
     /* lire les notes dans les listes */
 
+    bool isFirstNote = true; // Il faut ignorer la première note
     for (QString note : notes_tokens)
     {
         QStringList settings_list = note.split(',');
@@ -191,16 +192,21 @@ bool loadOsuFile(QString &path, QList<Note *> *upNotes, QList<Note *> *downNotes
         int column = (x * 7) / 512;
         NoteType type = columnToType[column];
 
-        if (column > 2)
+        if (!isFirstNote)
         {
-            Note *new_note = new Note(type, timestamp);
-            upNotes->append(new_note);
+            if (column > 2)
+            {
+                Note *new_note = new Note(type, timestamp);
+                upNotes->append(new_note);
+            }
+            else
+            {
+                Note *new_note = new Note(type, timestamp);
+                downNotes->append(new_note);
+            }
         }
-        else
-        {
-            Note *new_note = new Note(type, timestamp);
-            downNotes->append(new_note);
-        }
+
+        isFirstNote = false;
     }
 
     qDebug() << QString::asprintf("read %d notes (%d up, %d down)", notes_tokens.size(), upNotes->size(), downNotes->size());

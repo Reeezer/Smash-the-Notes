@@ -318,7 +318,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
 {
     int key = event->key();
 
-    qDebug() << _game->_validateKey << key;
+    qDebug() << "key input in gameview: " << key;
 
     if (key == _game->_resetButtonKey)
         emit _restartButton->clicked();
