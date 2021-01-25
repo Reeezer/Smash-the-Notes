@@ -221,6 +221,7 @@ void GameView::restartGame()
     _music->setMedia(QUrl::fromLocalFile(_currentSong->getAudioFilePath()));
     _music->play();
     _gameRunning = true;
+    _highScore = _currentSong->getHighscore();
 
     //Set up
     _backgroundFever->setVisible(false);
