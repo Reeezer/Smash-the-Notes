@@ -19,6 +19,7 @@ public:
     ~EndScreen();
 
     void initialize();
+    void setSong(Song *);
 
 protected:
     void keyPressEvent(QKeyEvent *);
