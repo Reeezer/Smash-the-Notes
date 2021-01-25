@@ -651,7 +651,7 @@ void GameView::update()
         _lifeRect->setRect(this->width() / 10, this->height() * 57 / 60, (this->width() / 2 - this->width() / 10) * _player->getLife() / _player->getMaxLife(), this->height() * 2 / 60);
         _feverRect->setRect((this->width() - this->width() / 10) - ((this->width() / 2 - this->width() / 10) * _player->getFever() / _player->getMaxFever()), this->height() * 57 / 60, (this->width() / 2 - this->width() / 10) * _player->getFever() / _player->getMaxFever(), this->height() * 2 / 60);
         if (_music->duration() > 0)
-            _durationRect->setRect(0, this->height() * 59 / 60, this->width() * (float)_music->position() / (float)_music->duration(), this->height() / 60);
+            _durationRect->setRect(0, this->height() * 59 / 60, (this->width() * (float)_music->position()) / (float)_music->duration(), this->height() / 60);
 
         //Mode fever
         if (_player->getFevered())
