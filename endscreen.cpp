@@ -12,7 +12,7 @@
 #include <QDebug>
 
 EndScreen::EndScreen(GameData *game, Character *player, QWidget *parent)
-    : QWidget(parent), _game(game), _player(player)
+    : QWidget(parent), _game(game), _player(player), _currentSong(nullptr)
 {
     setAttribute(Qt::WA_StyledBackground, true);
     setStyleSheet("EndScreen { background-image: url(\":/img/Background2.png\"); }");
