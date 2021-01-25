@@ -5,6 +5,7 @@
 
 #include "gamedata.h"
 #include "gameitems/character.h"
+#include "song.h"
 
 class QLabel;
 class QPushButton;
@@ -40,6 +41,8 @@ private:
     QLabel *_noteLabel;
 
     QPushButton *_restartButton;
+
+    Song *_currentSong;
 };
 
 #endif // ENDSCREEN_H

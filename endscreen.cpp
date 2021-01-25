@@ -109,10 +109,19 @@ void EndScreen::keyPressEvent(QKeyEvent *event)
         emit _restartButton->clicked();
 }
 
+void EndScreen::setSong(Song *song)
+{
+    _currentSong = song;
+}
+
 void EndScreen::initialize()
 {
+    int highScore = 0;
+    if (_currentSong)
+        highScore = _currentSong->getHighscore();
+
     _scoreLabel->setText("Score : " + QString::asprintf("%d", _player->getScore()));
-    _highScoreLabel->setText(QString::asprintf("%d", 0) + " : High score");
+    _highScoreLabel->setText(QString::asprintf("%d", highScore) + " : High score");
     _perfectLabel->setText("Perfect : " + QString::asprintf("%d", _player->getPerfect()));
     _greatLabel->setText(QString::asprintf("%d", _player->getGreat()) + " : Great");
     _missLabel->setText("Miss : " + QString::asprintf("%d", _player->getMiss()));

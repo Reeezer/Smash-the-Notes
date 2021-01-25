@@ -97,6 +97,7 @@ void GameWindow::displayGame()
 
     if (song)
     {
+        _endScreen->setSong(song);
         _gameView->newGame(song);
         setCurrentWidget(_gameView);
         _gameView->setFocus();
